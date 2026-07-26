@@ -42,7 +42,11 @@ CP_EDGES = [
     1600,
     2500,
 ]  # -> 29 buckets
+# How much worse than the best move a variation is. Top-5 gaps are usually small,
+# so these are far finer than CP_EDGES, which cannot separate candidate moves.
+DELTA_EDGES = [5, 10, 15, 25, 40, 60, 90, 130, 180, 250, 350, 500, 700, 1000]  # 15 buckets
 MAX_MATE = 8
+MATE_CP = 10_000
 
 
 def _knight_targets(fx: int, fy: int) -> list[tuple[int, int]]:
@@ -85,6 +89,7 @@ def _build() -> list[str]:
     vocab += [f"<effort:{i}>" for i in range(EFFORT_LEVELS)]
     vocab += [f"<cp:{i}>" for i in range(len(CP_EDGES) + 1)]
     vocab += [f"<mate:{s}{n}>" for s in "+-" for n in range(1, MAX_MATE + 1)]
+    vocab += [f"<delta:{i}>" for i in range(len(DELTA_EDGES) + 1)]
     # Reserved for the FEN prefix: 64 square slots emit one piece token each.
     vocab += ["<fen>", "</fen>", "<stm:w>", "<stm:b>", "<empty>"]
     vocab += [f"<{c}:{p}>" for c in "wb" for p in "pnbrqk"]
@@ -120,6 +125,18 @@ def score_id(centipawns: int | None = None, mate: int | None = None) -> int:
         return ID[f"<mate:{'+' if mate > 0 else '-'}{n}>"]
     assert centipawns is not None
     return ID[f"<cp:{bisect_left(CP_EDGES, centipawns)}>"]
+
+
+def to_centipawns(centipawns: int | None, mate: int | None) -> int:
+    if mate is not None:
+        return (MATE_CP - abs(mate) * 100) * (1 if mate > 0 else -1)
+    assert centipawns is not None
+    return centipawns
+
+
+def delta_id(best: int, candidate: int) -> int:
+    """Bucket how much worse `candidate` is than `best`, both in centipawns."""
+    return ID[f"<delta:{bisect_left(DELTA_EDGES, max(best - candidate, 0))}>"]
 
 
 def move_id(uci: str) -> int:

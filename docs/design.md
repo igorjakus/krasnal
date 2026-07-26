@@ -44,13 +44,19 @@ promotions): 1968, the canonical count, covering every legal UCI string.
 | structural | 7 | pad, bos, eos, think, /think, pv, /pv |
 | elo | 9 | 200-point buckets, 1000..2400 |
 | effort | 5 | 0 = no thinking; 4 = 5 PVs x 7 ply |
-| score | 45 | 29 log-scaled centipawn buckets + mate-in-1..8 |
+| score | 60 | 29 centipawn buckets + mate-in-1..8 + 15 delta buckets |
 | fen | 28 | reserved |
 | moves | 1968 | |
 | pad | 50 | to a multiple of 64 |
 
 Discrete score buckets rather than digits: the eval is where the lookahead signal
 lives, and one token beats a multi-token noisy regression.
+
+**The best line is scored absolutely; the rest by how much they lose.** Absolute
+buckets are ~200 cp wide in the range that matters, so all five candidates of a
+real position collapsed onto one token — the eval carried no signal about which
+move to prefer. Delta buckets are fine (5 cp at the low end) because top-5 gaps
+are almost always under 300 cp, and they match the stage-3 RL reward directly.
 
 ## Conditioning
 
@@ -82,7 +88,21 @@ single flat `uint16` stream.
 
 ## Hardware
 
-One RTX 3090 (24 GB) and a 12-core / 24-thread i9-10920X, 31 GB RAM. Stockfish
-annotation at 300k nodes and MultiPV 5 runs ~0.2 s/position single-threaded; 20
-parallel workers give ~360k positions/hour, so a 2M-position SFT set is a ~6 hour
-job. Annotation is not a design constraint.
+One RTX 3090 (24 GB) and a 12-core / 24-thread i9-10920X, 31 GB RAM. Measured
+annotation throughput with MultiPV 5, on 8 cores:
+
+| nodes | positions/s | 2M positions, 20 workers |
+| --- | --- | --- |
+| 30k | 71 | ~2 h |
+| 100k | 41 | ~7 h |
+| 300k | 18 | ~14 h |
+
+Default is 100k nodes. Stockfish 18 there is already well above 2700 Elo, so
+deeper analysis buys accuracy a 100M model cannot absorb.
+
+Positions are sampled uniformly over plies >= 10, capped at 2 per game. No
+filtering on how sharp the position is: that needs the annotation before it can
+decide, and it would skew the SFT distribution towards tactics.
+
+Each position is analysed once at maximum effort; every lower effort level is a
+truncation of the same record, so the ladder costs one engine pass, not five.

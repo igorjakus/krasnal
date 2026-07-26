@@ -14,9 +14,14 @@ import torch
 from . import tokens
 from .model import GPT, KVCache
 
-SCORE_IDS = [tokens.ID[name] for name in tokens.VOCAB if name.startswith(("<cp:", "<mate:"))]
-SCORES = torch.tensor(SCORE_IDS)
-SCORE_SET = set(SCORE_IDS)
+
+def _ids(*prefixes):
+    return [tokens.ID[name] for name in tokens.VOCAB if name.startswith(prefixes)]
+
+
+ABSOLUTE = torch.tensor(_ids("<cp:", "<mate:"))
+DELTA = torch.tensor(_ids("<delta:"))
+SCORE_SET = set(_ids("<cp:", "<mate:", "<delta:"))
 PREFIX = 4  # <bos> <elo> <elo> <effort>
 # effort level -> (variations, plies per variation)
 EFFORT = {0: (0, 0), 1: (2, 3), 2: (3, 5), 3: (4, 6), 4: (5, 7)}
@@ -63,21 +68,22 @@ class Player:
     def _legal(board: chess.Board) -> torch.Tensor:
         return torch.tensor([tokens.ID[move.uci()] for move in board.legal_moves])
 
-    def _variation(self, plies: int):
+    def _variation(self, plies: int, first: bool):
         """Emit `<pv> move... <score> </pv>` against a shadow board."""
         shadow = self.board.copy()
+        scores = ABSOLUTE if first else DELTA
         self._feed([tokens.PV])
         for ply in range(plies):
             if shadow.is_game_over():
                 break
             allowed = self._legal(shadow)
-            token = self._sample(torch.cat([allowed, SCORES]) if ply else allowed)
+            token = self._sample(torch.cat([allowed, scores]) if ply else allowed)
             if token in SCORE_SET:
                 self._feed([token, tokens.PV_END])
                 return
             shadow.push(chess.Move.from_uci(tokens.VOCAB[token]))
             self._feed([token])
-        self._feed([self._sample(SCORES), tokens.PV_END])
+        self._feed([self._sample(scores), tokens.PV_END])
 
     def _think(self):
         variations, plies = EFFORT[self.effort]
@@ -88,7 +94,7 @@ class Player:
             allowed = torch.tensor([tokens.PV, tokens.THINK_END] if i else [tokens.PV])
             if self._sample(allowed) == tokens.THINK_END:
                 break
-            self._variation(plies)
+            self._variation(plies, first=i == 0)
         self._feed([tokens.THINK_END])
 
     def _ensure_room(self):
