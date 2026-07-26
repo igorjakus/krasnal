@@ -4,7 +4,7 @@ from krasnal_think import tokens
 from krasnal_think.annotate import Annotation
 from krasnal_think.data import IGNORE
 from krasnal_think.play import EFFORT
-from krasnal_think.sft import encode
+from krasnal_think.sft import batches, encode
 
 ANNOTATION = Annotation(
     history=["e2e4", "e7e5"],
@@ -63,6 +63,16 @@ def test_mate_scores_survive_the_delta_conversion():
     names = _names(encode(mate, effort=2)[0])
     assert "<mate:+2>" in names
     assert names[-3] == f"<delta:{len(tokens.DELTA_EDGES)}>", "a missed mate is a large loss"
+
+
+def test_buffered_batching_keeps_every_sample_once():
+    samples = [([1] * (n % 37 + 3), [1] * (n % 37 + 3)) for n in range(500)]
+    lengths = sorted(len(ids) for ids, _ in samples)
+    seen = []
+    for x, y in batches(iter(samples), 8, 64, "cpu", buffer=64):
+        assert x.shape == y.shape
+        seen += [int((row != tokens.PAD).sum()) for row in x]
+    assert sorted(seen) == lengths
 
 
 def test_variations_are_capped_by_effort():

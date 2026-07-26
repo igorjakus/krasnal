@@ -5,10 +5,8 @@ uv run scripts/pretrain.py --size medium --steps 2000 --data data/smoke
 """
 
 import argparse
-import math
 import time
 from contextlib import nullcontext
-from dataclasses import asdict
 from pathlib import Path
 
 import numpy as np
@@ -17,6 +15,7 @@ import torch
 from krasnal_think.data import get_batch, load_stream
 from krasnal_think.model import GPT, GPTConfig
 from krasnal_think.tokens import VOCAB_SIZE
+from krasnal_think.train import cosine_lr, pick_device, save
 
 ROOT = Path(__file__).resolve().parents[1]
 SIZES = {
@@ -25,13 +24,6 @@ SIZES = {
     "large": dict(n_layer=12, n_head=12, n_embd=768),
     "xlarge": dict(n_layer=14, n_head=12, n_embd=768),
 }
-
-
-def learning_rate(step: int, args) -> float:
-    if step < args.warmup:
-        return args.lr * (step + 1) / args.warmup
-    progress = (step - args.warmup) / max(1, args.steps - args.warmup)
-    return args.min_lr + 0.5 * (args.lr - args.min_lr) * (1 + math.cos(math.pi * progress))
 
 
 @torch.no_grad()
@@ -68,13 +60,7 @@ def main():
     parser.add_argument("--seed", type=int, default=0)
     args = parser.parse_args()
 
-    device = args.device or (
-        "cuda"
-        if torch.cuda.is_available()
-        else "mps"
-        if torch.backends.mps.is_available()
-        else "cpu"
-    )
+    device = pick_device(args.device)
     torch.manual_seed(args.seed)
     torch.set_float32_matmul_precision("high")
 
@@ -93,12 +79,12 @@ def main():
     train_stream = load_stream(args.data / "train.bin")
     val_stream = load_stream(args.data / "val.bin")
     generator = np.random.default_rng(args.seed)
-    args.out.mkdir(parents=True, exist_ok=True)
 
     start = time.time()
     for step in range(args.steps):
+        lr = cosine_lr(step, args.warmup, args.steps, args.lr, args.min_lr)
         for group in optimizer.param_groups:
-            group["lr"] = learning_rate(step, args)
+            group["lr"] = lr
 
         train_loss = 0.0
         for _ in range(args.grad_accum):
@@ -115,13 +101,10 @@ def main():
             val_loss = estimate_loss(step_model, val_stream, args, device)
             print(
                 f"step {step:>7} train {train_loss:.4f} val {val_loss:.4f} "
-                f"lr {learning_rate(step, args):.2e} {time.time() - start:.0f}s",
+                f"lr {lr:.2e} {time.time() - start:.0f}s",
                 flush=True,
             )
-            torch.save(
-                {"model": model.state_dict(), "config": asdict(config), "step": step},
-                args.out / "model.pt",
-            )
+            save(args.out / "model.pt", model, step)
 
 
 if __name__ == "__main__":

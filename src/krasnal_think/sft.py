@@ -59,14 +59,31 @@ def load(path: Path, efforts=tuple(EFFORT), elo: int = 2600, seed: int = 0):
             yield encode(annotation, rng.choice(efforts), elo)
 
 
-def batches(samples, batch_size: int, block_size: int, device: str, shuffle=True, seed=0):
-    """Length-bucketed batches; sorting by length keeps padding waste low."""
-    samples = [s for s in samples if len(s[0]) <= block_size]
-    samples.sort(key=lambda pair: len(pair[0]))
-    groups = [samples[i : i + batch_size] for i in range(0, len(samples), batch_size)]
-    if shuffle:
-        random.Random(seed).shuffle(groups)
-    for group in groups:
+def _buffered_groups(samples, batch_size: int, block_size: int, buffer: int, rng):
+    """Sort each buffer by length into batches, then shuffle the batch order."""
+    held = []
+    for sample in samples:
+        if len(sample[0]) > block_size:
+            continue
+        held.append(sample)
+        if len(held) < buffer:
+            continue
+        yield from _drain(held, batch_size, rng)
+        held = []
+    yield from _drain(held, batch_size, rng)
+
+
+def _drain(held, batch_size: int, rng):
+    held.sort(key=lambda pair: len(pair[0]))
+    groups = [held[i : i + batch_size] for i in range(0, len(held), batch_size)]
+    rng.shuffle(groups)
+    return groups
+
+
+def batches(samples, batch_size: int, block_size: int, device: str, seed=0, buffer=8192):
+    """Length-bucketed batches over a bounded buffer, so the source can stream."""
+    rng = random.Random(seed)
+    for group in _buffered_groups(samples, batch_size, block_size, buffer, rng):
         width = max(len(ids) for ids, _ in group)
         x = np.full((len(group), width), tokens.PAD, dtype=np.int64)
         y = np.full((len(group), width), IGNORE, dtype=np.int64)

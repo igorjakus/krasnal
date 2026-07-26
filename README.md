@@ -23,6 +23,19 @@ uv run pytest
 
 uv run scripts/download_pretrain.py --target-games 10_000_000
 uv run scripts/pretrain.py --size xlarge
+
+uv run scripts/annotate.py --positions 2_000_000 --workers 20
+uv run scripts/sft.py runs/pretrain/model.pt
+
+uv run scripts/gauntlet.py runs/sft/model.pt --games 400
+```
+
+On a GPU box, via Docker:
+
+```sh
+docker build -t krasnal-think .
+docker run --rm --gpus all -v $PWD/data:/app/data -v $PWD/runs:/app/runs \
+    krasnal-think python scripts/pretrain.py --size xlarge
 ```
 
 `--effort 0` disables thinking; higher levels buy more and deeper principal
