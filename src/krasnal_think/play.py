@@ -17,6 +17,7 @@ from .model import GPT, KVCache
 SCORE_IDS = [tokens.ID[name] for name in tokens.VOCAB if name.startswith(("<cp:", "<mate:"))]
 SCORES = torch.tensor(SCORE_IDS)
 SCORE_SET = set(SCORE_IDS)
+PREFIX = 4  # <bos> <elo> <elo> <effort>
 # effort level -> (variations, plies per variation)
 EFFORT = {0: (0, 0), 1: (2, 3), 2: (3, 5), 3: (4, 6), 4: (5, 7)}
 
@@ -90,8 +91,22 @@ class Player:
             self._variation(plies)
         self._feed([tokens.THINK_END])
 
+    def _ensure_room(self):
+        """Rebuild the cache from recent history when the context fills up."""
+        budget = max(EFFORT[self.effort][0] * (EFFORT[self.effort][1] + 4) + 4, 2)
+        if self.cache.length + budget <= self.model.config.block_size:
+            return
+        keep = (self.model.config.block_size - budget - PREFIX) // 2
+        history = [move.uci() for move in self.board.move_stack][-keep:]
+        board = self.board.copy()
+        self.reset()
+        for uci in history:
+            self._feed([tokens.ID[uci]])
+        self.board = board
+
     def move(self) -> str:
         """Think, pick a legal move, then evict the thinking from the cache."""
+        self._ensure_room()
         base = self.cache.length
         self.thinking = []
         self._think()

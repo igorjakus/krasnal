@@ -59,6 +59,18 @@ def test_variations_are_legal_from_the_root_position(effort):
                 board.push(move)
 
 
+def test_long_game_slides_the_context_window():
+    """A game longer than block_size must slide, not overflow the cache."""
+    torch.manual_seed(0)
+    config = GPTConfig(vocab_size=VOCAB_SIZE, block_size=96, n_layer=2, n_head=2, n_embd=32)
+    player = Player(GPT(config).eval(), effort=4)
+    for _ in range(120):
+        if player.board.is_game_over():
+            break
+        player.move()
+        assert player.cache.length <= config.block_size
+
+
 def test_reset_to_arbitrary_position():
     player = _player(2)
     board = chess.Board("r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 4 4")

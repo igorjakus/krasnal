@@ -35,6 +35,8 @@ class KVCache:
 
     def update(self, layer: int, k: torch.Tensor, v: torch.Tensor):
         end = self.length + k.size(2)
+        if end > self.k.size(3):
+            raise IndexError(f"cache overflow: {end} > block_size {self.k.size(3)}")
         self.k[layer, :, :, self.length : end] = k
         self.v[layer, :, :, self.length : end] = v
         return self.k[layer, :, :, :end], self.v[layer, :, :, :end]
@@ -154,6 +156,13 @@ class GPT(nn.Module):
         logits = self.lm_head(x)
         loss = F.cross_entropy(logits.flatten(0, 1), targets.flatten(), ignore_index=-1)
         return logits, loss
+
+    @classmethod
+    def load(cls, path, device: str = "cpu") -> "GPT":
+        checkpoint = torch.load(path, map_location=device, weights_only=True)
+        model = cls(GPTConfig(**checkpoint["config"])).to(device)
+        model.load_state_dict(checkpoint["model"])
+        return model.eval()
 
     def configure_optimizers(self, weight_decay, learning_rate, betas, fused=False):
         params = [p for p in self.parameters() if p.requires_grad]
