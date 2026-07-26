@@ -8,7 +8,7 @@ WORKDIR /app
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy HF_HUB_ENABLE_HF_TRANSFER=0
 COPY pyproject.toml uv.lock README.md ./
 COPY src ./src
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen
 COPY scripts ./scripts
 COPY tests ./tests
 
