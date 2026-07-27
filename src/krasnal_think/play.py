@@ -61,7 +61,8 @@ class Player:
             return int(masked.argmax())
         probs = torch.softmax(masked / self.temperature, dim=-1)
         order = probs.argsort(descending=True)
-        keep = order[torch.cat([torch.tensor([True]), probs[order].cumsum(0)[:-1] < self.top_p])]
+        keep = order[torch.cat([torch.tensor([True], device=probs.device),
+                                probs[order].cumsum(0)[:-1] < self.top_p])]
         return int(keep[torch.multinomial(probs[keep], 1)])
 
     @staticmethod
