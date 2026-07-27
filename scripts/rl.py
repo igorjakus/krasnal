@@ -5,6 +5,7 @@
 """
 
 import argparse
+import os
 import random
 import time
 from pathlib import Path
@@ -51,7 +52,7 @@ def main():
     optimizer = model.configure_optimizers(
         0.01, args.lr, (0.9, 0.95), fused=device.startswith("cuda")
     )
-    engine = chess.engine.SimpleEngine.popen_uci("stockfish")
+    engine = chess.engine.SimpleEngine.popen_uci(os.environ.get("STOCKFISH_PATH", "stockfish"))
     rng = random.Random(args.seed)
     start = time.time()
     try:
