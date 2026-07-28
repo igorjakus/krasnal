@@ -40,7 +40,8 @@ def update(model, optimizer, annotations, engine, args, device: str,
            rng: random.Random) -> tuple[float, float]:
     annotation = rng.choice(annotations)
     board = annotation.board()
-    players = [Player(model, device=device, effort=args.effort, temperature=args.temperature)
+    effort = rng.choice(args.efforts)
+    players = [Player(model, device=device, effort=effort, temperature=args.temperature)
                for _ in range(args.group)]
     samples = [sample(player, annotation) for player in players]
     scores = torch.tensor([reward(engine, board, move, args.nodes) for _, move in samples],

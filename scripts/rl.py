@@ -33,7 +33,7 @@ def main():
     parser.add_argument("--out", type=Path, default=ROOT / "runs" / "rl")
     parser.add_argument("--steps", type=int, default=10_000)
     parser.add_argument("--group", type=int, default=4)
-    parser.add_argument("--effort", type=int, default=4)
+    parser.add_argument("--efforts", type=int, nargs="+", default=list(range(5)))
     parser.add_argument("--temperature", type=float, default=0.8)
     parser.add_argument("--nodes", type=int, default=5_000)
     parser.add_argument("--lr", type=float, default=1e-6)
