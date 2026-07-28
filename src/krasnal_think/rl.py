@@ -1,6 +1,7 @@
 """One-step grouped policy optimization against Stockfish."""
 
 import random
+from concurrent.futures import Executor
 
 import chess
 import chess.engine
@@ -36,7 +37,7 @@ def log_probability(model, sequence: list[int], generated_start: int, device: st
     return log_probs[:, generated_start - 1 :].gather(-1, generated.unsqueeze(-1)).squeeze(-1).sum()
 
 
-def update(model, optimizer, annotations, engine, args, device: str,
+def update(model, optimizer, annotations, engines, executor: Executor, args, device: str,
            rng: random.Random) -> tuple[float, float]:
     annotation = rng.choice(annotations)
     board = annotation.board()
@@ -44,8 +45,9 @@ def update(model, optimizer, annotations, engine, args, device: str,
     players = [Player(model, device=device, effort=effort, temperature=args.temperature)
                for _ in range(args.group)]
     samples = [sample(player, annotation) for player in players]
-    scores = torch.tensor([reward(engine, board, move, args.nodes) for _, move in samples],
-                          device=device)
+    futures = [executor.submit(reward, engines[i % len(engines)], board, move, args.nodes)
+               for i, (_, move) in enumerate(samples)]
+    scores = torch.tensor([future.result() for future in futures], device=device)
     advantages = (scores - scores.mean()) / (scores.std(unbiased=False) + 1e-6)
     generated_start = 4 + len(annotation.history)
     log_probs = torch.stack([

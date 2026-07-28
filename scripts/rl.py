@@ -8,6 +8,7 @@ import argparse
 import os
 import random
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import chess.engine
@@ -36,6 +37,7 @@ def main():
     parser.add_argument("--efforts", type=int, nargs="+", default=list(range(5)))
     parser.add_argument("--temperature", type=float, default=0.8)
     parser.add_argument("--nodes", type=int, default=5_000)
+    parser.add_argument("--engine-workers", type=int, default=4)
     parser.add_argument("--lr", type=float, default=1e-6)
     parser.add_argument("--min-lr", type=float, default=1e-7)
     parser.add_argument("--warmup", type=int, default=500)
@@ -52,7 +54,10 @@ def main():
     optimizer = model.configure_optimizers(
         0.01, args.lr, (0.9, 0.95), fused=device.startswith("cuda")
     )
-    engine = chess.engine.SimpleEngine.popen_uci(os.environ.get("STOCKFISH_PATH", "stockfish"))
+    engine_path = os.environ.get("STOCKFISH_PATH", "stockfish")
+    engines = [chess.engine.SimpleEngine.popen_uci(engine_path)
+               for _ in range(args.engine_workers)]
+    executor = ThreadPoolExecutor(max_workers=args.engine_workers)
     rng = random.Random(args.seed)
     start = time.time()
     try:
@@ -60,12 +65,16 @@ def main():
             lr = cosine_lr(step, args.warmup, args.steps, args.lr, args.min_lr)
             for group in optimizer.param_groups:
                 group["lr"] = lr
-            loss, score = update(model, optimizer, annotations, engine, args, device, rng)
+            loss, score = update(
+                model, optimizer, annotations, engines, executor, args, device, rng
+            )
             if step % args.log_every == 0:
                 print(f"step {step:>6} loss {loss:.4f} reward {score:.3f} lr {lr:.2e} "
                       f"{time.time() - start:.0f}s", flush=True)
     finally:
-        engine.quit()
+        executor.shutdown(wait=True)
+        for engine in engines:
+            engine.quit()
     save(args.out / "model.pt", model, args.steps)
 
 
