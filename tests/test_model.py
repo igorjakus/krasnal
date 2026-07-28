@@ -36,3 +36,15 @@ def test_loss_ignores_masked_targets():
     targets[:, -1] = idx[:, -1]
     _, loss = model(idx, targets=targets)
     assert torch.isfinite(loss)
+
+
+def test_eval_head_contributes_to_loss():
+    config = GPTConfig(
+        vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32, eval_classes=29
+    )
+    model = GPT(config)
+    idx = torch.randint(0, 128, (2, 16))
+    eval_targets = torch.full_like(idx, -1)
+    eval_targets[:, -1] = 14
+    _, loss = model(idx, targets=idx, eval_targets=eval_targets, eval_weight=0.25)
+    assert torch.isfinite(loss)

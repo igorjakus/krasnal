@@ -2,7 +2,7 @@
 """Stream Lichess games from the Aix parquet dumps into flat uint16 token shards.
 
 uv run scripts/download_pretrain.py --target-games 1000        # smoke test
-uv run scripts/download_pretrain.py --target-games 10_000_000
+uv run scripts/download_pretrain.py --target-games 100_000_000
 """
 
 import argparse
@@ -13,19 +13,20 @@ from pathlib import Path
 import duckdb
 from huggingface_hub import hf_hub_download
 
-from krasnal_think.data import ShardWriter, encode_game
+from krasnal_think.data import EvalShardWriter, ShardWriter, encode_evals, encode_game
 
 HF_REPO = "thomasd1/aix-lichess-database"
 SKIP_MONTHS = {"2016-12", "2019-12", "2020-07", "2020-12", "2021-01"}
 ROOT = Path(__file__).resolve().parents[1]
 
 QUERY = """
-    SELECT white_rating, black_rating, to_uci(movedata) AS uci
+    SELECT white_rating, black_rating, to_uci(movedata) AS uci, evals
     FROM '{path}'
     WHERE white_rating >= {min_elo} AND black_rating >= {min_elo}
       AND time_initial::INTEGER + 40 * time_increment::INTEGER >= {min_duration}
       AND termination = 'Normal'
       AND result IN ('1-0', '0-1', '1/2-1/2')
+      AND evals IS NOT NULL
     LIMIT {limit}
 """
 
@@ -42,7 +43,7 @@ def expand_months(start: str, end: str) -> list[str]:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--target-games", type=int, default=10_000_000)
+    parser.add_argument("--target-games", type=int, default=100_000_000)
     parser.add_argument("--min-elo", type=int, default=1100)
     parser.add_argument("--min-duration", type=int, default=180, help="excludes bullet")
     parser.add_argument("--start-month", default="2017-04")
@@ -60,6 +61,8 @@ def main():
 
     val = ShardWriter(args.out / "val.bin")
     train = ShardWriter(args.out / "train.bin")
+    val_evals = EvalShardWriter(args.out / "val.evals.bin")
+    train_evals = EvalShardWriter(args.out / "train.evals.bin")
     games, start = 0, time.time()
 
     for month in expand_months(args.start_month, args.end_month):
@@ -89,17 +92,24 @@ def main():
         )
         month_games = 0
         while rows := cursor.fetchmany(50_000):
-            for white_elo, black_elo, uci in rows:
+            for white_elo, black_elo, uci, evals in rows:
                 if not uci:
                     continue
                 writer = val if games < args.val_games else train
-                writer.write(encode_game(uci, white_elo, black_elo))
+                eval_writer = val_evals if games < args.val_games else train_evals
+                moves = uci.split()
+                ids = encode_game(uci, white_elo, black_elo)
+                labels = encode_evals(evals, len(moves))
+                writer.write(ids)
+                eval_writer.write(labels)
                 games += 1
                 month_games += 1
         print(f"[{month}] +{month_games:,} games (total {games:,})", flush=True)
 
     val.close()
     train.close()
+    val_evals.close()
+    train_evals.close()
     print(
         f"{games:,} games, {train.count:,} train + {val.count:,} val tokens "
         f"in {time.time() - start:.0f}s -> {args.out}",

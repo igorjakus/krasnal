@@ -21,7 +21,7 @@ f1b5
 uv sync
 uv run pytest
 
-uv run scripts/download_pretrain.py --target-games 10_000_000
+uv run scripts/download_pretrain.py --target-games 100_000_000
 uv run scripts/pretrain.py --size xlarge
 
 uv run scripts/annotate.py --positions 2_000_000 --workers 20

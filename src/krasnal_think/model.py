@@ -21,6 +21,7 @@ class GPTConfig:
     n_embd: int = 768
     dropout: float = 0.0
     rope_theta: float = 10000.0
+    eval_classes: int = 0
 
 
 class KVCache:
@@ -129,6 +130,11 @@ class GPT(nn.Module):
         self.blocks = nn.ModuleList(Block(config, i) for i in range(config.n_layer))
         self.norm_f = nn.RMSNorm(config.n_embd)
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
+        self.eval_head = (
+            nn.Linear(config.n_embd, config.eval_classes, bias=False)
+            if config.eval_classes
+            else None
+        )
         self.wte.weight = self.lm_head.weight
 
         self.apply(self._init_weights)
@@ -144,7 +150,9 @@ class GPT(nn.Module):
     def num_params(self) -> int:
         return sum(p.numel() for p in self.parameters())
 
-    def forward(self, idx, targets=None, cache: KVCache | None = None):
+    def forward(
+        self, idx, targets=None, cache: KVCache | None = None, eval_targets=None, eval_weight=1.0
+    ):
         x = self.drop(self.wte(idx))
         for block in self.blocks:
             x = block(x, cache)
@@ -155,6 +163,15 @@ class GPT(nn.Module):
             return self.lm_head(x[:, [-1], :]), None
         logits = self.lm_head(x)
         loss = F.cross_entropy(logits.flatten(0, 1), targets.flatten(), ignore_index=-1)
+        if eval_targets is not None:
+            if self.eval_head is None:
+                raise ValueError("eval_targets require eval_classes in GPTConfig")
+            if (eval_targets != -1).any():
+                eval_logits = self.eval_head(x)
+                eval_loss = F.cross_entropy(
+                    eval_logits.flatten(0, 1), eval_targets.flatten(), ignore_index=-1
+                )
+                loss = loss + eval_weight * eval_loss
         return logits, loss
 
     @classmethod

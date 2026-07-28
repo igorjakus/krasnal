@@ -12,7 +12,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from krasnal_think.data import get_batch, load_stream
+from krasnal_think.data import get_batch, load_eval_stream, load_stream
 from krasnal_think.model import GPT, GPTConfig
 from krasnal_think.tokens import VOCAB_SIZE
 from krasnal_think.train import cosine_lr, pick_device, save
@@ -27,15 +27,24 @@ SIZES = {
 
 
 @torch.no_grad()
-def estimate_loss(model, stream, args, device) -> float:
+def estimate_loss(model, stream, eval_stream, args, device) -> float:
     model.eval()
     generator = np.random.default_rng(0)
     losses = [
-        model(*get_batch(stream, args.batch_size, args.block_size, device, generator))[1]
+        model_batch(
+            model,
+            get_batch(stream, args.batch_size, args.block_size, device, generator, eval_stream),
+            args.eval_weight,
+        )[1]
         for _ in range(args.eval_batches)
     ]
     model.train()
     return torch.stack(losses).mean().item()
+
+
+def model_batch(model, batch, eval_weight):
+    x, targets, eval_targets = batch
+    return model(x, targets=targets, eval_targets=eval_targets, eval_weight=eval_weight)
 
 
 def main():
@@ -53,6 +62,7 @@ def main():
     parser.add_argument("--weight-decay", type=float, default=0.1)
     parser.add_argument("--grad-clip", type=float, default=1.0)
     parser.add_argument("--dropout", type=float, default=0.0)
+    parser.add_argument("--eval-weight", type=float, default=0.25)
     parser.add_argument("--eval-every", type=int, default=1000)
     parser.add_argument("--eval-batches", type=int, default=50)
     parser.add_argument("--compile", action=argparse.BooleanOptionalAction, default=True)
@@ -65,7 +75,11 @@ def main():
     torch.set_float32_matmul_precision("high")
 
     config = GPTConfig(
-        vocab_size=VOCAB_SIZE, block_size=args.block_size, dropout=args.dropout, **SIZES[args.size]
+        vocab_size=VOCAB_SIZE,
+        block_size=args.block_size,
+        dropout=args.dropout,
+        eval_classes=29,
+        **SIZES[args.size],
     )
     model = GPT(config).to(device)
     print(f"{args.size}: {model.num_params() / 1e6:.1f}M params on {device}", flush=True)
@@ -78,6 +92,8 @@ def main():
 
     train_stream = load_stream(args.data / "train.bin")
     val_stream = load_stream(args.data / "val.bin")
+    train_evals = load_eval_stream(args.data / "train.evals.bin")
+    val_evals = load_eval_stream(args.data / "val.evals.bin")
     generator = np.random.default_rng(args.seed)
 
     start = time.time()
@@ -88,9 +104,16 @@ def main():
 
         train_loss = 0.0
         for _ in range(args.grad_accum):
-            x, y = get_batch(train_stream, args.batch_size, args.block_size, device, generator)
+            batch = get_batch(
+                train_stream,
+                args.batch_size,
+                args.block_size,
+                device,
+                generator,
+                train_evals,
+            )
             with autocast:
-                _, loss = step_model(x, targets=y)
+                _, loss = model_batch(step_model, batch, args.eval_weight)
             (loss / args.grad_accum).backward()
             train_loss += loss.item() / args.grad_accum
         torch.nn.utils.clip_grad_norm_(model.parameters(), args.grad_clip)
@@ -98,7 +121,7 @@ def main():
         optimizer.zero_grad(set_to_none=True)
 
         if step % args.eval_every == 0 or step == args.steps - 1:
-            val_loss = estimate_loss(step_model, val_stream, args, device)
+            val_loss = estimate_loss(step_model, val_stream, val_evals, args, device)
             print(
                 f"step {step:>7} train {train_loss:.4f} val {val_loss:.4f} "
                 f"lr {lr:.2e} {time.time() - start:.0f}s",
