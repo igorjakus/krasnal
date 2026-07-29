@@ -32,35 +32,40 @@ def main():
     def capture_eval(_module, _inputs, output):
         eval_logits.append(output)
 
-    if model.eval_head is None:
-        raise ValueError("checkpoint has no evaluation head")
-    hook = model.eval_head.register_forward_hook(capture_eval)
+    hook = model.eval_head.register_forward_hook(capture_eval) if model.eval_head else None
     stream = load_stream(args.data / "val.bin")
-    eval_stream = load_eval_stream(args.data / "val.evals.bin")
+    eval_stream = load_eval_stream(args.data / "val.evals.bin") if model.eval_head else None
     generator = np.random.default_rng(0)
     move_correct = move_count = eval_correct = eval_count = eval_error = 0
 
     try:
         with torch.inference_mode():
             for _ in range(args.batches):
-                x, targets, eval_targets = get_batch(
+                batch = get_batch(
                     stream, args.batch_size, args.block_size, device, generator, eval_stream
                 )
+                x, targets = batch[:2]
+                eval_targets = batch[2] if model.eval_head else None
                 logits, _ = model(x, targets=targets, eval_targets=eval_targets)
                 move_mask = targets != -1
                 move_correct += (logits.argmax(-1)[move_mask] == targets[move_mask]).sum().item()
                 move_count += move_mask.sum().item()
+                if model.eval_head is None:
+                    continue
+                assert eval_targets is not None
                 eval_mask = eval_targets != -1
                 predictions = eval_logits.pop().argmax(-1)
                 eval_correct += (predictions[eval_mask] == eval_targets[eval_mask]).sum().item()
                 eval_error += (predictions[eval_mask] - eval_targets[eval_mask]).abs().sum().item()
                 eval_count += eval_mask.sum().item()
     finally:
-        hook.remove()
+        if hook:
+            hook.remove()
 
     print(f"move top-1: {move_correct / move_count:.3%} ({move_count:,} tokens)")
-    print(f"eval bucket accuracy: {eval_correct / eval_count:.3%} ({eval_count:,} positions)")
-    print(f"eval mean bucket error: {eval_error / eval_count:.2f}")
+    if model.eval_head:
+        print(f"eval bucket accuracy: {eval_correct / eval_count:.3%} ({eval_count:,} positions)")
+        print(f"eval mean bucket error: {eval_error / eval_count:.2f}")
 
 
 if __name__ == "__main__":
