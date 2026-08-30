@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Stage 3: grouped policy optimization from an SFT checkpoint.
 
-    uv run scripts/rl.py runs/sft/model.pt --annotations data/sft/annotations.jsonl
+uv run scripts/rl.py runs/sft/model.pt --annotations data/sft/annotations.jsonl
 """
 
 import argparse
@@ -29,8 +29,9 @@ def load_annotations(path: Path, limit: int) -> list[Annotation]:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("checkpoint", type=Path)
-    parser.add_argument("--annotations", type=Path,
-                        default=ROOT / "data" / "sft" / "annotations.jsonl")
+    parser.add_argument(
+        "--annotations", type=Path, default=ROOT / "data" / "sft" / "annotations.jsonl"
+    )
     parser.add_argument("--out", type=Path, default=ROOT / "runs" / "rl")
     parser.add_argument("--steps", type=int, default=10_000)
     parser.add_argument("--group", type=int, default=4)
@@ -55,8 +56,7 @@ def main():
         0.01, args.lr, (0.9, 0.95), fused=device.startswith("cuda")
     )
     engine_path = os.environ.get("STOCKFISH_PATH", "stockfish")
-    engines = [chess.engine.SimpleEngine.popen_uci(engine_path)
-               for _ in range(args.engine_workers)]
+    engines = [chess.engine.SimpleEngine.popen_uci(engine_path) for _ in range(args.engine_workers)]
     executor = ThreadPoolExecutor(max_workers=args.engine_workers)
     rng = random.Random(args.seed)
     start = time.time()
@@ -69,8 +69,11 @@ def main():
                 model, optimizer, annotations, engines, executor, args, device, rng
             )
             if step % args.log_every == 0:
-                print(f"step {step:>6} loss {loss:.4f} reward {score:.3f} lr {lr:.2e} "
-                      f"{time.time() - start:.0f}s", flush=True)
+                print(
+                    f"step {step:>6} loss {loss:.4f} reward {score:.3f} lr {lr:.2e} "
+                    f"{time.time() - start:.0f}s",
+                    flush=True,
+                )
     finally:
         executor.shutdown(wait=True)
         for engine in engines:
