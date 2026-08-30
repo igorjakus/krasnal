@@ -48,3 +48,38 @@ def test_eval_head_contributes_to_loss():
     eval_targets[:, -1] = 14
     _, loss = model(idx, targets=idx, eval_targets=eval_targets, eval_weight=0.25)
     assert torch.isfinite(loss)
+
+
+def test_mtp_module_trains_and_inference_free():
+    torch.manual_seed(0)
+    config = GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32, mtp_depth=1)
+    model = GPT(config)
+    base = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32))
+    assert model.num_params() > base.num_params()
+
+    idx = torch.randint(0, 128, (2, 16))
+    _, loss = model(idx, targets=idx, mtp_weight=0.3)
+    assert torch.isfinite(loss)
+    loss.backward()
+    grad = model.mtp.proj.weight.grad
+    assert grad is not None and grad.abs().sum() > 0
+
+    # Inference path untouched: no mtp_weight means no MTP forward.
+    model.eval()
+    with torch.no_grad():
+        logits, lossless = model(idx[:, :8])
+    assert logits.shape == (2, 1, 128) and lossless is None
+
+
+def test_mtp_state_dict_roundtrip_without_mtp():
+    torch.manual_seed(0)
+    base = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32))
+    config = GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32, mtp_depth=1)
+    model = GPT(config)
+    # A checkpoint trained without MTP loads into an MTP-enabled model.
+    model.load_state_dict(base.state_dict(), strict=False)
+    idx = torch.randint(0, 128, (1, 8))
+    with torch.no_grad():
+        reference, _ = base(idx)
+        logits, _ = model(idx)
+    assert torch.allclose(logits, reference)

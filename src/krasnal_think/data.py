@@ -95,3 +95,17 @@ def get_batch(
     if device.startswith("cuda"):
         return tuple(t.pin_memory().to(device, non_blocking=True) for t in batch)
     return tuple(t.to(device) for t in batch)
+
+
+def mtp_targets(targets: torch.Tensor) -> torch.Tensor:
+    """Align MTP targets with the next-next token.
+
+    The trunk at position i is supervised on targets[i] = x[i+1]. The MTP module
+    must predict x[i+2] from the same position, so its label is the trunk target
+    at i+1 shifted left into position i. The final position is dropped (no t+2
+    exists). The realized x[i+1] itself is always a legal *input* — conditioning
+    tokens are only ever invalid as labels, so targets[i] being IGNORE does not
+    mask the MTP slot.
+    """
+    out = targets[..., 1:].clone()
+    return torch.nn.functional.pad(out, (0, 1), value=IGNORE)

@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 
 from krasnal_think import tokens
 from krasnal_think.data import (
@@ -11,6 +12,7 @@ from krasnal_think.data import (
     get_batch,
     load_eval_stream,
     load_stream,
+    mtp_targets,
 )
 
 
@@ -75,3 +77,45 @@ def test_eval_labels_align_with_moves(tmp_path):
     )
     assert len(batch) == 3
     assert batch[2].shape == (4, 16)
+
+
+def test_mtp_targets_shift_and_mask_conditioning():
+    eos = tokens.EOS
+    m1, m2, m3 = (
+        tokens.ID["e2e4"],
+        tokens.ID["e7e5"],
+        tokens.ID["g1f3"],
+    )
+    # Simulate get_batch output: conditioning *labels* already masked.
+    targets = torch.tensor([[IGNORE, IGNORE, m1, m2, m3, eos]])
+    out = mtp_targets(targets)[0]
+
+    # position 0: x[i+2] is the elo conditioning token -> not a valid label
+    assert out[0] == IGNORE
+    # position 1: x[i+2] is e2e4 (realized t+1 was the elo token — still a legal input)
+    assert out[1] == m1
+    # position 2: x[i+2] is e7e5
+    assert out[2] == m2
+    # position 3: x[i+2] is g1f3
+    assert out[3] == m3
+    # position 5: no t+2 exists -> masked
+    assert out[5] == IGNORE
+
+
+def test_mtp_targets_match_get_batch_alignment(tmp_path):
+    writer = ShardWriter(tmp_path / "s.bin")
+    for _ in range(100):
+        writer.write(encode_game("e2e4 e7e5 g1f3 b8c6", 1500, 1500))
+    writer.close()
+    stream = load_stream(tmp_path / "s.bin")
+    x, targets = get_batch(stream, 4, 32, "cpu", np.random.default_rng(0))
+    mtp = mtp_targets(targets)
+
+    # Wherever the trunk label at i+1 is a real move, the MTP label at i must
+    # equal the token two ahead of the input. The last two slots are excluded:
+    # their t+2 sits at or past the crop edge, so x cannot verify them.
+    valid = torch.nn.functional.pad(targets[..., 1:] != IGNORE, (0, 1), value=False)
+    valid[..., -2:] = False
+    two_ahead = torch.zeros_like(x)
+    two_ahead[..., :-2] = x[..., 2:]
+    assert (mtp[valid] == two_ahead[valid]).all()

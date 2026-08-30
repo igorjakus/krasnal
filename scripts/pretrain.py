@@ -2,6 +2,12 @@
 """Stage 1: next-move pretraining on human games.
 
 uv run scripts/pretrain.py --size medium --steps 2000 --data data/smoke
+
+Continuation mode: resume a pretrained checkpoint with a depth-1 MTP module
+(DeepSeek-V3 style, predicting t+2 given the realized t+1):
+
+uv run scripts/pretrain.py --resume runs/pretrain/model.pt --mtp-weight 0.3 \
+    --steps 40000 --lr 1e-4 --min-lr 1e-5 --data data/pretrain-eval --out runs/mtp-continue
 """
 
 import argparse
@@ -42,6 +48,20 @@ def estimate_loss(model, stream, eval_stream, args, device) -> float:
     return torch.stack(losses).mean().item()
 
 
+@torch.no_grad()
+def estimate_mtp_loss(model, stream, args, device) -> float:
+    from krasnal_think.data import mtp_targets
+
+    model.eval()
+    generator = np.random.default_rng(0)
+    losses = []
+    for _ in range(args.eval_batches):
+        x, targets = get_batch(stream, args.batch_size, args.block_size, device, generator)
+        losses.append(model.mtp_loss_only(x, mtp_targets(targets)))
+    model.train()
+    return torch.stack(losses).mean().item()
+
+
 def model_batch(model, batch, eval_weight):
     x, targets, eval_targets = batch
     return model(x, targets=targets, eval_targets=eval_targets, eval_weight=eval_weight)
@@ -63,6 +83,8 @@ def main():
     parser.add_argument("--grad-clip", type=float, default=1.0)
     parser.add_argument("--dropout", type=float, default=0.0)
     parser.add_argument("--eval-weight", type=float, default=0.25)
+    parser.add_argument("--mtp-weight", type=float, default=0.0)
+    parser.add_argument("--resume", type=Path, default=None)
     parser.add_argument("--eval-every", type=int, default=1000)
     parser.add_argument("--eval-batches", type=int, default=50)
     parser.add_argument("--compile", action=argparse.BooleanOptionalAction, default=True)
@@ -74,14 +96,29 @@ def main():
     torch.manual_seed(args.seed)
     torch.set_float32_matmul_precision("high")
 
-    config = GPTConfig(
-        vocab_size=VOCAB_SIZE,
-        block_size=args.block_size,
-        dropout=args.dropout,
-        eval_classes=29,
-        **SIZES[args.size],
-    )
-    model = GPT(config).to(device)
+    if args.resume is not None:
+        checkpoint = torch.load(args.resume, map_location="cpu", weights_only=True)
+        config = GPTConfig(**checkpoint["config"])
+        config.mtp_depth = 1
+        config.eval_classes = config.eval_classes or 29
+        model = GPT(config)
+        model.load_state_dict(checkpoint["model"], strict=False)
+        print(
+            f"resumed {args.resume} (step {checkpoint.get('step')}) + MTP module, "
+            f"{model.num_params() / 1e6:.1f}M params",
+            flush=True,
+        )
+    else:
+        config = GPTConfig(
+            vocab_size=VOCAB_SIZE,
+            block_size=args.block_size,
+            dropout=args.dropout,
+            eval_classes=29,
+            mtp_depth=1 if args.mtp_weight > 0 else 0,
+            **SIZES[args.size],
+        )
+        model = GPT(config)
+    model = model.to(device)
     print(f"{args.size}: {model.num_params() / 1e6:.1f}M params on {device}", flush=True)
 
     optimizer = model.configure_optimizers(
@@ -92,8 +129,16 @@ def main():
 
     train_stream = load_stream(args.data / "train.bin")
     val_stream = load_stream(args.data / "val.bin")
-    train_evals = load_eval_stream(args.data / "train.evals.bin")
-    val_evals = load_eval_stream(args.data / "val.evals.bin")
+    train_evals = (
+        load_eval_stream(args.data / "train.evals.bin")
+        if (args.data / "train.evals.bin").exists()
+        else None
+    )
+    val_evals = (
+        load_eval_stream(args.data / "val.evals.bin")
+        if (args.data / "val.evals.bin").exists()
+        else None
+    )
     generator = np.random.default_rng(args.seed)
 
     start = time.time()
@@ -113,7 +158,14 @@ def main():
                 train_evals,
             )
             with autocast:
-                _, loss = model_batch(step_model, batch, args.eval_weight)
+                x, targets, eval_targets = batch
+                _, loss = step_model(
+                    x,
+                    targets=targets,
+                    eval_targets=eval_targets,
+                    eval_weight=args.eval_weight,
+                    mtp_weight=args.mtp_weight,
+                )
             (loss / args.grad_accum).backward()
             train_loss += loss.item() / args.grad_accum
         torch.nn.utils.clip_grad_norm_(model.parameters(), args.grad_clip)
@@ -122,9 +174,14 @@ def main():
 
         if step % args.eval_every == 0 or step == args.steps - 1:
             val_loss = estimate_loss(step_model, val_stream, val_evals, args, device)
+            mtp_val = (
+                estimate_mtp_loss(step_model, val_stream, args, device)
+                if args.mtp_weight > 0
+                else float("nan")
+            )
             print(
                 f"step {step:>7} train {train_loss:.4f} val {val_loss:.4f} "
-                f"lr {lr:.2e} {time.time() - start:.0f}s",
+                f"mtp {mtp_val:.4f} lr {lr:.2e} {time.time() - start:.0f}s",
                 flush=True,
             )
             save(args.out / "model.pt", model, step)

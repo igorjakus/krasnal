@@ -22,6 +22,28 @@ class GPTConfig:
     dropout: float = 0.0
     rope_theta: float = 10000.0
     eval_classes: int = 0
+    mtp_depth: int = 0
+
+
+class MTPModule(nn.Module):
+    """DeepSeek-V3 style depth-1 MTP: predict t+2 given h(t) and the realized t+1.
+
+    One transformer block fuses the trunk state with the embedding of the token
+    actually played at t+1 (teacher-forced from the same crop), then the shared
+    lm_head predicts the t+2 target. Training-only: dropped at inference.
+    """
+
+    def __init__(self, config: GPTConfig):
+        super().__init__()
+        self.norm_state = nn.RMSNorm(config.n_embd)
+        self.norm_token = nn.RMSNorm(config.n_embd)
+        self.proj = nn.Linear(2 * config.n_embd, config.n_embd, bias=False)
+        self.block = Block(config, 0)
+        self.block.drop = nn.Dropout(config.dropout)
+
+    def forward(self, state: torch.Tensor, token_emb: torch.Tensor) -> torch.Tensor:
+        fused = self.proj(torch.cat([self.norm_state(state), self.norm_token(token_emb)], dim=-1))
+        return self.block(fused)
 
 
 class KVCache:
@@ -136,11 +158,16 @@ class GPT(nn.Module):
             else None
         )
         self.wte.weight = self.lm_head.weight
+        self.mtp = MTPModule(config) if config.mtp_depth else None
 
         self.apply(self._init_weights)
         for name, param in self.named_parameters():
             if name.endswith("c_proj.weight"):
                 nn.init.normal_(param, std=0.02 / math.sqrt(2 * config.n_layer))
+        if self.mtp is not None:
+            # Reinforced init would zero the MTP path at start; the module must learn
+            # to fold the realized next token into the state, so init like a fresh block.
+            self.mtp.apply(self._init_weights)
 
     @staticmethod
     def _init_weights(module: nn.Module):
@@ -151,7 +178,13 @@ class GPT(nn.Module):
         return sum(p.numel() for p in self.parameters())
 
     def forward(
-        self, idx, targets=None, cache: KVCache | None = None, eval_targets=None, eval_weight=1.0
+        self,
+        idx,
+        targets=None,
+        cache: KVCache | None = None,
+        eval_targets=None,
+        eval_weight=1.0,
+        mtp_weight=0.0,
     ):
         x = self.drop(self.wte(idx))
         for block in self.blocks:
@@ -172,7 +205,21 @@ class GPT(nn.Module):
                     eval_logits.flatten(0, 1), eval_targets.flatten(), ignore_index=-1
                 )
                 loss = loss + eval_weight * eval_loss
+        if self.mtp is not None and mtp_weight > 0:
+            mtp_hidden = self.mtp(x, self.wte(idx))
+            mtp_logits = self.lm_head(mtp_hidden)
+            mtp_loss = F.cross_entropy(mtp_logits.flatten(0, 1), targets.flatten(), ignore_index=-1)
+            loss = loss + mtp_weight * mtp_loss
         return logits, loss
+
+    def mtp_loss_only(self, idx, targets):
+        """MTP loss alone, for monitoring the auxiliary head's descent."""
+        x = self.drop(self.wte(idx))
+        for block in self.blocks:
+            x = block(x)
+        x = self.norm_f(x)
+        mtp_logits = self.lm_head(self.mtp(x, self.wte(idx)))
+        return F.cross_entropy(mtp_logits.flatten(0, 1), targets.flatten(), ignore_index=-1)
 
     @classmethod
     def load(cls, path, device: str = "cpu") -> "GPT":
