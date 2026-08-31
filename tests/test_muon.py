@@ -58,7 +58,7 @@ def test_ema_tracks_and_swaps():
     torch.manual_seed(0)
     model = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32))
     ema = EMA(model, decay=0.5, every=1)
-    snapshot = {k: v.clone() for k, v in model.state_dict().items()}
+    snapshot = {k: v.clone() for k, v in model.state_dict().items() if v.dtype.is_floating_point}
     with torch.no_grad():
         for p in model.parameters():
             p.add_(1.0)
@@ -69,3 +69,23 @@ def test_ema_tracks_and_swaps():
         if v.dtype.is_floating_point:
             expected = 0.5 * snapshot[k] + 0.5 * raw[k]
             assert torch.allclose(v, expected, atol=1e-5), k
+
+
+def test_ema_strips_compile_prefix():
+    torch.manual_seed(0)
+    model = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32))
+    initial = {k: v.clone() for k, v in model.state_dict().items()}
+    compiled = torch.compile(model, dynamic=False)
+    ema = EMA(compiled, decay=0.5, every=1)
+    assert not any(k.startswith("_orig_mod.") for k in ema.shadow)
+    with torch.no_grad():
+        for p in model.parameters():
+            p.add_(2.0)
+    ema.update(compiled, step=1)
+    ema.copy_to(model)
+    # EMA of initial (w) and shifted (w+2) with decay 0.5 = w+1.
+    for k, v in model.state_dict().items():
+        if not v.dtype.is_floating_point:
+            continue
+        expected = initial[k] + 1.0
+        assert torch.allclose(v, expected, atol=0.02), k
