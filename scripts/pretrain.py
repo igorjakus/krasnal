@@ -63,7 +63,8 @@ def estimate_mtp_loss(model, stream, args, device) -> float:
 
 
 def model_batch(model, batch, eval_weight):
-    x, targets, eval_targets = batch
+    x, targets = batch[:2]
+    eval_targets = batch[2] if len(batch) > 2 else None
     return model(x, targets=targets, eval_targets=eval_targets, eval_weight=eval_weight)
 
 
@@ -160,7 +161,8 @@ def main():
                 train_evals,
             )
             with autocast:
-                x, targets, eval_targets = batch
+                x, targets = batch[:2]
+                eval_targets = batch[2] if len(batch) > 2 else None
                 _, loss = step_model(
                     x,
                     targets=targets,
