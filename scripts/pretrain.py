@@ -83,6 +83,7 @@ def main():
     parser.add_argument("--grad-clip", type=float, default=1.0)
     parser.add_argument("--dropout", type=float, default=0.0)
     parser.add_argument("--eval-weight", type=float, default=0.25)
+    parser.add_argument("--no-eval-head", action="store_true")
     parser.add_argument("--mtp-weight", type=float, default=0.0)
     parser.add_argument("--resume", type=Path, default=None)
     parser.add_argument("--eval-every", type=int, default=1000)
@@ -113,7 +114,7 @@ def main():
             vocab_size=VOCAB_SIZE,
             block_size=args.block_size,
             dropout=args.dropout,
-            eval_classes=29,
+            eval_classes=0 if args.no_eval_head else 29,
             mtp_depth=1 if args.mtp_weight > 0 else 0,
             **SIZES[args.size],
         )
@@ -129,14 +130,15 @@ def main():
 
     train_stream = load_stream(args.data / "train.bin")
     val_stream = load_stream(args.data / "val.bin")
+    eval_weight = 0.0 if args.no_eval_head else args.eval_weight
     train_evals = (
         load_eval_stream(args.data / "train.evals.bin")
-        if (args.data / "train.evals.bin").exists()
+        if (args.data / "train.evals.bin").exists() and not args.no_eval_head
         else None
     )
     val_evals = (
         load_eval_stream(args.data / "val.evals.bin")
-        if (args.data / "val.evals.bin").exists()
+        if (args.data / "val.evals.bin").exists() and not args.no_eval_head
         else None
     )
     generator = np.random.default_rng(args.seed)
@@ -163,7 +165,7 @@ def main():
                     x,
                     targets=targets,
                     eval_targets=eval_targets,
-                    eval_weight=args.eval_weight,
+                    eval_weight=eval_weight,
                     mtp_weight=args.mtp_weight,
                 )
             (loss / args.grad_accum).backward()
