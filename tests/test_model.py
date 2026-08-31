@@ -29,6 +29,32 @@ def test_kv_cache_matches_full_forward():
 
 
 @torch.no_grad()
+def test_kv_cache_matches_full_forward_with_rope_values():
+    torch.manual_seed(0)
+    model = GPT(
+        GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32, rope_values=True)
+    ).eval()
+    idx = torch.randint(0, 128, (1, 20))
+    reference, _ = model(idx)
+    for chunks in ([20], [1] * 20, [12, 1, 1, 6], [5, 5, 5, 5]):
+        assert torch.allclose(_cached_logits(model, idx, chunks), reference, atol=1e-5)
+
+
+@torch.no_grad()
+def test_rope_values_changes_attention_output():
+    torch.manual_seed(0)
+    plain = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32)).eval()
+    rove = GPT(
+        GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32, rope_values=True)
+    ).eval()
+    rove.load_state_dict(plain.state_dict(), strict=False)
+    idx = torch.randint(0, 128, (2, 20))
+    plain_logits, _ = plain(idx)
+    rove_logits, _ = rove(idx)
+    assert not torch.allclose(plain_logits, rove_logits)
+
+
+@torch.no_grad()
 def test_loss_ignores_masked_targets():
     model = _model()
     idx = torch.randint(0, 128, (2, 16))

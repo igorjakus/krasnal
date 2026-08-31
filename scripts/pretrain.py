@@ -86,6 +86,7 @@ def main():
     parser.add_argument("--eval-weight", type=float, default=0.25)
     parser.add_argument("--no-eval-head", action="store_true")
     parser.add_argument("--mtp-weight", type=float, default=0.0)
+    parser.add_argument("--rope-values", action="store_true")
     parser.add_argument("--resume", type=Path, default=None)
     parser.add_argument("--eval-every", type=int, default=1000)
     parser.add_argument("--eval-batches", type=int, default=50)
@@ -117,6 +118,7 @@ def main():
             dropout=args.dropout,
             eval_classes=0 if args.no_eval_head else 29,
             mtp_depth=1 if args.mtp_weight > 0 else 0,
+            rope_values=args.rope_values,
             **SIZES[args.size],
         )
         model = GPT(config)

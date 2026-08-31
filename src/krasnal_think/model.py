@@ -23,6 +23,7 @@ class GPTConfig:
     rope_theta: float = 10000.0
     eval_classes: int = 0
     mtp_depth: int = 0
+    rope_values: bool = False
 
 
 class MTPModule(nn.Module):
@@ -77,6 +78,7 @@ class Attention(nn.Module):
         assert config.n_embd % config.n_head == 0
         self.n_head, self.n_embd, self.layer = config.n_head, config.n_embd, layer
         self.dropout = config.dropout
+        self.rope_values = config.rope_values
         self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd, bias=False)
         self.c_proj = nn.Linear(config.n_embd, config.n_embd, bias=False)
         head_dim = config.n_embd // config.n_head
@@ -98,6 +100,11 @@ class Attention(nn.Module):
         q, k, v = (t.view(B, T, self.n_head, -1).transpose(1, 2) for t in (q, k, v))
         offset = cache.length if cache is not None else 0
         q, k = self._rope(q, offset), self._rope(k, offset)
+        if self.rope_values:
+            # RoVE: rotate values with the keys so the aggregated content is
+            # position-aware, not just the attention scores. Applied at cache-write
+            # time, so cache size and decode latency are unchanged.
+            v = self._rope(v, offset)
         if cache is not None:
             k, v = cache.update(self.layer, k, v)
         # SDPA's is_causal aligns top-left, which is only correct when the query
