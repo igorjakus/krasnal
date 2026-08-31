@@ -20,8 +20,9 @@ import torch
 
 from krasnal_think.data import get_batch, load_eval_stream, load_stream
 from krasnal_think.model import GPT, GPTConfig
+from krasnal_think.muon import OptimizerPair
 from krasnal_think.tokens import VOCAB_SIZE
-from krasnal_think.train import cosine_lr, pick_device, save
+from krasnal_think.train import EMA, cosine_lr, pick_device, save
 
 ROOT = Path(__file__).resolve().parents[1]
 SIZES = {
@@ -87,6 +88,9 @@ def main():
     parser.add_argument("--no-eval-head", action="store_true")
     parser.add_argument("--mtp-weight", type=float, default=0.0)
     parser.add_argument("--rope-values", action="store_true")
+    parser.add_argument("--optimizer", default="adamw", choices=["adamw", "muon"])
+    parser.add_argument("--muon-lr-scale", type=float, default=2.0)
+    parser.add_argument("--ema", action="store_true")
     parser.add_argument("--resume", type=Path, default=None)
     parser.add_argument("--eval-every", type=int, default=1000)
     parser.add_argument("--eval-batches", type=int, default=50)
@@ -125,9 +129,14 @@ def main():
     model = model.to(device)
     print(f"{args.size}: {model.num_params() / 1e6:.1f}M params on {device}", flush=True)
 
-    optimizer = model.configure_optimizers(
-        args.weight_decay, args.lr, (0.9, 0.95), fused=device.startswith("cuda")
-    )
+    if args.optimizer == "muon":
+        optimizer = OptimizerPair(model, args.weight_decay, args.lr, args.lr)
+        ema = EMA(model, decay=0.999, every=10) if args.ema else None
+    else:
+        optimizer = model.configure_optimizers(
+            args.weight_decay, args.lr, (0.9, 0.95), fused=device.startswith("cuda")
+        )
+        ema = EMA(model, decay=0.999, every=10) if args.ema else None
     step_model = torch.compile(model) if args.compile and device == "cuda" else model
     autocast = torch.autocast(device, dtype=torch.bfloat16) if device == "cuda" else nullcontext()
 
@@ -149,8 +158,12 @@ def main():
     start = time.time()
     for step in range(args.steps):
         lr = cosine_lr(step, args.warmup, args.steps, args.lr, args.min_lr)
-        for group in optimizer.param_groups:
-            group["lr"] = lr
+        if isinstance(optimizer, OptimizerPair):
+            # Muon's lr is transferred relative to AdamW's; both follow one schedule.
+            optimizer.set_lr(lr * args.muon_lr_scale, lr)
+        else:
+            for group in optimizer.param_groups:
+                group["lr"] = lr
 
         train_loss = 0.0
         for _ in range(args.grad_accum):
@@ -177,6 +190,8 @@ def main():
         torch.nn.utils.clip_grad_norm_(model.parameters(), args.grad_clip)
         optimizer.step()
         optimizer.zero_grad(set_to_none=True)
+        if ema is not None:
+            ema.update(model, step)
 
         if step % args.eval_every == 0 or step == args.steps - 1:
             val_loss = estimate_loss(step_model, val_stream, val_evals, args, device)
@@ -185,12 +200,28 @@ def main():
                 if args.mtp_weight > 0
                 else float("nan")
             )
+            ema_val = (
+                _ema_val_loss(ema, step_model, val_stream, val_evals, args, device)
+                if ema is not None
+                else float("nan")
+            )
             print(
                 f"step {step:>7} train {train_loss:.4f} val {val_loss:.4f} "
-                f"mtp {mtp_val:.4f} lr {lr:.2e} {time.time() - start:.0f}s",
+                f"mtp {mtp_val:.4f} ema-val {ema_val:.4f} "
+                f"lr {lr:.2e} {time.time() - start:.0f}s",
                 flush=True,
             )
-            save(args.out / "model.pt", model, step)
+            save(args.out / "model.pt", model, step, ema)
+
+
+@torch.no_grad()
+def _ema_val_loss(ema, step_model, val_stream, val_evals, args, device) -> float:
+    """Swap EMA weights in, measure val, swap raw weights back out."""
+    raw = {k: v.detach().clone() for k, v in step_model.state_dict().items()}
+    ema.copy_to(step_model)
+    val_loss = estimate_loss(step_model, val_stream, val_evals, args, device)
+    step_model.load_state_dict(raw)
+    return val_loss
 
 
 if __name__ == "__main__":
