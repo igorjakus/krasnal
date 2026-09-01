@@ -24,7 +24,7 @@ class GPTConfig:
     eval_classes: int = 0
     mtp_depth: int = 0
     rope_values: bool = False
-    qk_norm: bool = False
+    qk_norm: bool = True
 
 
 class MTPModule(nn.Module):
