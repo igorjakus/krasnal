@@ -91,6 +91,8 @@ def main():
     parser.add_argument("--qk-norm", action="store_true")
     parser.add_argument("--optimizer", default="adamw", choices=["adamw", "muon"])
     parser.add_argument("--muon-lr-scale", type=float, default=2.0)
+    parser.add_argument("--tail-boost", type=float, default=1.0)
+    parser.add_argument("--tail-warmup", type=float, default=0.3)
     parser.add_argument("--ema", action="store_true")
     parser.add_argument("--resume", type=Path, default=None)
     parser.add_argument("--eval-every", type=int, default=1000)
@@ -132,7 +134,15 @@ def main():
     print(f"{args.size}: {model.num_params() / 1e6:.1f}M params on {device}", flush=True)
 
     if args.optimizer == "muon":
-        optimizer = OptimizerPair(model, args.weight_decay, args.lr, args.lr)
+        optimizer = OptimizerPair(
+            model,
+            args.weight_decay,
+            args.lr,
+            args.lr,
+            tail_boost=args.tail_boost,
+            warmup_fraction=args.tail_warmup,
+            total_steps=args.steps,
+        )
         ema = EMA(model, decay=0.999, every=10) if args.ema else None
     else:
         optimizer = model.configure_optimizers(

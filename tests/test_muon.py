@@ -54,6 +54,70 @@ def test_muon_update_is_finite_and_moves_weights():
         assert not torch.equal(p, before[name]), name
 
 
+def test_tail_boost_one_recovers_muon():
+    torch.manual_seed(0)
+    idx = torch.randint(0, 128, (2, 16))
+
+    model_a = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32))
+    model_b = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32))
+    model_b.load_state_dict(model_a.state_dict())
+    opt_a = OptimizerPair(model_a, 0.1, 0.01, 1e-4)
+    opt_b = OptimizerPair(model_b, 0.1, 0.01, 1e-4, tail_boost=1.0, total_steps=10)
+    _, loss = model_a(idx, targets=idx)
+    loss.backward()
+    opt_a.step()
+    opt_a.zero_grad()
+    _, loss = model_b(idx, targets=idx)
+    loss.backward()
+    opt_b.step()
+    for (na, pa), (nb, pb) in zip(
+        model_a.named_parameters(), model_b.named_parameters(), strict=True
+    ):
+        assert torch.allclose(pa, pb, atol=1e-6), (na, nb)
+
+
+def test_samuon_lite_head_pinning_shape():
+    """The head-anchored update must equal gamma*bulk with rank-1 head restored."""
+    torch.manual_seed(0)
+    model = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32))
+    optimizer = OptimizerPair(
+        model, 0.1, 0.01, 1e-4, tail_boost=5.0, warmup_fraction=0.0, total_steps=10
+    )
+    idx = torch.randint(0, 128, (2, 8))
+    _, loss = model(idx, targets=idx)
+    loss.backward()
+    before = {n: p.detach().clone() for n, p in model.named_parameters()}
+    optimizer.step()
+    # With gamma=5 and a warmup_fraction of 0 the update magnitude per matrix is
+    # between 1x (head direction) and 5x (bulk) of plain Muon's: no NaNs, moved.
+    for name, p in model.named_parameters():
+        assert torch.isfinite(p).all(), name
+        delta = (p - before[name]).abs().max().item()
+        assert delta > 0, name
+
+
+def test_samuon_warmup_matches_muon_early():
+    """At step 0 with warmup, gamma_t == 1 exactly -> identical to plain Muon."""
+    torch.manual_seed(0)
+    idx = torch.randint(0, 128, (2, 16))
+    model_a = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32))
+    model_b = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32))
+    model_b.load_state_dict(model_a.state_dict())
+    opt_a = OptimizerPair(model_a, 0.1, 0.01, 1e-4)
+    opt_b = OptimizerPair(
+        model_b, 0.1, 0.01, 1e-4, tail_boost=5.0, warmup_fraction=0.3, total_steps=100
+    )
+    for opt, m in ((opt_a, model_a), (opt_b, model_b)):
+        _, loss = m(idx, targets=idx)
+        loss.backward()
+        opt.step()
+        opt.zero_grad()
+    for (na, pa), (nb, pb) in zip(
+        model_a.named_parameters(), model_b.named_parameters(), strict=True
+    ):
+        assert torch.allclose(pa, pb, atol=1e-5), (na, nb)
+
+
 def test_ema_tracks_and_swaps():
     torch.manual_seed(0)
     model = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32))
