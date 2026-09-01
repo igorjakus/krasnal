@@ -55,6 +55,38 @@ def test_rope_values_changes_attention_output():
 
 
 @torch.no_grad()
+def test_qk_norm_cache_matches_full_forward():
+    torch.manual_seed(0)
+    model = GPT(
+        GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32, qk_norm=True)
+    ).eval()
+    assert model.blocks[0].attn.q_norm is not None
+    idx = torch.randint(0, 128, (1, 20))
+    reference, _ = model(idx)
+    for chunks in ([20], [1] * 20, [12, 1, 1, 6]):
+        assert torch.allclose(_cached_logits(model, idx, chunks), reference, atol=1e-5)
+
+
+@torch.no_grad()
+def test_qk_norm_bounds_query_norms():
+    torch.manual_seed(0)
+    model = GPT(
+        GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32, qk_norm=True)
+    ).eval()
+    idx = torch.randint(0, 128, (2, 16))
+    # Scale c_attn output 50x: raw q norms explode, QK-norm keeps them at
+    # unit RMS per head (norm = sqrt(head_dim) = 4) regardless of scale.
+    attn = model.blocks[0].attn
+    with torch.no_grad():
+        q_raw = attn.c_attn(model.wte(idx)).chunk(3, dim=2)[0].view(2, 16, 2, -1)
+        attn.c_attn.weight.mul_(50.0)
+        q_big = attn.c_attn(model.wte(idx)).chunk(3, dim=2)[0].view(2, 16, 2, -1)
+        qn = attn.q_norm(q_big)
+        assert q_big.norm(dim=-1).mean() > 50 * q_raw.norm(dim=-1).mean() * 0.9
+        assert torch.allclose(qn.norm(dim=-1).mean(), torch.tensor(4.0), rtol=0.2)
+
+
+@torch.no_grad()
 def test_loss_ignores_masked_targets():
     model = _model()
     idx = torch.randint(0, 128, (2, 16))

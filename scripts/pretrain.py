@@ -88,6 +88,7 @@ def main():
     parser.add_argument("--no-eval-head", action="store_true")
     parser.add_argument("--mtp-weight", type=float, default=0.0)
     parser.add_argument("--rope-values", action="store_true")
+    parser.add_argument("--qk-norm", action="store_true")
     parser.add_argument("--optimizer", default="adamw", choices=["adamw", "muon"])
     parser.add_argument("--muon-lr-scale", type=float, default=2.0)
     parser.add_argument("--ema", action="store_true")
@@ -123,6 +124,7 @@ def main():
             eval_classes=0 if args.no_eval_head else 29,
             mtp_depth=1 if args.mtp_weight > 0 else 0,
             rope_values=args.rope_values,
+            qk_norm=args.qk_norm,
             **SIZES[args.size],
         )
         model = GPT(config)

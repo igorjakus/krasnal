@@ -24,6 +24,7 @@ class GPTConfig:
     eval_classes: int = 0
     mtp_depth: int = 0
     rope_values: bool = False
+    qk_norm: bool = False
 
 
 class MTPModule(nn.Module):
@@ -81,6 +82,8 @@ class Attention(nn.Module):
         self.rope_values = config.rope_values
         self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd, bias=False)
         self.c_proj = nn.Linear(config.n_embd, config.n_embd, bias=False)
+        self.q_norm = nn.RMSNorm(config.n_embd // config.n_head) if config.qk_norm else None
+        self.k_norm = nn.RMSNorm(config.n_embd // config.n_head) if config.qk_norm else None
         head_dim = config.n_embd // config.n_head
         freqs = config.rope_theta ** -((torch.arange(head_dim) // 2).float() / (head_dim // 2))
         phases = torch.arange(config.block_size).float()[:, None] * freqs[None, :]
@@ -98,6 +101,10 @@ class Attention(nn.Module):
         B, T, C = x.shape
         q, k, v = self.c_attn(x).split(self.n_embd, dim=2)
         q, k, v = (t.view(B, T, self.n_head, -1).transpose(1, 2) for t in (q, k, v))
+        if self.q_norm is not None:
+            # Per-head QK-norm: bound attention logits before RoPE so the softmax
+            # temperature is position- and head-independent.
+            q, k = self.q_norm(q), self.k_norm(k)
         offset = cache.length if cache is not None else 0
         q, k = self._rope(q, offset), self._rope(k, offset)
         if self.rope_values:
