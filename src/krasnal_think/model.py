@@ -26,6 +26,7 @@ class GPTConfig:
     rope_values: bool = False
     qk_norm: bool = True
     hyper_connections: int = 1
+    sinkhorn_iters: int = 0
 
 
 class MTPModule(nn.Module):
@@ -145,15 +146,28 @@ class MLP(nn.Module):
 
 
 class HyperConnection(nn.Module):
-    """Static n-stream hyper-connection from Zhu et al. (2024)."""
+    """Static n-stream hyper-connection from Zhu et al. (2024).
 
-    def __init__(self, rate: int, layer: int):
+    With `manifold=True` the residual-stream mix is projected onto the Birkhoff
+    polytope via Sinkhorn-Knopp (DeepSeek mHC, arXiv 2512.24880), and the write-in
+    betas are kept positive via 2*sigmoid.
+    """
+
+    def __init__(self, rate: int, layer: int, sinkhorn_iters: int = 0):
         super().__init__()
         self.rate = rate
-        alpha = torch.cat((torch.eye(rate), torch.zeros(rate, 1)), dim=1)
-        alpha[layer % rate, rate] = 1
-        self.alpha = nn.Parameter(alpha)
-        self.beta = nn.Parameter(torch.ones(rate))
+        self.sinkhorn_iters = sinkhorn_iters
+        if sinkhorn_iters:
+            # mHC (arXiv 2512.24880): the (rate, rate) residual-mix block is projected
+            # onto the Birkhoff polytope via Sinkhorn-Knopp, so identity init is a
+            # doubly stochastic passthrough. The block-input mix starts at zero and
+            # the write-in beta at 2*sigmoid(0)=1, restoring the vanilla residual.
+            self.alpha = nn.Parameter(torch.zeros(rate, rate + 1))
+        else:
+            alpha = torch.cat((torch.eye(rate), torch.zeros(rate, 1)), dim=1)
+            alpha[layer % rate, rate] = 1
+            self.alpha = nn.Parameter(alpha)
+        self.beta = nn.Parameter(torch.zeros(rate) if sinkhorn_iters else torch.ones(rate))
 
     def width(self, hidden: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
         # mixed[..., j] = sum_n hidden[..., n] * alpha[n, j], as broadcast-mul + sum:
@@ -161,11 +175,30 @@ class HyperConnection(nn.Module):
         # pathological bf16 cuBLAS backward (~500 ms/step on RTX 3090).
         if hidden.dim() == 3:
             hidden = hidden.unsqueeze(-1).expand(-1, -1, -1, self.rate)
-        mixed = (hidden.unsqueeze(-2) * self.alpha.t()).sum(-1)
+        if self.sinkhorn_iters:
+            # Sinkhorn-Knopp projects the (rate, rate) residual-mix block onto the
+            # Birkhoff polytope; the extra block-input column is unconstrained.
+            # At the zero init exp(0) projects to uniform, so every stream reads the
+            # mean and the block-input column starts at 1/rate for a vanilla identity.
+            mix = self._sinkhorn(self.alpha[:, : self.rate])
+            weights = torch.cat(
+                (self.alpha[:, self.rate, None] + 1 / self.rate, mix), dim=1
+            ).t()
+        else:
+            weights = self.alpha.t()
+        mixed = (hidden.unsqueeze(-2) * weights).sum(-1)
         return mixed[..., self.rate], mixed[..., : self.rate]
 
     def depth(self, streams: torch.Tensor, output: torch.Tensor) -> torch.Tensor:
-        return streams + output.unsqueeze(-1) * self.beta
+        beta = 2 * torch.sigmoid(self.beta) if self.sinkhorn_iters else self.beta
+        return streams + output.unsqueeze(-1) * beta
+
+    def _sinkhorn(self, matrix: torch.Tensor) -> torch.Tensor:
+        projected = torch.exp(matrix)
+        for _ in range(self.sinkhorn_iters):
+            projected = projected / projected.sum(1, keepdim=True)
+            projected = projected / projected.sum(0, keepdim=True)
+        return projected
 
 
 class Block(nn.Module):
@@ -177,8 +210,9 @@ class Block(nn.Module):
         self.mlp = MLP(config)
         self.drop = nn.Dropout(config.dropout)
         if config.hyper_connections > 1:
-            self.attn_hc = HyperConnection(config.hyper_connections, layer * 2)
-            self.mlp_hc = HyperConnection(config.hyper_connections, layer * 2 + 1)
+            sinkhorn = config.sinkhorn_iters
+            self.attn_hc = HyperConnection(config.hyper_connections, layer * 2, sinkhorn)
+            self.mlp_hc = HyperConnection(config.hyper_connections, layer * 2 + 1, sinkhorn)
         else:
             self.attn_hc = self.mlp_hc = None
 

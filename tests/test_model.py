@@ -98,6 +98,61 @@ def test_hyper_connections_matches_single_stream_at_initialization():
 
 
 @torch.no_grad()
+def test_sinkhorn_projection_is_doubly_stochastic():
+    from krasnal_think.model import HyperConnection
+
+    torch.manual_seed(0)
+    hc = HyperConnection(2, 0, sinkhorn_iters=20)
+    hc.alpha.normal_(0, 1)
+    projected = hc._sinkhorn(hc.alpha[:, :2])
+    assert torch.allclose(projected.sum(0), torch.ones(2), atol=1e-4)
+    assert torch.allclose(projected.sum(1), torch.ones(2), atol=1e-4)
+    assert (projected >= 0).all()
+
+
+@torch.no_grad()
+def test_manifold_hyper_connections_matches_hc_at_identity_init():
+    torch.manual_seed(0)
+    plain = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32)).eval()
+    mhc = GPT(
+        GPTConfig(
+            vocab_size=128,
+            block_size=64,
+            n_layer=2,
+            n_head=2,
+            n_embd=32,
+            hyper_connections=2,
+            sinkhorn_iters=20,
+        )
+    ).eval()
+    mhc.load_state_dict(plain.state_dict(), strict=False)
+    idx = torch.randint(0, 128, (2, 20))
+    plain_logits, _ = plain(idx)
+    mhc_logits, _ = mhc(idx)
+    assert torch.allclose(mhc_logits, plain_logits, atol=1e-5)
+
+
+@torch.no_grad()
+def test_manifold_hyper_connections_cache_matches_full_forward():
+    torch.manual_seed(0)
+    model = GPT(
+        GPTConfig(
+            vocab_size=128,
+            block_size=64,
+            n_layer=2,
+            n_head=2,
+            n_embd=32,
+            hyper_connections=2,
+            sinkhorn_iters=5,
+        )
+    ).eval()
+    idx = torch.randint(0, 128, (1, 20))
+    reference, _ = model(idx)
+    for chunks in ([20], [1] * 20, [12, 1, 1, 6]):
+        assert torch.allclose(_cached_logits(model, idx, chunks), reference, atol=1e-5)
+
+
+@torch.no_grad()
 def test_qk_norm_bounds_query_norms():
     torch.manual_seed(0)
     model = GPT(

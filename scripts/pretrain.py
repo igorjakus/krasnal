@@ -90,6 +90,7 @@ def main():
     parser.add_argument("--rope-values", action="store_true")
     parser.add_argument("--qk-norm", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--hyper-connections", type=int, default=1)
+    parser.add_argument("--sinkhorn-iters", type=int, default=0)
     parser.add_argument("--optimizer", default="adamw", choices=["adamw", "muon"])
     parser.add_argument("--muon-lr-scale", type=float, default=2.0)
     parser.add_argument("--tail-boost", type=float, default=1.0)
@@ -131,6 +132,7 @@ def main():
             rope_values=args.rope_values,
             qk_norm=args.qk_norm,
             hyper_connections=args.hyper_connections,
+            sinkhorn_iters=args.sinkhorn_iters,
             **SIZES[args.size],
         )
         model = GPT(config)
