@@ -68,6 +68,36 @@ def test_qk_norm_cache_matches_full_forward():
 
 
 @torch.no_grad()
+def test_hyper_connections_cache_matches_full_forward():
+    torch.manual_seed(0)
+    model = GPT(
+        GPTConfig(
+            vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32, hyper_connections=2
+        )
+    ).eval()
+    idx = torch.randint(0, 128, (1, 20))
+    reference, _ = model(idx)
+    for chunks in ([20], [1] * 20, [12, 1, 1, 6]):
+        assert torch.allclose(_cached_logits(model, idx, chunks), reference, atol=1e-5)
+
+
+@torch.no_grad()
+def test_hyper_connections_matches_single_stream_at_initialization():
+    torch.manual_seed(0)
+    plain = GPT(GPTConfig(vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32)).eval()
+    hyper = GPT(
+        GPTConfig(
+            vocab_size=128, block_size=64, n_layer=2, n_head=2, n_embd=32, hyper_connections=2
+        )
+    ).eval()
+    hyper.load_state_dict(plain.state_dict(), strict=False)
+    idx = torch.randint(0, 128, (2, 20))
+    plain_logits, _ = plain(idx)
+    hyper_logits, _ = hyper(idx)
+    assert torch.allclose(hyper_logits, plain_logits, atol=1e-5)
+
+
+@torch.no_grad()
 def test_qk_norm_bounds_query_norms():
     torch.manual_seed(0)
     model = GPT(

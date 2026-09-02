@@ -25,6 +25,7 @@ class GPTConfig:
     mtp_depth: int = 0
     rope_values: bool = False
     qk_norm: bool = True
+    hyper_connections: int = 1
 
 
 class MTPModule(nn.Module):
@@ -143,6 +144,30 @@ class MLP(nn.Module):
         return self.c_proj(value * F.silu(gate))
 
 
+class HyperConnection(nn.Module):
+    """Static n-stream hyper-connection from Zhu et al. (2024)."""
+
+    def __init__(self, rate: int, layer: int):
+        super().__init__()
+        self.rate = rate
+        alpha = torch.cat((torch.eye(rate), torch.zeros(rate, 1)), dim=1)
+        alpha[layer % rate, rate] = 1
+        self.alpha = nn.Parameter(alpha)
+        self.beta = nn.Parameter(torch.ones(rate))
+
+    def width(self, hidden: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        # mixed[..., j] = sum_n hidden[..., n] * alpha[n, j], as broadcast-mul + sum:
+        # any GEMM/einsum contracting into the tiny (rate, rate+1) alpha hits a
+        # pathological bf16 cuBLAS backward (~500 ms/step on RTX 3090).
+        if hidden.dim() == 3:
+            hidden = hidden.unsqueeze(-1).expand(-1, -1, -1, self.rate)
+        mixed = (hidden.unsqueeze(-2) * self.alpha.t()).sum(-1)
+        return mixed[..., self.rate], mixed[..., : self.rate]
+
+    def depth(self, streams: torch.Tensor, output: torch.Tensor) -> torch.Tensor:
+        return streams + output.unsqueeze(-1) * self.beta
+
+
 class Block(nn.Module):
     def __init__(self, config: GPTConfig, layer: int):
         super().__init__()
@@ -151,10 +176,22 @@ class Block(nn.Module):
         self.norm_2 = nn.RMSNorm(config.n_embd)
         self.mlp = MLP(config)
         self.drop = nn.Dropout(config.dropout)
+        if config.hyper_connections > 1:
+            self.attn_hc = HyperConnection(config.hyper_connections, layer * 2)
+            self.mlp_hc = HyperConnection(config.hyper_connections, layer * 2 + 1)
+        else:
+            self.attn_hc = self.mlp_hc = None
 
     def forward(self, x: torch.Tensor, cache: KVCache | None = None) -> torch.Tensor:
-        x = x + self.drop(self.attn(self.norm_1(x), cache))
-        return x + self.drop(self.mlp(self.norm_2(x)))
+        if self.attn_hc is None:
+            x = x + self.drop(self.attn(self.norm_1(x), cache))
+            return x + self.drop(self.mlp(self.norm_2(x)))
+        block_input, streams = self.attn_hc.width(x)
+        attn = self.drop(self.attn(self.norm_1(block_input), cache))
+        streams = self.attn_hc.depth(streams, attn)
+        block_input, streams = self.mlp_hc.width(streams)
+        mlp = self.drop(self.mlp(self.norm_2(block_input)))
+        return self.mlp_hc.depth(streams, mlp)
 
 
 class GPT(nn.Module):
@@ -205,6 +242,8 @@ class GPT(nn.Module):
             x = block(x, cache)
         if cache is not None:
             cache.advance(idx.size(1))
+        if self.config.hyper_connections > 1:
+            x = x.mean(dim=-1)
         x = self.norm_f(x)
         if targets is None:
             return self.lm_head(x[:, [-1], :]), None
@@ -231,6 +270,8 @@ class GPT(nn.Module):
         x = self.drop(self.wte(idx))
         for block in self.blocks:
             x = block(x)
+        if self.config.hyper_connections > 1:
+            x = x.mean(dim=-1)
         x = self.norm_f(x)
         mtp_logits = self.lm_head(self.mtp(x, self.wte(idx)))
         return F.cross_entropy(mtp_logits.flatten(0, 1), targets.flatten(), ignore_index=-1)
@@ -238,7 +279,9 @@ class GPT(nn.Module):
     @classmethod
     def load(cls, path, device: str = "cpu") -> "GPT":
         checkpoint = torch.load(path, map_location=device, weights_only=True)
-        model = cls(GPTConfig(**checkpoint["config"])).to(device)
+        config = dict(checkpoint["config"])
+        config.setdefault("qk_norm", False)
+        model = cls(GPTConfig(**config)).to(device)
         model.load_state_dict(checkpoint["model"])
         return model.eval()
 

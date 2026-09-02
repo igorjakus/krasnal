@@ -88,7 +88,8 @@ def main():
     parser.add_argument("--no-eval-head", action="store_true")
     parser.add_argument("--mtp-weight", type=float, default=0.0)
     parser.add_argument("--rope-values", action="store_true")
-    parser.add_argument("--qk-norm", action="store_true")
+    parser.add_argument("--qk-norm", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--hyper-connections", type=int, default=1)
     parser.add_argument("--optimizer", default="adamw", choices=["adamw", "muon"])
     parser.add_argument("--muon-lr-scale", type=float, default=2.0)
     parser.add_argument("--tail-boost", type=float, default=1.0)
@@ -108,7 +109,9 @@ def main():
 
     if args.resume is not None:
         checkpoint = torch.load(args.resume, map_location="cpu", weights_only=True)
-        config = GPTConfig(**checkpoint["config"])
+        checkpoint_config = dict(checkpoint["config"])
+        checkpoint_config.setdefault("qk_norm", False)
+        config = GPTConfig(**checkpoint_config)
         config.mtp_depth = 1
         config.eval_classes = config.eval_classes or 29
         model = GPT(config)
@@ -127,6 +130,7 @@ def main():
             mtp_depth=1 if args.mtp_weight > 0 else 0,
             rope_values=args.rope_values,
             qk_norm=args.qk_norm,
+            hyper_connections=args.hyper_connections,
             **SIZES[args.size],
         )
         model = GPT(config)
