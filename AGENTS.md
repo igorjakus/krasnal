@@ -35,5 +35,6 @@ Use `student-cpu` for CPU Stockfish jobs and `student-nvidia` with `--gres=gpu:1
 ## Sync rules
 
 - Pull code/config from this checkout to workers before a run; never edit two copies in parallel.
+- From this Mac, sync the lightweight checkout with `rsync -a --exclude data/ --exclude experiments/ --exclude runs --exclude .git/ ./ adrian:/home/ijakus/projects/krasnal-think/` (and replace `adrian:` with `uwr:/Ziob/ijakus/krasnal-think/` when needed).
 - UWR outputs land in `/Ziob/ijakus/krasnal-think`; copy completed outputs to `adrian` through the Mac, validate/deduplicate there, and record source, parameters, counts, and SHA-256.
 - Prefer resumable, atomic files (`*.partial` then rename). Never delete data or checkpoints; archive failed outputs.
