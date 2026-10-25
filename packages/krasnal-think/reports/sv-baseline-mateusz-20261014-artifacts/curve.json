@@ -1,0 +1,174 @@
+[
+  {
+    "step": 0,
+    "seconds": 3.814697265625e-06,
+    "validation": {
+      "soft_target_cross_entropy": 4.90217919921875,
+      "expected_value_mae": 0.18982543067932128,
+      "n": 10000
+    },
+    "chessbench": {
+      "soft_target_cross_entropy": 4.9580279296875,
+      "expected_value_mae": 0.2197666000366211,
+      "n": 10000
+    }
+  },
+  {
+    "step": 10000,
+    "seconds": 477.231130361557,
+    "validation": {
+      "soft_target_cross_entropy": 3.523989715576172,
+      "expected_value_mae": 0.11121570777893067,
+      "n": 10000
+    },
+    "chessbench": {
+      "soft_target_cross_entropy": 3.929495654296875,
+      "expected_value_mae": 0.09445453681945801,
+      "n": 10000
+    },
+    "sf30k": {
+      "sf30k_top1": 0.179,
+      "n": 1000,
+      "move_ms_mean": 19.323908153630327,
+      "note": "Exact gold top1; no all-move regret or Elo claim"
+    }
+  },
+  {
+    "step": 20000,
+    "seconds": 997.3410322666168,
+    "validation": {
+      "soft_target_cross_entropy": 3.457720983886719,
+      "expected_value_mae": 0.10565566673278809,
+      "n": 10000
+    },
+    "chessbench": {
+      "soft_target_cross_entropy": 3.9009233642578125,
+      "expected_value_mae": 0.09042023029327392,
+      "n": 10000
+    }
+  },
+  {
+    "step": 30000,
+    "seconds": 1501.3117225170135,
+    "validation": {
+      "soft_target_cross_entropy": 3.404300213623047,
+      "expected_value_mae": 0.10207389183044434,
+      "n": 10000
+    },
+    "chessbench": {
+      "soft_target_cross_entropy": 3.810218017578125,
+      "expected_value_mae": 0.08660215721130371,
+      "n": 10000
+    }
+  },
+  {
+    "step": 40000,
+    "seconds": 2006.973356962204,
+    "validation": {
+      "soft_target_cross_entropy": 3.377043884277344,
+      "expected_value_mae": 0.1008903621673584,
+      "n": 10000
+    },
+    "chessbench": {
+      "soft_target_cross_entropy": 3.825784069824219,
+      "expected_value_mae": 0.08400679149627685,
+      "n": 10000
+    }
+  },
+  {
+    "step": 50000,
+    "seconds": 2517.223485469818,
+    "validation": {
+      "soft_target_cross_entropy": 3.3472305297851563,
+      "expected_value_mae": 0.09907982063293456,
+      "n": 10000
+    },
+    "chessbench": {
+      "soft_target_cross_entropy": 3.7531574462890624,
+      "expected_value_mae": 0.08285555038452148,
+      "n": 10000
+    },
+    "sf30k": {
+      "sf30k_top1": 0.257,
+      "n": 1000,
+      "move_ms_mean": 20.387278291862458,
+      "note": "Exact gold top1; no all-move regret or Elo claim"
+    }
+  },
+  {
+    "step": 60000,
+    "seconds": 3045.9316806793213,
+    "validation": {
+      "soft_target_cross_entropy": 3.3126084106445313,
+      "expected_value_mae": 0.09487049922943115,
+      "n": 10000
+    },
+    "chessbench": {
+      "soft_target_cross_entropy": 3.7572552612304686,
+      "expected_value_mae": 0.07822567939758301,
+      "n": 10000
+    }
+  },
+  {
+    "step": 70000,
+    "seconds": 3556.69132065773,
+    "validation": {
+      "soft_target_cross_entropy": 3.2818254028320313,
+      "expected_value_mae": 0.09278744506835937,
+      "n": 10000
+    },
+    "chessbench": {
+      "soft_target_cross_entropy": 3.7230637817382815,
+      "expected_value_mae": 0.07531200485229492,
+      "n": 10000
+    }
+  },
+  {
+    "step": 80000,
+    "seconds": 4069.113772392273,
+    "validation": {
+      "soft_target_cross_entropy": 3.2579246948242186,
+      "expected_value_mae": 0.09056545028686523,
+      "n": 10000
+    },
+    "chessbench": {
+      "soft_target_cross_entropy": 3.7367220642089842,
+      "expected_value_mae": 0.07421569480895997,
+      "n": 10000
+    }
+  },
+  {
+    "step": 90000,
+    "seconds": 4574.473521709442,
+    "validation": {
+      "soft_target_cross_entropy": 3.2419821899414063,
+      "expected_value_mae": 0.08921936912536621,
+      "n": 10000
+    },
+    "chessbench": {
+      "soft_target_cross_entropy": 3.705633819580078,
+      "expected_value_mae": 0.07221880035400391,
+      "n": 10000
+    }
+  },
+  {
+    "step": 100000,
+    "seconds": 5086.563640594482,
+    "validation": {
+      "soft_target_cross_entropy": 3.2305776916503905,
+      "expected_value_mae": 0.08811311149597167,
+      "n": 10000
+    },
+    "chessbench": {
+      "soft_target_cross_entropy": 3.6911891235351564,
+      "expected_value_mae": 0.07128863830566406,
+      "n": 10000
+    },
+    "sf30k": {
+      "sf30k_top1": 0.307,
+      "n": 1000,
+      "move_ms_mean": 20.39437705592718,
+      "note": "Exact gold top1; no all-move regret or Elo claim"
+    }
+  }
+]

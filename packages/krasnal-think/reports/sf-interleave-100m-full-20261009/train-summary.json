@@ -1,0 +1,33 @@
+{
+  "mode": "augmented",
+  "steps": 59631,
+  "requested_steps": 59631,
+  "world_size": 2,
+  "global_batch_size": 32,
+  "human_targets_seen": 948851065,
+  "resume_start_step": 0,
+  "human_targets_seen_scope": "this invocation",
+  "batch_size": 2,
+  "grad_accum": 8,
+  "human_weight": 1.0,
+  "other_weight": 0.0,
+  "sampling": "shuffled-blocks",
+  "foundation": {
+    "id": "human-pretrain-100m-20260730",
+    "path": "runs/foundations/human-pretrain-100m-20260730/model.pt",
+    "source_host": "adrian",
+    "source_path": "/home/ijakus/projects/krasnal-think/runs/pretrain-eval/model.pt",
+    "sha256": "b660b1f8eef7104123dd6551eff5c63ab3b665b72a8f1a8b2d17ec6fd71c7e81",
+    "source_games_including_validation": 100020000,
+    "training_games": 100000000,
+    "parameters": 100756992,
+    "checkpoint_step": 106439,
+    "eval_classes": 29,
+    "corpus_evidence": "MEMORY.md 2026-07-30; data/pretrain-eval/train.bin"
+  },
+  "checkpoint": "runs/foundations/human-pretrain-100m-20260730/model.pt",
+  "data_dir": "data/sf-interleave-distinct-20261008-full-buffered/train",
+  "distinct_sf_tokens": true,
+  "vocab_size": 4096,
+  "seconds": 33429.58725309372
+}

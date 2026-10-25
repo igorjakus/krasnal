@@ -1,0 +1,21 @@
+{
+  "candidate_count": 2.969,
+  "candidate_recall": 0.731,
+  "direct_cp_gap": 185.969,
+  "direct_top1": 0.505,
+  "distinct_roots": 2.969,
+  "final_outside_candidates": 0.011,
+  "global_best_rank": 1.2393980848153214,
+  "positions": 1000,
+  "pv_diversity_1": 1.0,
+  "pv_diversity_2": 0.6586183769282346,
+  "pv_diversity_3": 0.8527524484971258,
+  "seconds": 75.559166431427,
+  "selection": 0.56,
+  "selection_when_best_present": 0.6374829001367989,
+  "thinking_cp_gap": 152.942,
+  "thinking_mrr": 0.7483333333333341,
+  "thinking_rank": 1.5925176946410515,
+  "thinking_top1": 0.473,
+  "thinking_vs_direct_cp": 32.522
+}

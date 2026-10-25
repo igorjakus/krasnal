@@ -1,0 +1,13 @@
+{
+  "clear_hash_per_position": true,
+  "engine": {
+    "author": "the Stockfish developers (see AUTHORS file)",
+    "name": "Stockfish 17.1"
+  },
+  "hash_mb": 32,
+  "nodes": 30000,
+  "positions": 1000,
+  "sha256": "b347129b66483430289dde08f3fca0020c8b7b5158168fd6aad69f64f5ded319",
+  "source_sha256": "eebd6681034ef23a5258ade1532d9b57e57c8c31b03700ccf2ab206e18c4bf13",
+  "threads": 1
+}

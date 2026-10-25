@@ -1,0 +1,30 @@
+{
+  "games": 800,
+  "planned": 800,
+  "last": {
+    "mode": "human_sf_d1",
+    "system": "human_sf",
+    "budget": {
+      "depth": 1
+    },
+    "opening_id": 99,
+    "anchor": 2900,
+    "model_white": false,
+    "score": 0.0,
+    "plies": 79,
+    "final_fen": "8/1p3p1p/p5pP/3pRkP1/3PpP2/1P2P1K1/1Pr5/8 b - - 13 40",
+    "termination": "CHECKMATE",
+    "teacher_calls": 79,
+    "depth_sum": 79,
+    "nodes_sum": 3117,
+    "teacher_seconds": 0.1513864726293832,
+    "model_calls": 35,
+    "model_seconds": 0.5123322647996247,
+    "opponent_calls": 36,
+    "follow_count": 19,
+    "seconds": 2.378957986831665,
+    "time": 1792744595.159669,
+    "assisted": true
+  },
+  "deadline": 1792749112.641077
+}

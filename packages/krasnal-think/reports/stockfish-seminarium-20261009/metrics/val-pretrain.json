@@ -1,0 +1,12 @@
+{
+  "checkpoint": "experiments/sf-interleave-v1/checkpoints/pretrain-model.pt",
+  "human_moves": 654407,
+  "human_nll": 1.639587993364844,
+  "human_top1": 0.5080890027154356,
+  "human_top5": 0.8626940115249379,
+  "mode": "human",
+  "records": 9677,
+  "stockfish_move_namespace": "not_used",
+  "teacher_forced_stockfish": false,
+  "vocab_size": 2112
+}

@@ -1,0 +1,18 @@
+{
+  "checkpoint": "experiments/sf-interleave-scratch-full-20261009-humanloss/step-5000.pt",
+  "human_moves": 654407,
+  "human_nll": 1.89366696430868,
+  "human_top1": 0.460803444950925,
+  "human_top5": 0.8103794733247046,
+  "mode": "augmented",
+  "records": 9677,
+  "sf_moves": 654407,
+  "sf_nll": 8.43566164292683,
+  "sf_top1": 0.00037591284934299297,
+  "sf_top5": 0.0019406882872585408,
+  "stockfish_move_namespace": "distinct",
+  "teacher_forced_stockfish": true,
+  "vocab_size": 4096,
+  "checkpoint_sha256": "cf4b38e020c5bfd0952782a9dc1f4eabc9bc06c92c161c30d64a0b76066d6d2a",
+  "records_sha256": "4f530631b425ccfedbfe8996552bcd0846ea71a5e4ae0cc07bf3b56cea7453bd"
+}

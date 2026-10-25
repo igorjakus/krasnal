@@ -1,0 +1,28 @@
+{
+  "root": "/app/experiments/sv-data-pilot-20261011",
+  "gold": "/app/experiments/curriculum-100m-onpolicy-v1-20261009/eval-gold.jsonl",
+  "foundation_registry_path": "/app/runs/foundations/human-pretrain-100m-20260730/model.pt",
+  "hf_revision": "d83b3256d94a086f074a66db52f3a5b5d4c28847",
+  "train_records": 1000000,
+  "eval_records": 10000,
+  "seed": 42,
+  "updates": 4096,
+  "batch_size": 256,
+  "lr": 0.0003,
+  "arm_seconds": 2700,
+  "global_seconds": 21600,
+  "gpu_count": 1,
+  "started_at": 1791720722.8687944,
+  "deadline": 1791742322.8687944,
+  "initialization": "random; user-approved new SV architecture, foundation not loaded",
+  "foundation_registry_sha256": "b660b1f8eef7104123dd6551eff5c63ab3b665b72a8f1a8b2d17ec6fd71c7e81",
+  "objective": "128-bin HL-Gauss SV, sigma .75 bins; equal updates/exposures",
+  "input": "canonical 4-field FEN, no clocks in either arm; 71 tokens",
+  "sampling": "Mateusz uniform reservoir per all 10 shards; CB random shuffled-bag blocks; train draws with replacement",
+  "label_perspective": "both side-to-move; Mateusz cp White-relative converted with Lichess logistic",
+  "limitations": "single seed; different source distribution/teacher/version/budget; cross-source losses are not Elo",
+  "code_sha256": {
+    "/app/experiments/sv-data-pilot-20261011/code/scripts/compare_sv_data.py": "ca3dedd39c32f93989816ca7cfbedf372072b0274172f96878b138532933a022",
+    "src/krasnal_think/model.py": "e2d37be6dd8859b85bea58ac83c0ba2ef466703c14891ab00ef294c747319704"
+  }
+}

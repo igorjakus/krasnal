@@ -1,0 +1,12 @@
+{
+  "conditioning": "constant_star",
+  "star_id": 4080,
+  "sha256": {
+    "/Ziob/ijakus/krasnal-think/scripts/train_sf_star.py": "2b3d0f4488e24db465787a6d043bb7914bb3c6f084bdbcb68e28f53071995902",
+    "configs/sf-interleave-star-full-20261009.json": "e9957e04e8aaf2d040082433f04534d81768987a5c9535f890d73173108667aa",
+    "scripts/train_sf_scratch.py": "98bf7aeb45880a3a29f165b748a5efd6c4c8e13a68398037b98588b806ab96f8",
+    "scripts/train_interleave.py": "1926eaeb20bc73d6f599aa8dab765f255b19c9aaa3b18812bb20125c6952e617",
+    "scripts/evaluate_star_interleave.py": "fa71d917aa3627e6ca48c70d92889c161ffc7fe3c5b6e6aca21a388097602b20",
+    "scripts/eval_sf_star_curve.py": "104261c2473436f634e9a4278445398aee9759cb019ad25ac0b7ca62f8e0c33b"
+  }
+}

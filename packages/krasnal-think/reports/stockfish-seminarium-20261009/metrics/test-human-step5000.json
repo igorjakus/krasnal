@@ -1,0 +1,16 @@
+{
+  "checkpoint": "experiments/sf-interleave-distinct-20261008/human/step-5000.pt",
+  "human_moves": 652712,
+  "human_nll": 1.430868603810647,
+  "human_top1": 0.536801836031818,
+  "human_top5": 0.9010344531738347,
+  "mode": "human",
+  "records": 9666,
+  "stockfish_move_namespace": "not_used",
+  "teacher_forced_stockfish": false,
+  "vocab_size": 4096,
+  "checkpoint_sha256": "98a9262bd46c790448e61cf018f18e5d56bc737c3c7e7ac5e5d44f58cdc8b664",
+  "dataset_manifest_sha256": "c314d24bad6475d6f5bcff93a7081f52563ae3d866a4fe46258542608976e4e2",
+  "records_sha256": "0cfd3bf2dcc42e156745576b132dd22555c54be31d4cae97c80c975e730f1885",
+  "evaluated_at": "2026-10-09T00:17:22.138432+02:00"
+}

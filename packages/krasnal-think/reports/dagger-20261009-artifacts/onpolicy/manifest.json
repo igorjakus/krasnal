@@ -1,0 +1,125 @@
+{
+  "block_size": 1024,
+  "counts": {
+    "duplicate": 97887,
+    "eval": 1000,
+    "input": 9788260,
+    "rejected": 0,
+    "train": 9688373,
+    "validation": 1000
+  },
+  "dagger_positions": 10000,
+  "dagger_ratio": 0.1,
+  "directory": "data-000",
+  "eval_sha256": "eebd6681034ef23a5258ade1532d9b57e57c8c31b03700ccf2ab206e18c4bf13",
+  "eval_source": "data-000/eval-source.jsonl",
+  "generation": 0,
+  "rounds": 10,
+  "schema": 1,
+  "shards": [
+    {
+      "count": 968838,
+      "dagger_positions": 96884,
+      "path": "data-000/round-00.jsonl",
+      "sha256": "397ad3f6b39c7d38a40559f469208918d989b0d35e23fb51cbe659759ae7a896"
+    },
+    {
+      "count": 968838,
+      "dagger_positions": 96884,
+      "path": "data-000/round-01.jsonl",
+      "sha256": "f72c2932732be308e75b0c85ccf9c6c3235a33e0ce0c345a49d84e891ecc4519"
+    },
+    {
+      "count": 968838,
+      "dagger_positions": 96884,
+      "path": "data-000/round-02.jsonl",
+      "sha256": "7c9e9e45e85a79232622fdbd759573e5610499744a72105d141590bacbc90f3d"
+    },
+    {
+      "count": 968837,
+      "dagger_positions": 96884,
+      "path": "data-000/round-03.jsonl",
+      "sha256": "7e4f2379974a4e1184e9f1d6bd076b01a266031e97b129a106f5c6ef7194d7a0"
+    },
+    {
+      "count": 968837,
+      "dagger_positions": 96884,
+      "path": "data-000/round-04.jsonl",
+      "sha256": "70b727cc8e94461deb7b4ad9b8eeb82c9cb3492fd871ca2bc38ce70aff97229b"
+    },
+    {
+      "count": 968837,
+      "dagger_positions": 96884,
+      "path": "data-000/round-05.jsonl",
+      "sha256": "dbc03a1fd8ab783e21648a76be5c65f1821e95802746a2f81843cb80e5e238ff"
+    },
+    {
+      "count": 968837,
+      "dagger_positions": 96884,
+      "path": "data-000/round-06.jsonl",
+      "sha256": "548bb2b4bdeab912ba88011784d5e98c93506d8cd0ba2500a84e191d12ebbeb3"
+    },
+    {
+      "count": 968837,
+      "dagger_positions": 96884,
+      "path": "data-000/round-07.jsonl",
+      "sha256": "d91d1c15b1ad49c54e719d6edde63abddcadd8547fe337290d2dfd21d6368782"
+    },
+    {
+      "count": 968837,
+      "dagger_positions": 96884,
+      "path": "data-000/round-08.jsonl",
+      "sha256": "40d5174dfe1f1bb0b3318dc620ee420b42567e5625d22514416af95a4a4009eb"
+    },
+    {
+      "count": 968837,
+      "dagger_positions": 96884,
+      "path": "data-000/round-09.jsonl",
+      "sha256": "2d650d3b5182378a9dbdd66991b83c4d03d4acfd9dbde2c677b7058eb2b488bc"
+    }
+  ],
+  "sources": [
+    {
+      "path": "/app/data/sft/annotations-5m.jsonl",
+      "sha256": "f164658c0c301a5d152d29066f902433ef26956de9d49720ddaa02bfe5951cee"
+    },
+    {
+      "path": "/app/data/sft/annotations-extra-adrian-20260913.jsonl",
+      "sha256": "3a8c86303667e4e6824ecfd8d58ec6c2e0fe192b602a34217e03780b0b0797c1"
+    },
+    {
+      "path": "/app/data/sft/teacher-2019-04-seed913041-n250k.validated.jsonl",
+      "sha256": "487944c267501e0609c1ccbbc1a5be28c6eb4f748933fd66feb00465195933ff"
+    },
+    {
+      "path": "/app/data/sft/teacher-2019-05-seed913052-n250k.validated.jsonl",
+      "sha256": "868827cf1ed1e87dc255292e26fdaccece2fef16db4dbe9a082b052c037bb1b1"
+    },
+    {
+      "path": "/app/data/sft/teacher-2019-06-seed913063-n250k.validated.jsonl",
+      "sha256": "9fc22a24277e1e9e0b168577b18eb37884394b818d487b97ffa45adbe993474b"
+    },
+    {
+      "path": "/app/data/sft/teacher-2019-07-seed913074-n250k.validated.jsonl",
+      "sha256": "a26052b00f176043fd8490b9433524869d26c577ddcbb9588462e913aead364e"
+    },
+    {
+      "path": "/app/data/sft/incoming/teacher-2020q1-seed915201-n1m.jsonl",
+      "sha256": "edf311be74d627e8c2604022c7e3e883e84804c61c6d9f138cf3cc160a0a3664"
+    },
+    {
+      "path": "/app/data/sft/incoming/teacher-2021q1-seed915211-n1m.jsonl",
+      "sha256": "a713ebf1337e0394ee0c7974a0cffc6454fb50ae29ce097cc520c7284ec83dd6"
+    },
+    {
+      "path": "/app/data/sft/incoming/teacher-2022q1-seed915221-n1m.jsonl",
+      "sha256": "d277b9eadf059ea5b89fe28608a1330df71d6f0ef682d991197490c8e0af703d"
+    },
+    {
+      "path": "/app/data/sft/incoming/teacher-2023q1-seed915231-n1m.jsonl",
+      "sha256": "51ec135149a1f896265d4aa8f480234b2c4f6f6dcb25a7f44c240696a992d32b"
+    }
+  ],
+  "validation": "data-000/validation.jsonl",
+  "validation_sha256": "7015f17924aff9032bfaff612cba50a7e78cae088f7df7355dddc203dddbf803"
+}

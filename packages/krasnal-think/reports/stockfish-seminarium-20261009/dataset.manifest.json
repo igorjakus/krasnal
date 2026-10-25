@@ -1,0 +1,255 @@
+{
+  "checkpoint_source_overlap": "unknown: base pretraining corpus metadata has no game ids",
+  "code_revision": "unknown",
+  "kind": "stockfish_interleave_dataset",
+  "representation": "S W S B ...",
+  "schema_version": 2,
+  "sf_is_teacher_forced_at_eval": true,
+  "split_isolation": "source months are disjoint; game ids are unique",
+  "splits": {
+    "test": {
+      "augmented": {
+        "files": {
+          "augmented.bin": {
+            "bytes": 2688176,
+            "sha256": "3adee23f0f46145c90127957d85eadf020db883de68080ad220ed1ad0aa2ab42"
+          },
+          "augmented.mask.bin": {
+            "bytes": 1344088,
+            "sha256": "dfae5bfe0e65498a71dba2c7e0b98baa5d16c4b8bdb40eee7c90dbe201a4fba3"
+          },
+          "augmented.offsets.npy": {
+            "bytes": 154784,
+            "sha256": "f80f636d05d4c7f5ab37618d9c0af6e1004c6e0e91210dd55e06237435c423f1"
+          }
+        },
+        "human_targets": 652712,
+        "records": 9666,
+        "tokens": 1344088
+      },
+      "human": {
+        "files": {
+          "human.bin": {
+            "bytes": 1382752,
+            "sha256": "a83c5d1ba97e97ddec93bb1f5de8cfdd1dc3932069b37b202a66e7c04c7266ac"
+          },
+          "human.mask.bin": {
+            "bytes": 691376,
+            "sha256": "6f1a38820e6d67b430efeff8dfcb2529c38964725c3dc38c688e88e47320ee47"
+          },
+          "human.offsets.npy": {
+            "bytes": 154784,
+            "sha256": "c8325e022d6995a1d60d171a90ee446ac261766aa3241eb3b1cf928b1e536dc4"
+          }
+        },
+        "human_targets": 652712,
+        "records": 9666,
+        "tokens": 691376
+      },
+      "months": [
+        "2024-06"
+      ],
+      "raw_shards": [
+        {
+          "bytes": 7814900,
+          "path": "data/sf-interleave-v1/raw/test/2024-06.jsonl",
+          "sha256": "0cfd3bf2dcc42e156745576b132dd22555c54be31d4cae97c80c975e730f1885"
+        }
+      ],
+      "records_file": {
+        "bytes": 7814900,
+        "path": "data/sf-interleave-distinct-20261008-quick-buffered/test/records.jsonl",
+        "sha256": "0cfd3bf2dcc42e156745576b132dd22555c54be31d4cae97c80c975e730f1885"
+      }
+    },
+    "train": {
+      "augmented": {
+        "files": {
+          "augmented.bin": {
+            "bytes": 321433140,
+            "sha256": "5ec5460366a71b1065043f78fbd83ceed9296518f17855c33319a0490c6d5b18"
+          },
+          "augmented.mask.bin": {
+            "bytes": 160716570,
+            "sha256": "5139ca25b6675641c32562a7f8b6df08829ef793ef5b13dc4d3df171b78cce97"
+          },
+          "augmented.offsets.npy": {
+            "bytes": 18508432,
+            "sha256": "0584f6b58b0af0c853574d5f1054e11e9de0263f36252cbadad8f54bec4d6fe7"
+          }
+        },
+        "human_targets": 78044747,
+        "records": 1156769,
+        "tokens": 160716570
+      },
+      "human": {
+        "files": {
+          "human.bin": {
+            "bytes": 165343646,
+            "sha256": "c75dc0b7845b6e4b714df479e48740214b1e29c74e4b178fddb38a5978c0a389"
+          },
+          "human.mask.bin": {
+            "bytes": 82671823,
+            "sha256": "d6fc0e48b9d6acec4215ee17d589974471066abcdfc748ba52dffacee1e19e3b"
+          },
+          "human.offsets.npy": {
+            "bytes": 18508432,
+            "sha256": "ce04720a9ae1dbdbcac762c7f91bf2e2589a33c13ddecaf97834b2170391ff45"
+          }
+        },
+        "human_targets": 78044747,
+        "records": 1156769,
+        "tokens": 82671823
+      },
+      "months": [
+        "2017-06",
+        "2018-01",
+        "2018-07",
+        "2019-11",
+        "2020-05",
+        "2020-12",
+        "2021-11",
+        "2022-06",
+        "2022-12",
+        "2024-01",
+        "2024-09",
+        "2025-04"
+      ],
+      "raw_shards": [
+        {
+          "bytes": 78022639,
+          "path": "data/sf-interleave-v1/raw/train/2024-01.jsonl",
+          "sha256": "a1966b25f8ffa5237ea51aac1dea781c4bd5684ddfa537af945b6dd471c2346d"
+        },
+        {
+          "bytes": 78189216,
+          "path": "data/sf-interleave-v2/raw/train/2017-06.jsonl",
+          "sha256": "a5b19d7d64bf5a0583f8f42ac329570a30ec087b771d68d0ad5a13447ad3d333"
+        },
+        {
+          "bytes": 77951828,
+          "path": "data/sf-interleave-v2/raw/train/2018-01.jsonl",
+          "sha256": "0e1315b448e63a0bdc2877a255009b44e7c5f7fe14471971bf404d6a8350cce7"
+        },
+        {
+          "bytes": 78117586,
+          "path": "data/sf-interleave-v2/raw/train/2018-07.jsonl",
+          "sha256": "3dc993920890f7fee3fff24c0b3eb3d613539716132a20105fb2686312a8282e"
+        },
+        {
+          "bytes": 76847764,
+          "path": "data/sf-interleave-v2/raw/train/2019-11.jsonl",
+          "sha256": "86323db07d535cacc346afcc90920dcc2ebe9fc94dc5bd4ae1450f6f00fde588"
+        },
+        {
+          "bytes": 79242074,
+          "path": "data/sf-interleave-v2/raw/train/2020-05.jsonl",
+          "sha256": "fe0c0f8e605d3a977bbc8dba9cd1cb730db8f9c04223f17e47ef424293c249b7"
+        },
+        {
+          "bytes": 77223810,
+          "path": "data/sf-interleave-v2/raw/train/2020-12.jsonl",
+          "sha256": "b776a795453c427a0acf8408343163fd77291768ade68f8cb5c68a52e25e0b8d"
+        },
+        {
+          "bytes": 77476822,
+          "path": "data/sf-interleave-v2/raw/train/2021-11.jsonl",
+          "sha256": "a67f64f20533ba3aca7e8421fc63035fe587697797805ba41705171994bc1363"
+        },
+        {
+          "bytes": 77666198,
+          "path": "data/sf-interleave-v2/raw/train/2022-06.jsonl",
+          "sha256": "82f07ffaf2050a254f24366c4dc1b0bd97a64f5f3345d8812dfbeacdaa8729e2"
+        },
+        {
+          "bytes": 77746999,
+          "path": "data/sf-interleave-v2/raw/train/2022-12.jsonl",
+          "sha256": "966b993720f22e268ecfdfb8ca3bb8dc77a96cceac34e51f622be33890ed9f91"
+        },
+        {
+          "bytes": 78542970,
+          "path": "data/sf-interleave-v2/raw/train/2024-09.jsonl",
+          "sha256": "d46bfa6340bf37bde77a8554491f86bcbc861f7cdde7e0400d883ecb8ebd4877"
+        },
+        {
+          "bytes": 78705395,
+          "path": "data/sf-interleave-v2/raw/train/2025-04.jsonl",
+          "sha256": "510a6769cd365bd1d90bf424a08e749be60c6d2f3fab206b9af0ee9ffa3a935f"
+        }
+      ]
+    },
+    "val": {
+      "augmented": {
+        "files": {
+          "augmented.bin": {
+            "bytes": 2695044,
+            "sha256": "401f99d876fe8eeac8269e885048c731f670b24abaf63aa03b8a8220c4d26211"
+          },
+          "augmented.mask.bin": {
+            "bytes": 1347522,
+            "sha256": "3ea6843908419ca8cd063fa4b40ef35a71159a0c5d039d79d86cdba49704111c"
+          },
+          "augmented.offsets.npy": {
+            "bytes": 154960,
+            "sha256": "c307f7634e60d29f1ff43f6b837efeeabf97c8e6fa34606b4124818d063d96b1"
+          }
+        },
+        "human_targets": 654407,
+        "records": 9677,
+        "tokens": 1347522
+      },
+      "human": {
+        "files": {
+          "human.bin": {
+            "bytes": 1386230,
+            "sha256": "b7341ba61985df177fc5c7ca4d39399c3c5585f6528832faa8c0a4856146ff04"
+          },
+          "human.mask.bin": {
+            "bytes": 693115,
+            "sha256": "0d2cb5f79406ed0ddddfd16a57c0df5deb97094d92a38c13c071122ab233095b"
+          },
+          "human.offsets.npy": {
+            "bytes": 154960,
+            "sha256": "2110d7922d373055c6b4957a066edafdcffe152d92e8f39cbf328ca6b59f456c"
+          }
+        },
+        "human_targets": 654407,
+        "records": 9677,
+        "tokens": 693115
+      },
+      "months": [
+        "2024-05"
+      ],
+      "raw_shards": [
+        {
+          "bytes": 7833371,
+          "path": "data/sf-interleave-v1/raw/val/2024-05.jsonl",
+          "sha256": "4f530631b425ccfedbfe8996552bcd0846ea71a5e4ae0cc07bf3b56cea7453bd"
+        }
+      ],
+      "records_file": {
+        "bytes": 7833371,
+        "path": "data/sf-interleave-distinct-20261008-quick-buffered/val/records.jsonl",
+        "sha256": "4f530631b425ccfedbfe8996552bcd0846ea71a5e4ae0cc07bf3b56cea7453bd"
+      }
+    }
+  },
+  "stockfish": {
+    "binary_sha256": "38faa5883b03652f847a87ed168b1bfee81b361db9584dae59a51cb91e69d9d6",
+    "nodes": 30000,
+    "path": "/Ziob/ijakus/bin/stockfish",
+    "threads_per_engine": 1,
+    "workers_per_shard": [
+      44,
+      56
+    ]
+  },
+  "token_namespace": {
+    "human_vocab_size": 2112,
+    "interleaved_vocab_size": 4096,
+    "stockfish_move_count": 1968,
+    "stockfish_move_start": 2112,
+    "stockfish_moves_distinct_from_human": true
+  },
+  "total_records": 1176112
+}

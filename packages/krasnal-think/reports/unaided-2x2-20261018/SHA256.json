@@ -1,0 +1,13 @@
+{
+  "verified_against_adrian": true,
+  "verified_date": "2026-10-18",
+  "validation": "800 complete legal PGNs;200/mode;0censored;0advice;0SFtokens;opening prefixes, colours, anchors, finalFEN, score, ply and role counts verified",
+  "files": {
+    "games.jsonl": "9e49a87b4f9a95131663ac41a610ffc3ed66750b65f0b541a1857755962893ce",
+    "games.pgn": "f5919fdbfe59dba7649ca86fe00a0cf3552c9064057c6c20523dd34765507b14",
+    "plan.json": "6a39ef733b7c3002521a5c7210741d16b2d257d1b969a8529d449d6be2af4bc7",
+    "result.json": "7721da26acfd4e51c484773b47f95b7721f85a96e644fe5f35f413763ab2df41",
+    "status.json": "801019601511ec40c5ab5197f160ad7a34a4b6578e716e11ebc3722df73af7e6",
+    "complete.json": "cbbf3360fa4575326ba173a596baf5ac3d03bbd71efeadc8cf7f19be2c02f876"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "root": "/app/experiments/sv-data-pilot-20261011",
+  "gold": "/app/experiments/curriculum-100m-onpolicy-v1-20261009/eval-gold.jsonl",
+  "foundation_registry_path": "/app/runs/foundations/human-pretrain-100m-20260730/model.pt",
+  "hf_revision": "d83b3256d94a086f074a66db52f3a5b5d4c28847",
+  "train_records": 1000000,
+  "eval_records": 10000,
+  "seed": 42,
+  "updates": 4096,
+  "batch_size": 256,
+  "lr": 0.0003,
+  "arm_seconds": 2700,
+  "global_seconds": 21600,
+  "gpu_count": 1
+}

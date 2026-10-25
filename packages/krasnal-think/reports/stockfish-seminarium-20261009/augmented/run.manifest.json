@@ -1,0 +1,36 @@
+{
+  "sha256": {
+    "/Ziob/ijakus/krasnal-think/scripts/train_interleave.py": "9d47b30c8e32c040b3b97a43ea1041fc0cdfdb0ca344578fb54d4dca32b071fc",
+    "/Ziob/ijakus/krasnal-think/src/krasnal_think/interleave.py": "6c5d0923b89863a501be20738b3a85e7a2c23cd76cb86acd1d63c0d5dee350d0",
+    "/Ziob/ijakus/krasnal-think/src/krasnal_think/tokens.py": "9410613365aeacc027293509f4f881319c05b40f2525a965b8f9f21f31ad84c6",
+    "/Ziob/ijakus/krasnal-think/src/krasnal_think/model.py": "e2d37be6dd8859b85bea58ac83c0ba2ef466703c14891ab00ef294c747319704",
+    "experiments/sf-interleave-v1/checkpoints/pretrain-model.pt": "52929453aaac2e62bb8ce1b61c084d7491e2dac462d10a1d3b64218e415b7f84",
+    "data/sf-interleave-distinct-20261008-quick-buffered/dataset.manifest.json": "c314d24bad6475d6f5bcff93a7081f52563ae3d866a4fe46258542608976e4e2"
+  },
+  "args": {
+    "checkpoint": "experiments/sf-interleave-v1/checkpoints/pretrain-model.pt",
+    "data_dir": "data/sf-interleave-distinct-20261008-quick-buffered/train",
+    "mode": "augmented",
+    "out": "experiments/sf-interleave-distinct-20261008/augmented",
+    "steps": 20000,
+    "batch_size": 2,
+    "grad_accum": 8,
+    "lr": 1e-05,
+    "min_lr": 1e-06,
+    "warmup": 200,
+    "weight_decay": 0.1,
+    "grad_clip": 1.0,
+    "human_weight": 2.0,
+    "other_weight": 1.0,
+    "eval_data_dir": "data/sf-interleave-distinct-20261008-quick-buffered/val",
+    "eval_batches": 10,
+    "save_every": 1000,
+    "log_every": 50,
+    "compile": false,
+    "device": "cuda",
+    "seed": 0,
+    "max_hours": 8.0
+  },
+  "world_size": 2,
+  "distinct_sf_tokens": true
+}

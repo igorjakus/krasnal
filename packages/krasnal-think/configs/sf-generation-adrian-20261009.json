@@ -1,0 +1,13 @@
+{
+  "root": "experiments/sf-generation-adrian-20261009",
+  "out": "data/sf-interleave-v3-extra-20261009/raw/train",
+  "cache": "data/source-cache/sf-adrian-20261009",
+  "container": "kt-sf-cpu-extra-20261009",
+  "stockfish": "experiments/sf-generation-adrian-20261009/engine/stockfish",
+  "stockfish_sha256": "38faa5883b03652f847a87ed168b1bfee81b361db9584dae59a51cb91e69d9d6",
+  "workers": 8,
+  "nodes": 30000,
+  "threads": 1,
+  "game_limit": 100000,
+  "months": ["2016-01", "2016-02", "2016-03", "2016-04", "2016-05", "2016-06", "2016-07", "2016-08", "2016-09", "2016-10", "2016-11", "2016-12", "2017-01", "2017-02", "2017-03"]
+}

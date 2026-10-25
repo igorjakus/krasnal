@@ -1,0 +1,11 @@
+{
+  "initialization": "random",
+  "pretrained_weights_loaded": false,
+  "steps": 59631,
+  "requested_steps": 59631,
+  "seconds": 57926.08614778519,
+  "human_targets_seen": 948851076,
+  "train_games": 7035726,
+  "parameters": 102280704,
+  "global_batch_size": 32
+}

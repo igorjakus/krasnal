@@ -1,0 +1,621 @@
+{
+  "checkpoint_source_overlap": "unknown: base pretraining corpus metadata has no game ids",
+  "code_revision": "unknown",
+  "kind": "stockfish_interleave_dataset",
+  "representation": "S W S B ...",
+  "schema_version": 2,
+  "sf_is_teacher_forced_at_eval": true,
+  "split_isolation": "source months are disjoint; game ids are unique",
+  "splits": {
+    "test": {
+      "augmented": {
+        "files": {
+          "augmented.bin": {
+            "bytes": 2688176,
+            "sha256": "3adee23f0f46145c90127957d85eadf020db883de68080ad220ed1ad0aa2ab42"
+          },
+          "augmented.mask.bin": {
+            "bytes": 1344088,
+            "sha256": "dfae5bfe0e65498a71dba2c7e0b98baa5d16c4b8bdb40eee7c90dbe201a4fba3"
+          },
+          "augmented.offsets.npy": {
+            "bytes": 154784,
+            "sha256": "f80f636d05d4c7f5ab37618d9c0af6e1004c6e0e91210dd55e06237435c423f1"
+          }
+        },
+        "human_targets": 652712,
+        "records": 9666,
+        "tokens": 1344088
+      },
+      "human": {
+        "files": {
+          "human.bin": {
+            "bytes": 1382752,
+            "sha256": "a83c5d1ba97e97ddec93bb1f5de8cfdd1dc3932069b37b202a66e7c04c7266ac"
+          },
+          "human.mask.bin": {
+            "bytes": 691376,
+            "sha256": "6f1a38820e6d67b430efeff8dfcb2529c38964725c3dc38c688e88e47320ee47"
+          },
+          "human.offsets.npy": {
+            "bytes": 154784,
+            "sha256": "c8325e022d6995a1d60d171a90ee446ac261766aa3241eb3b1cf928b1e536dc4"
+          }
+        },
+        "human_targets": 652712,
+        "records": 9666,
+        "tokens": 691376
+      },
+      "months": [
+        "2024-06"
+      ],
+      "raw_shards": [
+        {
+          "bytes": 7814900,
+          "path": "data/sf-interleave-v1/raw/test/2024-06.jsonl",
+          "sha256": "0cfd3bf2dcc42e156745576b132dd22555c54be31d4cae97c80c975e730f1885"
+        }
+      ],
+      "records_file": {
+        "bytes": 7814900,
+        "path": "data/sf-interleave-distinct-20261008-full-buffered/test/records.jsonl",
+        "sha256": "0cfd3bf2dcc42e156745576b132dd22555c54be31d4cae97c80c975e730f1885"
+      }
+    },
+    "train": {
+      "augmented": {
+        "files": {
+          "augmented.bin": {
+            "bytes": 1953965648,
+            "sha256": "e8c23ded531d88301e4d438019696d187dc258c4a42b617e85f6d2d9760818b8"
+          },
+          "augmented.mask.bin": {
+            "bytes": 976982824,
+            "sha256": "e79504007d2440e1b110ab8c78dc8dbf01cc85ccdf050aa6a3f5f9304315aa50"
+          },
+          "augmented.offsets.npy": {
+            "bytes": 112571744,
+            "sha256": "4805c2e41626ba1ca78e43fd77021f160b078feab43948b22eb1f681d82b6c3b"
+          }
+        },
+        "human_targets": 474419960,
+        "records": 7035726,
+        "tokens": 976982824
+      },
+      "human": {
+        "files": {
+          "human.bin": {
+            "bytes": 1005125728,
+            "sha256": "3c75dc1ff358d61ef43711239917de0163d8e2c8fc6861244c4507a28d53fdfc"
+          },
+          "human.mask.bin": {
+            "bytes": 502562864,
+            "sha256": "2f4bca4bb3ef1d448d1a2c80cc75568ca13f16f8c05ba32e452647b1f5bc52e1"
+          },
+          "human.offsets.npy": {
+            "bytes": 112571744,
+            "sha256": "db57729214116f35b6717a3c22a80ae50f5fa658e0bfc9f7da64e9cfcf978470"
+          }
+        },
+        "human_targets": 474419960,
+        "records": 7035726,
+        "tokens": 502562864
+      },
+      "months": [
+        "2017-04",
+        "2017-05",
+        "2017-06",
+        "2017-07",
+        "2017-08",
+        "2017-09",
+        "2017-10",
+        "2017-11",
+        "2017-12",
+        "2018-01",
+        "2018-02",
+        "2018-03",
+        "2018-04",
+        "2018-05",
+        "2018-06",
+        "2018-07",
+        "2018-08",
+        "2019-06",
+        "2019-07",
+        "2019-08",
+        "2019-09",
+        "2019-10",
+        "2019-11",
+        "2019-12",
+        "2020-01",
+        "2020-02",
+        "2020-03",
+        "2020-04",
+        "2020-05",
+        "2020-06",
+        "2020-07",
+        "2020-08",
+        "2020-09",
+        "2020-10",
+        "2020-11",
+        "2020-12",
+        "2021-01",
+        "2021-02",
+        "2021-08",
+        "2021-09",
+        "2021-10",
+        "2021-11",
+        "2021-12",
+        "2022-01",
+        "2022-02",
+        "2022-03",
+        "2022-04",
+        "2022-05",
+        "2022-06",
+        "2022-07",
+        "2022-08",
+        "2022-09",
+        "2022-10",
+        "2022-11",
+        "2022-12",
+        "2023-09",
+        "2023-10",
+        "2023-11",
+        "2023-12",
+        "2024-01",
+        "2024-02",
+        "2024-03",
+        "2024-04",
+        "2024-07",
+        "2024-08",
+        "2024-09",
+        "2024-10",
+        "2024-11",
+        "2024-12",
+        "2025-01",
+        "2025-02",
+        "2025-03",
+        "2025-04"
+      ],
+      "raw_shards": [
+        {
+          "bytes": 78022639,
+          "path": "data/sf-interleave-v1/raw/train/2024-01.jsonl",
+          "sha256": "a1966b25f8ffa5237ea51aac1dea781c4bd5684ddfa537af945b6dd471c2346d"
+        },
+        {
+          "bytes": 78668782,
+          "path": "data/sf-interleave-v1/raw/train/2024-02.jsonl",
+          "sha256": "0b2b22fd608701947bf4d00ea3275d1e2e2fa4584ff42e3423b87efc8376dc41"
+        },
+        {
+          "bytes": 78145000,
+          "path": "data/sf-interleave-v1/raw/train/2024-03.jsonl",
+          "sha256": "35c3079f1e9f7b82f1b6078f01387a324d05e6cd863bbd99b457f9892b482037"
+        },
+        {
+          "bytes": 78591914,
+          "path": "data/sf-interleave-v1/raw/train/2024-04.jsonl",
+          "sha256": "0d643c0e43d567395bb464e54b576e4451b83201cf44935996899c4053fc84b3"
+        },
+        {
+          "bytes": 77425241,
+          "path": "data/sf-interleave-v2/raw/train/2017-04.jsonl",
+          "sha256": "4c80f214788b8ec72692beb33f72499230ecd3cf840ef8d7697975a8a9d30962"
+        },
+        {
+          "bytes": 78549547,
+          "path": "data/sf-interleave-v2/raw/train/2017-05.jsonl",
+          "sha256": "d6f5f4a0d595c272867044a7ec2e0c0dced45e4aa719ade63844905a133aa6fe"
+        },
+        {
+          "bytes": 78189216,
+          "path": "data/sf-interleave-v2/raw/train/2017-06.jsonl",
+          "sha256": "a5b19d7d64bf5a0583f8f42ac329570a30ec087b771d68d0ad5a13447ad3d333"
+        },
+        {
+          "bytes": 78257837,
+          "path": "data/sf-interleave-v2/raw/train/2017-07.jsonl",
+          "sha256": "d7dfdb8b8d6e60de49e280b1045f61904b05d4e6a5ccdb82b9e277d8bb4df6d3"
+        },
+        {
+          "bytes": 78429819,
+          "path": "data/sf-interleave-v2/raw/train/2017-08.jsonl",
+          "sha256": "38914dfc3bd429f57b81aa9af75094fae60a77aa963c6a20190246a5a6f6a7a4"
+        },
+        {
+          "bytes": 78400463,
+          "path": "data/sf-interleave-v2/raw/train/2017-09.jsonl",
+          "sha256": "ccf33571e9a7d18cf403f17b34d430ff3b7a0f84cb67baf5c8d185ffc42d235d"
+        },
+        {
+          "bytes": 78626449,
+          "path": "data/sf-interleave-v2/raw/train/2017-10.jsonl",
+          "sha256": "a623cac34d940f0f5fcf3b5128ad68f8e395022922efc3b17d1452065d2b6e91"
+        },
+        {
+          "bytes": 78104036,
+          "path": "data/sf-interleave-v2/raw/train/2017-11.jsonl",
+          "sha256": "a1524547b811255b288b282e03716ebb112e08b1a6fd7ac04075520d9511c5c1"
+        },
+        {
+          "bytes": 77923835,
+          "path": "data/sf-interleave-v2/raw/train/2017-12.jsonl",
+          "sha256": "2689e798fe01f6a9d5d41781c6782b6e80c90e8d89e67a5de6f4df93f1c3ce0c"
+        },
+        {
+          "bytes": 77951828,
+          "path": "data/sf-interleave-v2/raw/train/2018-01.jsonl",
+          "sha256": "0e1315b448e63a0bdc2877a255009b44e7c5f7fe14471971bf404d6a8350cce7"
+        },
+        {
+          "bytes": 77478108,
+          "path": "data/sf-interleave-v2/raw/train/2018-02.jsonl",
+          "sha256": "183090d8b46b2ee3f4bcf20e3db58f3202112d9b1c9cdc100a89414967337b09"
+        },
+        {
+          "bytes": 77748641,
+          "path": "data/sf-interleave-v2/raw/train/2018-03.jsonl",
+          "sha256": "8fffa6e2c3042e3a2592712993c7dd7fdf90cc0574e8ec2908c4381580df89f0"
+        },
+        {
+          "bytes": 77782311,
+          "path": "data/sf-interleave-v2/raw/train/2018-04.jsonl",
+          "sha256": "ad26f24001b030ca723dcf2059248428922198ce6ddf9527b22e9ef77c1de323"
+        },
+        {
+          "bytes": 78117282,
+          "path": "data/sf-interleave-v2/raw/train/2018-05.jsonl",
+          "sha256": "68c167e454430df5670782c0577c9bbf2052e3857c106ec9be9169a0444d3526"
+        },
+        {
+          "bytes": 77807593,
+          "path": "data/sf-interleave-v2/raw/train/2018-06.jsonl",
+          "sha256": "d37a681b1221c60780079800b6288214c0e01cd525f910f363ac7f67bec68077"
+        },
+        {
+          "bytes": 78117586,
+          "path": "data/sf-interleave-v2/raw/train/2018-07.jsonl",
+          "sha256": "3dc993920890f7fee3fff24c0b3eb3d613539716132a20105fb2686312a8282e"
+        },
+        {
+          "bytes": 77664437,
+          "path": "data/sf-interleave-v2/raw/train/2018-08.jsonl",
+          "sha256": "cfbffc61949341ad832db311ae89dba855fd8c5a3d8c3b8e9e299e5c8eb87e3b"
+        },
+        {
+          "bytes": 77503926,
+          "path": "data/sf-interleave-v2/raw/train/2019-06.jsonl",
+          "sha256": "bac82fa4967e2a676cef6b9a26233d367dac8446bce6c7d6c3858905a19d9e4f"
+        },
+        {
+          "bytes": 77730202,
+          "path": "data/sf-interleave-v2/raw/train/2019-07.jsonl",
+          "sha256": "af8de70c9933e801f48f4b970fcef2358982ce0d56351df2ca4b5d2770b8ac68"
+        },
+        {
+          "bytes": 77478673,
+          "path": "data/sf-interleave-v2/raw/train/2019-08.jsonl",
+          "sha256": "582a721f4282b84832aaee94a82246254a6f9a025708312204ef8e037a73e1c5"
+        },
+        {
+          "bytes": 77425157,
+          "path": "data/sf-interleave-v2/raw/train/2019-09.jsonl",
+          "sha256": "1f1fdec7bc8b2e6d7068195db0e46e93683ae372ed692d6258beb61a69a53a82"
+        },
+        {
+          "bytes": 77107614,
+          "path": "data/sf-interleave-v2/raw/train/2019-10.jsonl",
+          "sha256": "6bde04d34e437cd30728efff056a36db560517c0cd3c956a02216176edcb2b74"
+        },
+        {
+          "bytes": 76847764,
+          "path": "data/sf-interleave-v2/raw/train/2019-11.jsonl",
+          "sha256": "86323db07d535cacc346afcc90920dcc2ebe9fc94dc5bd4ae1450f6f00fde588"
+        },
+        {
+          "bytes": 76788520,
+          "path": "data/sf-interleave-v2/raw/train/2019-12.jsonl",
+          "sha256": "01ef67e51fd47a17765d729e73b8f31f731930b0d3148463313da74669c54c17"
+        },
+        {
+          "bytes": 76164573,
+          "path": "data/sf-interleave-v2/raw/train/2020-01.jsonl",
+          "sha256": "c4173aa24e2d8ca9dedb34dbe1bc08cc6a142773ed1da9ee72d7581564b8f5e8"
+        },
+        {
+          "bytes": 76910901,
+          "path": "data/sf-interleave-v2/raw/train/2020-02.jsonl",
+          "sha256": "bbe25107e6bba39d014b78b82c371f34bff17379991d48f2380af820ae9bf2f1"
+        },
+        {
+          "bytes": 77143604,
+          "path": "data/sf-interleave-v2/raw/train/2020-03.jsonl",
+          "sha256": "ae3ea0f964ebad42a6e7f7ad5e463985b92d8e226fda080c9017f5921398d9c3"
+        },
+        {
+          "bytes": 79450216,
+          "path": "data/sf-interleave-v2/raw/train/2020-04.jsonl",
+          "sha256": "d5b161a1916d19e3b0d927ee160481e341912f09466e3e8612631483869e6300"
+        },
+        {
+          "bytes": 79242074,
+          "path": "data/sf-interleave-v2/raw/train/2020-05.jsonl",
+          "sha256": "fe0c0f8e605d3a977bbc8dba9cd1cb730db8f9c04223f17e47ef424293c249b7"
+        },
+        {
+          "bytes": 78988231,
+          "path": "data/sf-interleave-v2/raw/train/2020-06.jsonl",
+          "sha256": "cc5982880755910671e0435ffe8949b893ae55e47d9eb6e5e149b345eb361a50"
+        },
+        {
+          "bytes": 78736957,
+          "path": "data/sf-interleave-v2/raw/train/2020-07.jsonl",
+          "sha256": "e82e36694820753c22c613dddae37acf0ff9aee680d7fa96c38be107cc9e499e"
+        },
+        {
+          "bytes": 78419303,
+          "path": "data/sf-interleave-v2/raw/train/2020-08.jsonl",
+          "sha256": "88d72f0f8e04acaf7fbf11428e6345cf1acbe88563ffcee95101c3dbbbde775c"
+        },
+        {
+          "bytes": 78332703,
+          "path": "data/sf-interleave-v2/raw/train/2020-09.jsonl",
+          "sha256": "16213809ce496dbd3a08180c8900af4dab58155604ad81466327b387483c38c9"
+        },
+        {
+          "bytes": 78051184,
+          "path": "data/sf-interleave-v2/raw/train/2020-10.jsonl",
+          "sha256": "352c6054c841c4f28229702848503d0e47fc0dbace41408fbd92ae90da125458"
+        },
+        {
+          "bytes": 78474514,
+          "path": "data/sf-interleave-v2/raw/train/2020-11.jsonl",
+          "sha256": "3645a48569c51983545fe6fddc07aede86b7433688ed9bc1e2b676110c328530"
+        },
+        {
+          "bytes": 77223810,
+          "path": "data/sf-interleave-v2/raw/train/2020-12.jsonl",
+          "sha256": "b776a795453c427a0acf8408343163fd77291768ade68f8cb5c68a52e25e0b8d"
+        },
+        {
+          "bytes": 76129481,
+          "path": "data/sf-interleave-v2/raw/train/2021-01.jsonl",
+          "sha256": "d3ae706c517f9be8f5cdd889bc570d54f3b05d8365bb38158b2e6c8f80228f5d"
+        },
+        {
+          "bytes": 77438260,
+          "path": "data/sf-interleave-v2/raw/train/2021-02.jsonl",
+          "sha256": "99f5f48cb2f7268fe4bd878273ff008bd2ae67d185c51ec1740dfad637866fa1"
+        },
+        {
+          "bytes": 77696013,
+          "path": "data/sf-interleave-v2/raw/train/2021-08.jsonl",
+          "sha256": "0b4f71cd4a3340bc99609ff59039817e77443eaf82087ba82798ae057d74e1e8"
+        },
+        {
+          "bytes": 77492943,
+          "path": "data/sf-interleave-v2/raw/train/2021-09.jsonl",
+          "sha256": "4d040d3dba95d60fe9349f54aa4563cc49eca7c49121bd5b73fdb9786bd46964"
+        },
+        {
+          "bytes": 77671549,
+          "path": "data/sf-interleave-v2/raw/train/2021-10.jsonl",
+          "sha256": "504ddc40a6c243110b71bee30eae3bf25b73609a0cabbf85348ba608b9063009"
+        },
+        {
+          "bytes": 77476822,
+          "path": "data/sf-interleave-v2/raw/train/2021-11.jsonl",
+          "sha256": "a67f64f20533ba3aca7e8421fc63035fe587697797805ba41705171994bc1363"
+        },
+        {
+          "bytes": 77712109,
+          "path": "data/sf-interleave-v2/raw/train/2021-12.jsonl",
+          "sha256": "49ae76e2d1725659824a811c63bbd10dfcfe4cdbe4afe6434169d842ed616e71"
+        },
+        {
+          "bytes": 77206860,
+          "path": "data/sf-interleave-v2/raw/train/2022-01.jsonl",
+          "sha256": "e5073adb86942caf4ffc265e5bb0be9f39cc7fdba0bc07e1fd6d5d91eb63cc9d"
+        },
+        {
+          "bytes": 77828680,
+          "path": "data/sf-interleave-v2/raw/train/2022-02.jsonl",
+          "sha256": "61eaaf50cd15da978f0f4a47787f49df1bcb239d12c9c7062f8cb8f3b9887e44"
+        },
+        {
+          "bytes": 78083442,
+          "path": "data/sf-interleave-v2/raw/train/2022-03.jsonl",
+          "sha256": "a65e0b7b57fd74cfeedb7d7d81cf12dbb25fb8c137657c0dc9615211d11fc89e"
+        },
+        {
+          "bytes": 77558095,
+          "path": "data/sf-interleave-v2/raw/train/2022-04.jsonl",
+          "sha256": "8673c830186d35504ecd84885bcaaf101b8d4d0d41b4cc9806054cefb595d383"
+        },
+        {
+          "bytes": 77990520,
+          "path": "data/sf-interleave-v2/raw/train/2022-05.jsonl",
+          "sha256": "19fe9d1f22d30dbb37a8f9f4592c406e373a1cd09b1d63fc47dd8dffd478b94d"
+        },
+        {
+          "bytes": 77666198,
+          "path": "data/sf-interleave-v2/raw/train/2022-06.jsonl",
+          "sha256": "82f07ffaf2050a254f24366c4dc1b0bd97a64f5f3345d8812dfbeacdaa8729e2"
+        },
+        {
+          "bytes": 77744228,
+          "path": "data/sf-interleave-v2/raw/train/2022-07.jsonl",
+          "sha256": "c41f4385b253a66dfaf33ee2430d8831575c588f9e242930b1587e32aa87e645"
+        },
+        {
+          "bytes": 78160294,
+          "path": "data/sf-interleave-v2/raw/train/2022-08.jsonl",
+          "sha256": "ebb6ee7154325b2c327ffc0a8e01ea3a85cecb38127c83b54017c5c9f5723ed3"
+        },
+        {
+          "bytes": 77917466,
+          "path": "data/sf-interleave-v2/raw/train/2022-09.jsonl",
+          "sha256": "0a79a3f92a7875f0570a0a6f101d4e4839bc8a0b956a13a099af38919fbc0a8a"
+        },
+        {
+          "bytes": 77352775,
+          "path": "data/sf-interleave-v2/raw/train/2022-10.jsonl",
+          "sha256": "af7bb524f6cfdf57ae13fe0bdf8dc972909fcb9f3075800d2505767f60ad405a"
+        },
+        {
+          "bytes": 77829476,
+          "path": "data/sf-interleave-v2/raw/train/2022-11.jsonl",
+          "sha256": "addb7598eb4e009e68760b3996d369c23af0512d0987a8279e29bf20d172bec8"
+        },
+        {
+          "bytes": 77746999,
+          "path": "data/sf-interleave-v2/raw/train/2022-12.jsonl",
+          "sha256": "966b993720f22e268ecfdfb8ca3bb8dc77a96cceac34e51f622be33890ed9f91"
+        },
+        {
+          "bytes": 77961595,
+          "path": "data/sf-interleave-v2/raw/train/2023-09.jsonl",
+          "sha256": "fe974fb61e10e821c02c3a2ad360dbb0dfbae0a9fba0cdf5d5f64af35fc57f7c"
+        },
+        {
+          "bytes": 78175358,
+          "path": "data/sf-interleave-v2/raw/train/2023-10.jsonl",
+          "sha256": "f2e15424e87bf3044e59a3a97f3a47aaff7abcf001f150b60b418ea9426e94c3"
+        },
+        {
+          "bytes": 78297067,
+          "path": "data/sf-interleave-v2/raw/train/2023-11.jsonl",
+          "sha256": "1bc40fcc3eb7003dc87e49d71208c3edb70a5f69f0e06ed4aa5bc26811ccd81e"
+        },
+        {
+          "bytes": 78327238,
+          "path": "data/sf-interleave-v2/raw/train/2023-12.jsonl",
+          "sha256": "2a55b36dad36c6de6285c31ab31cc838f681c7a6b150d058ea0728e0d05bfc97"
+        },
+        {
+          "bytes": 78538324,
+          "path": "data/sf-interleave-v2/raw/train/2024-07.jsonl",
+          "sha256": "f900316604f531d0cfb28ff89f95c009571e364ef0fd1a8f6d411daa1dfb7103"
+        },
+        {
+          "bytes": 78708888,
+          "path": "data/sf-interleave-v2/raw/train/2024-08.jsonl",
+          "sha256": "106f6fa6b3b7823e9de4485aa73a5c4831931beed9472dc269943f829867db8c"
+        },
+        {
+          "bytes": 78542970,
+          "path": "data/sf-interleave-v2/raw/train/2024-09.jsonl",
+          "sha256": "d46bfa6340bf37bde77a8554491f86bcbc861f7cdde7e0400d883ecb8ebd4877"
+        },
+        {
+          "bytes": 78449889,
+          "path": "data/sf-interleave-v2/raw/train/2024-10.jsonl",
+          "sha256": "06edf7620d5e1d64fdda069789c72d783e1c58099da4563ed52b81017e603c6a"
+        },
+        {
+          "bytes": 78320073,
+          "path": "data/sf-interleave-v2/raw/train/2024-11.jsonl",
+          "sha256": "755a354a7e0519c8fbd6c08cca3a9547f27e6da0cc491b3b5f38fd3f755ca213"
+        },
+        {
+          "bytes": 78471547,
+          "path": "data/sf-interleave-v2/raw/train/2024-12.jsonl",
+          "sha256": "f39823d1d1f83e4dbb6f5c1e92c42705026fe95508e92d53b056926512b7346b"
+        },
+        {
+          "bytes": 77662832,
+          "path": "data/sf-interleave-v2/raw/train/2025-01.jsonl",
+          "sha256": "32a938dd86cccef9159515d2b2312becd21eba046b5f5def38698452c3bee0d3"
+        },
+        {
+          "bytes": 78345117,
+          "path": "data/sf-interleave-v2/raw/train/2025-02.jsonl",
+          "sha256": "c04ffeb51d357996d317d46c549bf09c1a63a79eacc956f837655d93518e6128"
+        },
+        {
+          "bytes": 77446002,
+          "path": "data/sf-interleave-v2/raw/train/2025-03.jsonl",
+          "sha256": "e6a07f6489888f1c6c6f5087519a5b7aebaffe23e9a12d7e334fc2a9efeb89f3"
+        },
+        {
+          "bytes": 78705395,
+          "path": "data/sf-interleave-v2/raw/train/2025-04.jsonl",
+          "sha256": "510a6769cd365bd1d90bf424a08e749be60c6d2f3fab206b9af0ee9ffa3a935f"
+        }
+      ]
+    },
+    "val": {
+      "augmented": {
+        "files": {
+          "augmented.bin": {
+            "bytes": 2695044,
+            "sha256": "401f99d876fe8eeac8269e885048c731f670b24abaf63aa03b8a8220c4d26211"
+          },
+          "augmented.mask.bin": {
+            "bytes": 1347522,
+            "sha256": "3ea6843908419ca8cd063fa4b40ef35a71159a0c5d039d79d86cdba49704111c"
+          },
+          "augmented.offsets.npy": {
+            "bytes": 154960,
+            "sha256": "c307f7634e60d29f1ff43f6b837efeeabf97c8e6fa34606b4124818d063d96b1"
+          }
+        },
+        "human_targets": 654407,
+        "records": 9677,
+        "tokens": 1347522
+      },
+      "human": {
+        "files": {
+          "human.bin": {
+            "bytes": 1386230,
+            "sha256": "b7341ba61985df177fc5c7ca4d39399c3c5585f6528832faa8c0a4856146ff04"
+          },
+          "human.mask.bin": {
+            "bytes": 693115,
+            "sha256": "0d2cb5f79406ed0ddddfd16a57c0df5deb97094d92a38c13c071122ab233095b"
+          },
+          "human.offsets.npy": {
+            "bytes": 154960,
+            "sha256": "2110d7922d373055c6b4957a066edafdcffe152d92e8f39cbf328ca6b59f456c"
+          }
+        },
+        "human_targets": 654407,
+        "records": 9677,
+        "tokens": 693115
+      },
+      "months": [
+        "2024-05"
+      ],
+      "raw_shards": [
+        {
+          "bytes": 7833371,
+          "path": "data/sf-interleave-v1/raw/val/2024-05.jsonl",
+          "sha256": "4f530631b425ccfedbfe8996552bcd0846ea71a5e4ae0cc07bf3b56cea7453bd"
+        }
+      ],
+      "records_file": {
+        "bytes": 7833371,
+        "path": "data/sf-interleave-distinct-20261008-full-buffered/val/records.jsonl",
+        "sha256": "4f530631b425ccfedbfe8996552bcd0846ea71a5e4ae0cc07bf3b56cea7453bd"
+      }
+    }
+  },
+  "stockfish": {
+    "binary_sha256": "38faa5883b03652f847a87ed168b1bfee81b361db9584dae59a51cb91e69d9d6",
+    "nodes": 30000,
+    "path": "/Ziob/ijakus/bin/stockfish",
+    "threads_per_engine": 1,
+    "workers_per_shard": [
+      44,
+      56
+    ]
+  },
+  "token_namespace": {
+    "human_vocab_size": 2112,
+    "interleaved_vocab_size": 4096,
+    "stockfish_move_count": 1968,
+    "stockfish_move_start": 2112,
+    "stockfish_moves_distinct_from_human": true
+  },
+  "total_records": 7055069
+}

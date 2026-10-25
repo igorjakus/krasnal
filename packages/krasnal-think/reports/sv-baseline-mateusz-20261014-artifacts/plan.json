@@ -1,0 +1,47 @@
+{
+  "config": {
+    "root": "/app/experiments/sv-baseline-mateusz-20261014",
+    "pilot": "/app/experiments/sv-data-pilot-20261011",
+    "gold": "/app/experiments/curriculum-100m-onpolicy-v1-20261009/eval-gold.jsonl",
+    "foundation_registry_path": "/app/runs/foundations/human-pretrain-100m-20260730/model.pt",
+    "hf_revision": "d83b3256d94a086f074a66db52f3a5b5d4c28847",
+    "pilot_checkpoint_sha256": "63b4772fe95875be323f024526035d009c72c53673e7bb1a0f26bc27833f164c",
+    "stockfish": "/app/experiments/sf-generation-adrian-20261009/engine/stockfish",
+    "train_records": 20000000,
+    "seed": 42,
+    "updates": 100000,
+    "batch_size": 256,
+    "lr": 0.0003,
+    "warmup": 1000,
+    "save_every": 5000,
+    "eval_every": 10000,
+    "keep_steps": [
+      10000,
+      25000,
+      50000,
+      75000,
+      100000
+    ],
+    "decision_steps": [
+      10000,
+      50000,
+      100000
+    ],
+    "train_seconds": 5400,
+    "global_seconds": 10800,
+    "games_seconds": 600,
+    "max_game_plies": 240,
+    "gpu_count": 1
+  },
+  "started_at": 1791998877.814023,
+  "deadline": 1792009677.8140197,
+  "initialization": "random; user-approved independent small SV baseline; no foundation weights loaded",
+  "foundation_registry_sha256": "b660b1f8eef7104123dd6551eff5c63ab3b665b72a8f1a8b2d17ec6fd71c7e81",
+  "objective": "SV 128 bins, HL-Gauss sigma .75 bins, mean CE; pilot architecture unchanged",
+  "sampling": "20M canonical-unique positions, equal 2M/shard; epoch permutation without replacement",
+  "code_sha256": {
+    "/app/experiments/sv-baseline-mateusz-20261014/code/scripts/train_sv_baseline.py": "b5bef4066f3cba756a070403b3e136d85fa98698b35ea5aebb212b2692659dcc",
+    "scripts/compare_sv_data.py": "ca3dedd39c32f93989816ca7cfbedf372072b0274172f96878b138532933a022",
+    "src/krasnal_think/model.py": "e2d37be6dd8859b85bea58ac83c0ba2ef466703c14891ab00ef294c747319704"
+  }
+}

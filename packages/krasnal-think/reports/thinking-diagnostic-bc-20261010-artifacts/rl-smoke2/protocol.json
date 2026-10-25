@@ -1,0 +1,26 @@
+{
+  "algorithm": "REINFORCE group-centered reward/std floor0.05; mean stochastic-action logprob; exact masked KL",
+  "checkpoint_sha256": "3ce3fd16bcb5b0659e56dd597d7a95be0dc03f14774f32e1a09ba3757fab50e6",
+  "seed": 42,
+  "lr": 1e-06,
+  "kl_coefficient": 0.02,
+  "gradient_clip": 1,
+  "temperature": 1,
+  "top_p": 1,
+  "group": 4,
+  "effort": 2,
+  "compact": true,
+  "teacher": "Stockfish30k deterministic Threads1 Hash64; root-constrained score at original board",
+  "reward": "-clamp(best WDL expected outcome - selected WDL expected outcome,0,1); side-to-move",
+  "positions": 1,
+  "positions_fen": [
+    "r1N2nnr/pp2kpb1/2p5/q4P1p/2PP2p1/1Q1BB3/PP2N1PP/R4RK1 b - - 0 16"
+  ],
+  "fixed_eval_excluded": true,
+  "global_deadline": 1791680370.442062,
+  "source_sha256": "7e4f2379974a4e1184e9f1d6bd076b01a266031e97b129a106f5c6ef7194d7a0",
+  "script_sha256": "8dac7d7e6173b6416750a72cf87d51e120c6ee46e25b0202cba9b873f7aa8e75",
+  "forced_grammar": "singleton/forced delimiters are not stochastic train decisions; sampled PV moves/delta/stop and final all included",
+  "smoke": true,
+  "start": 1791666308.6057987
+}

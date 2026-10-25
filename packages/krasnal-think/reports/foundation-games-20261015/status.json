@@ -1,0 +1,17 @@
+{
+  "games": 600,
+  "planned": 800,
+  "last": {
+    "opening_id": 99,
+    "mode": "sf30k_control",
+    "anchor": 2900,
+    "model_white": false,
+    "score": 1.0,
+    "plies": 102,
+    "termination": "CHECKMATE",
+    "seconds": 5.369996070861816,
+    "time": 1792097109.6287222,
+    "final_fen": "8/p4p2/1p6/1P6/3P2kn/6b1/6K1/4r3 w - - 4 52"
+  },
+  "deadline": 1792116973.2721786
+}

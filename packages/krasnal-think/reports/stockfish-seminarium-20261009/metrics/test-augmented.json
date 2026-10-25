@@ -1,0 +1,16 @@
+{
+  "checkpoint": "experiments/sf-interleave-distinct-20261008/augmented/model.pt",
+  "human_moves": 652712,
+  "human_nll": 1.4480348670651684,
+  "human_top1": 0.5334174950054542,
+  "human_top5": 0.8979120959933324,
+  "mode": "augmented",
+  "records": 9666,
+  "sf_moves": 652712,
+  "sf_nll": 1.409768650679164,
+  "sf_top1": 0.5369703636519629,
+  "sf_top5": 0.8994349728517325,
+  "stockfish_move_namespace": "distinct",
+  "teacher_forced_stockfish": true,
+  "vocab_size": 4096
+}

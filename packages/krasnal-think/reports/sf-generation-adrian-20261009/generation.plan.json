@@ -1,0 +1,44 @@
+{
+  "config_sha256": "cb0187a1912d94d070ddc0364ec0508e8d992d5bb1a4e88af028ea364be8c0fc",
+  "source_sha256": {
+    "/app/experiments/sf-generation-adrian-20261009/code/scripts/run_sf_adrian_more.py": "ce78ec9b7fccf5641fec7d44d1d93bbb65293e0c5004f13f2ef91ca8bd8cf5d9",
+    "/app/experiments/sf-generation-adrian-20261009/code/scripts/sf_interleave.py": "6ca1fb14a0183ff23a67ff51674eebe27f11cce7d8e2ae5f6027935f0bd29b08",
+    "/app/experiments/sf-generation-adrian-20261009/code/scripts/generate_sf_more.py": "4538b41bae91e94697512890a8426e49dc2e937f4d2419306f3cf3d395f247c9",
+    "/app/experiments/sf-generation-adrian-20261009/code/src/krasnal_think/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/app/experiments/sf-generation-adrian-20261009/code/src/krasnal_think/tokens.py": "9410613365aeacc027293509f4f881319c05b40f2525a965b8f9f21f31ad84c6",
+    "/app/experiments/sf-generation-adrian-20261009/code/src/krasnal_think/interleave.py": "f0d2d4742db5a274f1cfc40bc4d7b9a45a7b5f0026517ed3c0bc24527e55732e"
+  },
+  "engine_sha256": "38faa5883b03652f847a87ed168b1bfee81b361db9584dae59a51cb91e69d9d6",
+  "container": "kt-sf-cpu-extra-20261009",
+  "cuda_visible_devices": "",
+  "initialization": "CPU annotation only; no model training",
+  "configuration": {
+    "root": "experiments/sf-generation-adrian-20261009",
+    "out": "data/sf-interleave-v3-extra-20261009/raw/train",
+    "cache": "data/source-cache/sf-adrian-20261009",
+    "container": "kt-sf-cpu-extra-20261009",
+    "stockfish": "experiments/sf-generation-adrian-20261009/engine/stockfish",
+    "stockfish_sha256": "38faa5883b03652f847a87ed168b1bfee81b361db9584dae59a51cb91e69d9d6",
+    "workers": 8,
+    "nodes": 30000,
+    "threads": 1,
+    "game_limit": 100000,
+    "months": [
+      "2016-01",
+      "2016-02",
+      "2016-03",
+      "2016-04",
+      "2016-05",
+      "2016-06",
+      "2016-07",
+      "2016-08",
+      "2016-09",
+      "2016-10",
+      "2016-11",
+      "2016-12",
+      "2017-01",
+      "2017-02",
+      "2017-03"
+    ]
+  }
+}
