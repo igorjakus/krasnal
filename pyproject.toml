@@ -1,0 +1,61 @@
+[build-system]
+requires = ["uv_build>=0.11.6,<0.12"]
+build-backend = "uv_build"
+
+[project]
+name = "krasnal"
+version = "0.2.0"
+description = "Chess transformers: human play, value prediction and explicit reasoning"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "bulletchess>=0.4.0",
+    "chess>=1.11.2",
+    "datasets>=4.5.0",
+    "duckdb>=1.5.1",
+    "hf-transfer>=0.1.9",
+    "huggingface-hub>=1.9.1",
+    "hydra-core>=1.3.2",
+    "loguru>=0.7.3",
+    "numpy>=2.4.2",
+    "pillow>=12.1.1",
+    "polars>=1.38.1",
+    "pyarrow>=23.0.0",
+    "plotly>=6.3.0",
+    "tiktoken>=0.12.0",
+    "torch>=2.10.0",
+    "tqdm>=4.67.3",
+    "transformers>=5.1.0",
+    "wandb[media]>=0.25.0",
+]
+
+[dependency-groups]
+dev = [
+    "nbqa>=1.9.1",
+    "notebook>=7.5.3",
+    "pre-commit>=4.5.1",
+    "pytest>=8.3",
+    "pytest-asyncio>=1.3.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.15.1",
+    "ty>=0.0.31",
+]
+
+[tool.uv.build-backend]
+module-name = ["krasnal", "krasnal_think"]
+module-root = "src"
+
+[tool.ruff]
+line-length = 100
+src = ["src", "scripts"]
+exclude = ["lichess-bot"]
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "W", "I", "UP", "SIM", "RUF"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+norecursedirs = ["lichess-bot", ".venv", ".git"]
+addopts = "--import-mode=importlib"
+filterwarnings = ["ignore:'asyncio.DefaultEventLoopPolicy' is deprecated:DeprecationWarning"]

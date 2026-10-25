@@ -17,3 +17,15 @@ wandb/
 *.bin
 *.log
 *.err
+artifacts/
+outputs/
+output/
+.hydra/
+.tmp/
+.hf_home/
+.hf_cache/
+lichess-bot/
+local_games/
+dist/
+build/
+*.egg-info/

@@ -1,32 +1,43 @@
 # Krasnal
 
-Private monorepo for the Krasnal chess models and experiments.
+Chess transformers for human play, Stockfish value prediction and explicit
+reasoning. One Python project, one environment and one dependency lockfile.
 
-| Package | Purpose | Documentation |
-| --- | --- | --- |
-| `packages/krasnal` | Original chess engine, training and UCI tooling | [README](packages/krasnal/README.md) |
-| `packages/krasnal-think` | Thinking, human/SF training and audited evaluations | [README](packages/krasnal-think/README.md) |
-
-Both packages retain their own `pyproject.toml`, `uv.lock`, source modules and
-configuration. Run each project's commands from its package directory:
-
-```bash
-cd packages/krasnal
-uv sync --locked
+```text
+src/krasnal/
+  models/          # History transformer, reasoning transformer, clock conditioning
+  tokenization/    # Distinct vocabularies for the two model architectures
+  data/            # Human games, SF annotations, interleave and foundation registry
+  training/        # Pretraining, SFT, RL, loss masking and optimizers
+  inference/       # Cached generation, legal move selection and reasoning
+  eval/            # Metrics, replay, probes and game arena
+  preprocess/      # Downloaded-game preprocessing and packed datasets
+  uci_engine/      # UCI protocol and model provider
+configs/           # Training configurations and hash-pinned foundations
+scripts/           # Training, data, evaluation and experiment entry points
+reports/           # Audited results and SHA-256 manifests
+docs/              # Methodology, compute workflow and migration provenance
 ```
 
 ```bash
-cd packages/krasnal-think
 uv sync --locked
+uv run python scripts/training/pretrain.py --help  # history model
+uv run python scripts/pretrain.py --help           # reasoning model
+uv run python scripts/experiment.py --help         # configured SFT/DAgger pipeline
 ```
 
-Use a separate environment per package. This migration preserves implementations;
-it does not make the models, tokenizers or checkpoints interchangeable.
+The architectures retain their own tokenization and checkpoint formats. Shared
+organization does not imply interchangeable weights. Legacy import names are
+thin compatibility aliases; new code uses the functional modules above.
 
-Audited experiment reports are in
-[packages/krasnal-think/reports](packages/krasnal-think/reports), including the
-[human–SF depth comparison](packages/krasnal-think/reports/human-sf-depths-20261023/REPORT.md).
+- [History engine and UCI workflow](docs/history-engine.md)
+- [Reasoning workflows](docs/reasoning-workflows.md)
+- [Thinking format](THINKING_FORMAT.md)
+- [Evaluation methodology](EVALS.md)
+- [Human–SF depth comparison](reports/human-sf-depths-20261023/REPORT.md)
+- [Unaided 2×2 comparison](reports/unaided-2x2-20261018/REPORT.md)
+- [Repository migration](docs/repository-migration.md)
 
-See [migration notes](docs/repository-migration.md) and
-[source provenance](docs/migration-sources.json). Large datasets, checkpoints and
-worker experiments remain outside Git.
+Large datasets and checkpoints stay on workers, outside Git. Read [AGENTS.md](AGENTS.md)
+before dispatching compute; all new foundation-based training must use the verified
+100M-game foundation from [configs/foundations.json](configs/foundations.json).

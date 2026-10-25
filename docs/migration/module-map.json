@@ -1,0 +1,21 @@
+{
+  "krasnal.model": "krasnal.models.history",
+  "krasnal.tokens": "krasnal.tokenization.history",
+  "krasnal.dataset": "krasnal.data.history",
+  "krasnal.trainer": "krasnal.training.history",
+  "krasnal.supervised_target_mask": "krasnal.training.masking",
+  "krasnal.time_conditioning": "krasnal.models.time_conditioning",
+  "krasnal.sampling": "krasnal.tokenization.sampling",
+  "krasnal_think.model": "krasnal.models.reasoning",
+  "krasnal_think.tokens": "krasnal.tokenization.reasoning",
+  "krasnal_think.data": "krasnal.data.reasoning",
+  "krasnal_think.annotate": "krasnal.data.annotation",
+  "krasnal_think.foundations": "krasnal.data.foundations",
+  "krasnal_think.interleave": "krasnal.data.interleave",
+  "krasnal_think.train": "krasnal.training.runtime",
+  "krasnal_think.sft": "krasnal.training.sft",
+  "krasnal_think.rl": "krasnal.training.rl",
+  "krasnal_think.muon": "krasnal.training.optim",
+  "krasnal_think.play": "krasnal.inference.reasoning",
+  "krasnal_think.arena": "krasnal.eval.arena"
+}
