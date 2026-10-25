@@ -1,0 +1,5 @@
+{
+  "checkpoint": "/app/experiments/curriculum-100m-onpolicy-v1-20261009/round-003/sft/model.pt",
+  "round": 3,
+  "stage": "dagger"
+}

@@ -1,0 +1,15 @@
+{
+  "checkpoint": "runs/foundations/human-pretrain-100m-20260730/model.pt",
+  "human_moves": 654407,
+  "human_nll": 1.5706283779882357,
+  "human_top1": 0.517249968291904,
+  "human_top5": 0.8712636020091472,
+  "mode": "human",
+  "records": 9677,
+  "stockfish_move_namespace": "not_used",
+  "teacher_forced_stockfish": false,
+  "vocab_size": 2112,
+  "checkpoint_sha256": "b660b1f8eef7104123dd6551eff5c63ab3b665b72a8f1a8b2d17ec6fd71c7e81",
+  "records_sha256": "4f530631b425ccfedbfe8996552bcd0846ea71a5e4ae0cc07bf3b56cea7453bd",
+  "dataset_manifest_sha256": "e20807e0c81958d90b91c39d0d0faf615d261c57c8b73590a3673ffe645bc69f"
+}

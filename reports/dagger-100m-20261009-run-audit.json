@@ -1,0 +1,55 @@
+{
+  "foundation_id": "human-pretrain-100m-20260730",
+  "foundation_sha256": "b660b1f8eef7104123dd6551eff5c63ab3b665b72a8f1a8b2d17ec6fd71c7e81",
+  "gpu_count": 1,
+  "dataset_manifest_sha256": "6ed28806010f5558ca72485a21bf582c1e3592b0fd7dfbdd3836858b73106aac",
+  "eval_gold_sha256": "b347129b66483430289dde08f3fca0020c8b7b5158168fd6aad69f64f5ded319",
+  "sampling": {
+    "teacher_efforts": [
+      0,
+      2
+    ],
+    "dagger_effort": 2,
+    "temperature": 0,
+    "distinct_pv_roots": true,
+    "rounds": 10,
+    "dagger_ratio": 0.1,
+    "teacher_fraction": 0.75
+  },
+  "objective": "compact teacher weighted CE; onpolicy-selection final-only DAgger",
+  "code_directory": "/home/ijakus/projects/krasnal-think/experiments/curriculum-100m-onpolicy-v1-20261009/code",
+  "source_sha256": {
+    "scripts/experiment.py": "669b28018e5772de53a7c14972a9ad134946a5141e428ea29f8f989b2b8949c0",
+    "scripts/curriculum.py": "8c4a8eb220d59d331441b2419f7b925b3f2d18ef96873b8a30719e19a12fcb7f",
+    "scripts/curriculum_eval.py": "284807d016987889bab8c033a8f1da4ab73de3848613bd49aaa27e3aa9597907",
+    "scripts/dagger.py": "8c407e8a9feccd5ae82fc172209ee1bb5b33f97b22a9300de11ec588d3e3960a",
+    "scripts/sft.py": "7b9017888bf6392cfb6894aaeffc59fb12482a79cf10d1d9880d3c0180ccbab0",
+    "scripts/pipeline.py": "01ee63f5fff1ef39ef55ff3f775824d258c3050e717dbec709df04764b261ab0",
+    "scripts/curriculum_games.py": "21b3d9ec68d8fea1b91af2091d53a32ebe75713dd3579ef09788d7961e81489f",
+    "scripts/overnight_curriculum.py": "4214b81eca9d0dff00ec1cd391107d60a56928ea3ab894b955c26e82aa5c22bc",
+    "src/krasnal_think/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/krasnal_think/annotate.py": "adac3c16f9c2cebf6924d4f4f3398bf59ba9c354eda09ae469a391a86f8f256a",
+    "src/krasnal_think/arena.py": "e5b9fcb14c1fab2a8d5022b7f268c48b9be9ed39d0bc8525bc24c918e7b163b7",
+    "src/krasnal_think/data.py": "b3e10f41e8c8a9fbcc6b85bc13baeff7206d1483eef2385ee6c7c7cfd54023f4",
+    "src/krasnal_think/foundations.py": "10eb1fed7dcb86efdf8cb8974eadba278a7262348644460623ccf912e3ae7a0c",
+    "src/krasnal_think/interleave.py": "f0d2d4742db5a274f1cfc40bc4d7b9a45a7b5f0026517ed3c0bc24527e55732e",
+    "src/krasnal_think/model.py": "e2d37be6dd8859b85bea58ac83c0ba2ef466703c14891ab00ef294c747319704",
+    "src/krasnal_think/muon.py": "88cfb9172629e4530343210747b3360981645757ceff55f8d4f48e246a736cd7",
+    "src/krasnal_think/play.py": "bf85e74a2ae46ce29a631e7569d5e4fef99a47baf136542d975cfe6ab094ff12",
+    "src/krasnal_think/rl.py": "a2cd75f61e751f1a30bd039291e6231547cf2cce2568c6ebebb7f4b06a1320cc",
+    "src/krasnal_think/sft.py": "7b300fef0abbe1faa50d4c27c2f2789527ae39061a831d2e9d35f9f29c6678d3",
+    "src/krasnal_think/tokens.py": "9410613365aeacc027293509f4f881319c05b40f2525a965b8f9f21f31ad84c6",
+    "src/krasnal_think/train.py": "9cbfea51107d25f4007829e276f0b8c41e6f6ac148bd1a3f4b53ad0751795314",
+    "configs/foundations.json": "918016235b119853598dea6e25c9c644462303dc98aaa413c6600e7f0bbcf026",
+    "configs/curriculum-100m-onpolicy-v1-20261009.json": "e27c113138565b8ba55bb4194ef7e996aa8a6c119f9ebb671d8db97ffa6ca0a8"
+  },
+  "reused_data_from": "experiments/curriculum-onpolicy-v1-20261008/data-000; ledger.sqlite; eval-gold only; NO trained weights or DAgger records",
+  "stopped_old_container": "kt-curriculum-onpolicy-v1-20261008",
+  "old_outputs_preserved": true,
+  "worker_smoke": {
+    "container": "kt-curriculum-100m-smoke-retry1",
+    "exit_code": 0,
+    "seconds": 185.24,
+    "rounds": 4
+  }
+}

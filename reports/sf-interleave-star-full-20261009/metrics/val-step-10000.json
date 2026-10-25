@@ -1,0 +1,16 @@
+{
+  "checkpoint": "experiments/sf-interleave-star-full-20261009-humanloss/step-10000.pt",
+  "conditioning": "constant_star",
+  "human_moves": 654407,
+  "human_nll": 1.7730218940733709,
+  "human_top1": 0.4572842283166286,
+  "human_top5": 0.8390512326426827,
+  "mode": "augmented",
+  "records": 9677,
+  "star_id": 4080,
+  "stockfish_move_namespace": "not_used",
+  "teacher_forced_stockfish": false,
+  "vocab_size": 4096,
+  "checkpoint_sha256": "a0d9f7d724e064263a78d532d42146447c4e04c77e4c03787a1c9788c7948988",
+  "records_sha256": "4f530631b425ccfedbfe8996552bcd0846ea71a5e4ae0cc07bf3b56cea7453bd"
+}

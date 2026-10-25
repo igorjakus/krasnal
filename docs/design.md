@@ -4,17 +4,17 @@
 
 Show that a chess transformer that reasons in UCI before moving plays **stronger**
 than the same model moving directly. The claim is relative, not state of the art.
-The deliverable is the `<effort:0>` vs `<effort:4>` comparison at matched
+The deliverable is the direct-move path vs `<effort:4>` comparison at matched
 wall-clock per move, measured as an Elo delta with error bars.
 
 ## Sequence format
 
 ```
-<bos> <elo:6> <elo:7> <effort:2>
-e2e4 e7e5 g1f3 b8c6
+<bos> <elo:6> <elo:7> e2e4 e7e5 g1f3 b8c6
+<effort:2>
 <think>
-  <pv> f1b5 a7a6 b5a4 g8f6 <cp:18> </pv>
-  <pv> f1c4 g8f6 d2d3      <cp:16> </pv>
+  <pv> f1c4 g8f6 d2d3      <delta:3> </pv>
+  <pv> f1b5 a7a6 b5a4 g8f6 <delta:0> </pv>
 </think>
 f1b5
 ```
@@ -43,7 +43,7 @@ promotions): 1968, the canonical count, covering every legal UCI string.
 | --- | --- | --- |
 | structural | 7 | pad, bos, eos, think, /think, pv, /pv |
 | elo | 9 | 200-point buckets, 1000..2400 |
-| effort | 5 | 0 = no thinking; 4 = 5 PVs x 7 ply |
+| effort | 5 | 0 = no thinking; 1..4 = maximum thinking-token budgets |
 | score | 60 | 29 centipawn buckets + mate-in-1..8 + 15 delta buckets |
 | fen | 28 | reserved |
 | moves | 1968 | |
@@ -52,11 +52,10 @@ promotions): 1968, the canonical count, covering every legal UCI string.
 Discrete score buckets rather than digits: the eval is where the lookahead signal
 lives, and one token beats a multi-token noisy regression.
 
-**The best line is scored absolutely; the rest by how much they lose.** Absolute
-buckets are ~200 cp wide in the range that matters, so all five candidates of a
-real position collapsed onto one token — the eval carried no signal about which
-move to prefer. Delta buckets are fine (5 cp at the low end) because top-5 gaps
-are almost always under 300 cp, and they match the stage-3 RL reward directly.
+**Candidates are shuffled and scored by how much they lose.** A fixed best-first
+order leaks the final answer and teaches the model to copy the first PV root.
+Delta buckets are fine (5 cp at the low end) because top-5 gaps are usually under
+300 cp, and they match the stage-3 RL reward directly.
 
 ## Conditioning
 
@@ -70,7 +69,9 @@ single flat `uint16` stream.
 
 ## Stages
 
-1. **Pretrain** — human games, no thinking, `<effort:0>`, fixed-block packing.
+1. **Pretrain** — human games, no thinking, fixed-block packing. The existing
+   checkpoint used a legacy `<effort:0>` prefix; SFT migrates to no token for the
+   direct-move path.
 2. **SFT** — Stockfish-annotated single decision points, mixed effort levels.
 3. **GRPO** — only if stage 2 plateaus. Reward is negative centipawn loss against
    the annotator plus a legality/format term; single positions, no self-play.
@@ -104,5 +105,6 @@ Positions are sampled uniformly over plies >= 10, capped at 2 per game. No
 filtering on how sharp the position is: that needs the annotation before it can
 decide, and it would skew the SFT distribution towards tactics.
 
-Each position is analysed once at maximum effort; every lower effort level is a
-truncation of the same record, so the ladder costs one engine pass, not five.
+Each position is analysed once at maximum effort. SFT derives variable-length
+traces within each effort's token ceiling, so the ladder costs one engine pass,
+not five.

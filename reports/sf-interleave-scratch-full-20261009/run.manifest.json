@@ -1,0 +1,44 @@
+{
+  "sha256": {
+    "/Ziob/ijakus/krasnal-think/scripts/train_interleave.py": "1926eaeb20bc73d6f599aa8dab765f255b19c9aaa3b18812bb20125c6952e617",
+    "/Ziob/ijakus/krasnal-think/src/krasnal_think/interleave.py": "f0d2d4742db5a274f1cfc40bc4d7b9a45a7b5f0026517ed3c0bc24527e55732e",
+    "/Ziob/ijakus/krasnal-think/src/krasnal_think/tokens.py": "9410613365aeacc027293509f4f881319c05b40f2525a965b8f9f21f31ad84c6",
+    "/Ziob/ijakus/krasnal-think/src/krasnal_think/model.py": "e2d37be6dd8859b85bea58ac83c0ba2ef466703c14891ab00ef294c747319704",
+    "/Ziob/ijakus/krasnal-think/src/krasnal_think/foundations.py": "10eb1fed7dcb86efdf8cb8974eadba278a7262348644460623ccf912e3ae7a0c",
+    "/Ziob/ijakus/krasnal-think/configs/foundations.json": "918016235b119853598dea6e25c9c644462303dc98aaa413c6600e7f0bbcf026",
+    "experiments/sf-interleave-scratch-full-20261009-humanloss/step-30000.pt": "b7a8e3d44778840e9d32828f4bf9a5afb7db1e023c32c8f65db79c4791de6d8c",
+    "data/sf-interleave-distinct-20261008-full-buffered/dataset.manifest.json": "e20807e0c81958d90b91c39d0d0faf615d261c57c8b73590a3673ffe645bc69f"
+  },
+  "args": {
+    "checkpoint": "experiments/sf-interleave-scratch-full-20261009-humanloss/step-30000.pt",
+    "data_dir": "data/sf-interleave-distinct-20261008-full-buffered/train",
+    "mode": "augmented",
+    "out": "experiments/sf-interleave-scratch-full-20261009-humanloss",
+    "steps": 59631,
+    "batch_size": 2,
+    "grad_accum": 16,
+    "lr": 0.0003,
+    "min_lr": 3e-05,
+    "warmup": 1000,
+    "weight_decay": 0.1,
+    "grad_clip": 1.0,
+    "human_weight": 1.0,
+    "other_weight": 0.0,
+    "eval_data_dir": "data/sf-interleave-distinct-20261008-full-buffered/val",
+    "eval_batches": 20,
+    "save_every": 5000,
+    "log_every": 100,
+    "compile": false,
+    "device": "cuda",
+    "seed": 1234,
+    "max_hours": 40.0,
+    "resume_from": "experiments/sf-interleave-scratch-full-20261009-humanloss/step-30000.pt",
+    "foundation_id": null,
+    "sampling": "shuffled-blocks"
+  },
+  "world_size": 1,
+  "distinct_sf_tokens": true,
+  "foundation": {
+    "sha256": "b7a8e3d44778840e9d32828f4bf9a5afb7db1e023c32c8f65db79c4791de6d8c"
+  }
+}

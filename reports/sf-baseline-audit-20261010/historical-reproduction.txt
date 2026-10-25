@@ -1,0 +1,5 @@
+Independent CPU reproduction using the original evaluate_pretrain.py, 100 batches, seed 0:
+move top-1: 53.710% (96,414 tokens)
+eval bucket accuracy: 40.059% (94,346 positions)
+eval mean bucket error: 1.35
+Container kt-sf-historical-audit-20261010 exited 0.

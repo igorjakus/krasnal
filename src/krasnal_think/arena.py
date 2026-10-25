@@ -39,11 +39,11 @@ class Stockfish:
         self.engine.quit()
 
 
-def play_game(white, black, max_plies: int = 300) -> float:
+def play_game(white, black, max_plies: int = 300, board=None) -> float:
     """Return white's score: 1.0, 0.5 or 0.0."""
-    board = chess.Board()
-    white.reset()
-    black.reset()
+    board = board.copy() if board is not None else chess.Board()
+    white.reset(board)
+    black.reset(board)
     while not board.is_game_over(claim_draw=True) and len(board.move_stack) < max_plies:
         mover, waiter = (white, black) if board.turn == chess.WHITE else (black, white)
         uci = mover.move()

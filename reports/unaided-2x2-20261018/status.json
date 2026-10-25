@@ -1,0 +1,21 @@
+{
+  "games": 800,
+  "planned": 800,
+  "last": {
+    "opening_id": 99,
+    "mode": "interleave_policy",
+    "anchor": 2900,
+    "model_white": false,
+    "score": 0.0,
+    "plies": 23,
+    "termination": "CHECKMATE",
+    "seconds": 0.5562448501586914,
+    "time": 1792326386.0473328,
+    "final_fen": "r2qkb1r/ppp2Qpp/4p3/4P3/8/4P3/PP1P2PP/RNB2RK1 b kq - 0 12",
+    "model_calls": 7,
+    "opponent_calls": 8,
+    "external_advice_calls": 0,
+    "sf_tokens_in_input": 0
+  },
+  "deadline": 1792332147.1137862
+}

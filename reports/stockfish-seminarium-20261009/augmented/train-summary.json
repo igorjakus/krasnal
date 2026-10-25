@@ -1,0 +1,17 @@
+{
+  "mode": "augmented",
+  "steps": 20000,
+  "requested_steps": 20000,
+  "world_size": 2,
+  "global_batch_size": 32,
+  "human_targets_seen": 318245709,
+  "batch_size": 2,
+  "grad_accum": 8,
+  "human_weight": 2.0,
+  "other_weight": 1.0,
+  "checkpoint": "experiments/sf-interleave-v1/checkpoints/pretrain-model.pt",
+  "data_dir": "data/sf-interleave-distinct-20261008-quick-buffered/train",
+  "distinct_sf_tokens": true,
+  "vocab_size": 4096,
+  "seconds": 10951.00085902214
+}

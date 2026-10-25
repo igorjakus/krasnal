@@ -12,6 +12,9 @@ SQUARES = [f + r for r in "12345678" for f in FILES]
 
 ELO_EDGES = [1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400]  # -> 9 buckets
 EFFORT_LEVELS = 5
+# Maximum number of tokens between <think> and </think>. Effort controls compute,
+# not a fixed number or depth of principal variations.
+EFFORT_BUDGET = {0: 0, 1: 12, 2: 24, 3: 36, 4: 50}
 CP_EDGES = [
     -2500,
     -1600,
@@ -109,6 +112,15 @@ THINK, THINK_END = ID["<think>"], ID["</think>"]
 PV, PV_END = ID["<pv>"], ID["</pv>"]
 MOVE_START = ID["a1a2"]
 MOVE_IDS = range(MOVE_START, MOVE_START + len(enumerate_moves()))
+# Keep every pretrained ID unchanged. Stockfish suggestions live after the
+# original (padded) vocabulary, even when their UCI spelling matches a human move.
+SF_MOVE_START = VOCAB_SIZE
+SF_MOVE_IDS = range(SF_MOVE_START, SF_MOVE_START + len(MOVE_IDS))
+INTERLEAVED_VOCAB_SIZE = (SF_MOVE_IDS.stop + 63) // 64 * 64
+
+
+def sf_move_id(uci: str) -> int:
+    return SF_MOVE_START + move_id(uci) - MOVE_START
 
 
 def elo_id(rating: int) -> int:
@@ -141,3 +153,13 @@ def delta_id(best: int, candidate: int) -> int:
 
 def move_id(uci: str) -> int:
     return ID[uci]
+
+
+# Reuse existing IDs: old checkpoints and human move tokens stay compatible.
+COMPACT_DELTA_BUCKETS = (0, 4, 8, 14)
+
+
+def compact_delta_id(best: int, candidate: int) -> int:
+    gap = max(best - candidate, 0)
+    bucket = 0 if gap <= 5 else 4 if gap <= 40 else 8 if gap <= 180 else 14
+    return ID[f"<delta:{bucket}>"]

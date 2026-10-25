@@ -1,0 +1,268 @@
+{
+  "pilot_checkpoint_sha256": "63b4772fe95875be323f024526035d009c72c53673e7bb1a0f26bc27833f164c",
+  "stockfish_sha256": "38faa5883b03652f847a87ed168b1bfee81b361db9584dae59a51cb91e69d9d6",
+  "stockfish_options": {
+    "UCI_Elo": 1600,
+    "UCI_LimitStrength": true,
+    "nodes": 20000
+  },
+  "games": [
+    {
+      "opponent": "pilot",
+      "opening": 0,
+      "our_white": true,
+      "score": 0.5,
+      "termination": "rules",
+      "plies": 66
+    },
+    {
+      "opponent": "pilot",
+      "opening": 0,
+      "our_white": false,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 32
+    },
+    {
+      "opponent": "pilot",
+      "opening": 1,
+      "our_white": true,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 17
+    },
+    {
+      "opponent": "pilot",
+      "opening": 1,
+      "our_white": false,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 40
+    },
+    {
+      "opponent": "pilot",
+      "opening": 2,
+      "our_white": true,
+      "score": 0.5,
+      "termination": "rules",
+      "plies": 62
+    },
+    {
+      "opponent": "pilot",
+      "opening": 2,
+      "our_white": false,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 40
+    },
+    {
+      "opponent": "pilot",
+      "opening": 3,
+      "our_white": true,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 55
+    },
+    {
+      "opponent": "pilot",
+      "opening": 3,
+      "our_white": false,
+      "score": 0.5,
+      "termination": "rules",
+      "plies": 93
+    },
+    {
+      "opponent": "pilot",
+      "opening": 4,
+      "our_white": true,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 39
+    },
+    {
+      "opponent": "pilot",
+      "opening": 4,
+      "our_white": false,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 44
+    },
+    {
+      "opponent": "pilot",
+      "opening": 5,
+      "our_white": true,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 39
+    },
+    {
+      "opponent": "pilot",
+      "opening": 5,
+      "our_white": false,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 80
+    },
+    {
+      "opponent": "pilot",
+      "opening": 6,
+      "our_white": true,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 17
+    },
+    {
+      "opponent": "pilot",
+      "opening": 6,
+      "our_white": false,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 16
+    },
+    {
+      "opponent": "pilot",
+      "opening": 7,
+      "our_white": true,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 39
+    },
+    {
+      "opponent": "pilot",
+      "opening": 7,
+      "our_white": false,
+      "score": 1.0,
+      "termination": "rules",
+      "plies": 28
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 0,
+      "our_white": true,
+      "score": 0.0,
+      "termination": "rules",
+      "plies": 48
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 0,
+      "our_white": false,
+      "score": 0.0,
+      "termination": "rules",
+      "plies": 49
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 1,
+      "our_white": true,
+      "score": 0.0,
+      "termination": "rules",
+      "plies": 72
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 1,
+      "our_white": false,
+      "score": 0.0,
+      "termination": "rules",
+      "plies": 43
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 2,
+      "our_white": true,
+      "score": 0.0,
+      "termination": "rules",
+      "plies": 38
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 2,
+      "our_white": false,
+      "score": 0.5,
+      "termination": "rules",
+      "plies": 88
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 3,
+      "our_white": true,
+      "score": 0.5,
+      "termination": "rules",
+      "plies": 129
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 3,
+      "our_white": false,
+      "score": 0.0,
+      "termination": "rules",
+      "plies": 55
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 4,
+      "our_white": true,
+      "score": 0.5,
+      "termination": "rules",
+      "plies": 119
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 4,
+      "our_white": false,
+      "score": 0.0,
+      "termination": "rules",
+      "plies": 31
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 5,
+      "our_white": true,
+      "score": 0.5,
+      "termination": "rules",
+      "plies": 89
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 5,
+      "our_white": false,
+      "score": 0.0,
+      "termination": "rules",
+      "plies": 121
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 6,
+      "our_white": true,
+      "score": 0.0,
+      "termination": "rules",
+      "plies": 56
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 6,
+      "our_white": false,
+      "score": 0.0,
+      "termination": "rules",
+      "plies": 95
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 7,
+      "our_white": true,
+      "score": 0.0,
+      "termination": "rules",
+      "plies": 24
+    },
+    {
+      "opponent": "sf1600",
+      "opening": 7,
+      "our_white": false,
+      "score": 0.5,
+      "termination": "rules",
+      "plies": 54
+    }
+  ],
+  "note": "Bounded colour-paired screen, not calibrated Elo; cutoffs reported separately"
+}

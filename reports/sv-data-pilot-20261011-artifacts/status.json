@@ -1,0 +1,60 @@
+{
+  "phase": "finished",
+  "results": {
+    "chessbench": {
+      "steps": 4096,
+      "exposures": 1048576,
+      "train_seconds": 191.24655437469482,
+      "parameters": 10702848,
+      "initial_tensor_sha256": "d0f16d974836b1185688fc0e6174f6070daab6e180ba9d3c7d739bc7117c853c",
+      "completed_updates": true,
+      "checkpoint_sha256": "a8de6bfba3fa5b7fedf3dd3be189314ff6a1ffab02b16371765ffd3fbe6efe88",
+      "value_eval": {
+        "chessbench": {
+          "soft_target_cross_entropy": 3.6368230407714845,
+          "expected_value_mae": 0.0876737045288086,
+          "n": 10000
+        },
+        "mateusz": {
+          "soft_target_cross_entropy": 3.928066613769531,
+          "expected_value_mae": 0.1276831537246704,
+          "n": 10000
+        }
+      },
+      "decision_eval": {
+        "sf30k_top1": 0.18,
+        "n": 1000,
+        "move_ms_mean": 18.861924922384787,
+        "note": "Exact gold top1; no all-move regret or Elo claim"
+      }
+    },
+    "mateusz": {
+      "steps": 4096,
+      "exposures": 1048576,
+      "train_seconds": 198.2729139328003,
+      "parameters": 10702848,
+      "initial_tensor_sha256": "d0f16d974836b1185688fc0e6174f6070daab6e180ba9d3c7d739bc7117c853c",
+      "completed_updates": true,
+      "checkpoint_sha256": "63b4772fe95875be323f024526035d009c72c53673e7bb1a0f26bc27833f164c",
+      "value_eval": {
+        "chessbench": {
+          "soft_target_cross_entropy": 3.972850231933594,
+          "expected_value_mae": 0.10128027839660644,
+          "n": 10000
+        },
+        "mateusz": {
+          "soft_target_cross_entropy": 3.5845481323242185,
+          "expected_value_mae": 0.11838002090454101,
+          "n": 10000
+        }
+      },
+      "decision_eval": {
+        "sf30k_top1": 0.17,
+        "n": 1000,
+        "move_ms_mean": 20.251611648869584,
+        "note": "Exact gold top1; no all-move regret or Elo claim"
+      }
+    }
+  },
+  "seconds": 1148.2183392047882
+}

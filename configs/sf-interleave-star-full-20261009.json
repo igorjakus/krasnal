@@ -1,0 +1,24 @@
+{
+  "root": "experiments/sf-interleave-star-full-20261009-humanloss",
+  "data": "data/sf-interleave-distinct-20261008-full-buffered",
+  "initialization": "random; no pretrained weights",
+  "conditioning": "constant_star",
+  "matched_treatment_root": "experiments/sf-interleave-scratch-full-20261009-humanloss",
+  "star_id": 4080,
+  "epochs": 2,
+  "batch_size": 2,
+  "grad_accum": 16,
+  "lr": 0.0003,
+  "min_lr": 0.00003,
+  "warmup": 1000,
+  "save_every": 5000,
+  "max_hours": 40,
+  "seed": 1234,
+  "human_weight": 1.0,
+  "other_weight": 0.0,
+  "model": {
+    "vocab_size": 4096, "block_size": 1024, "n_layer": 14,
+    "n_head": 12, "n_embd": 768, "dropout": 0.0,
+    "qk_norm": false, "eval_classes": 29
+  }
+}

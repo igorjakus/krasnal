@@ -1,0 +1,222 @@
+{
+  "rating_scale": "Equivalent Stockfish 17.1 UCI_Elo under this fixed 20k-node protocol; NOT FIDE/Lichess Elo",
+  "ci": "95% percentile bootstrap of opening pairs, 10000 resamples, seed 20261015; conditional on engine/settings/opening population",
+  "limitations": [
+    "Stockfish UCI_Elo at20k nodes is not calibrated FIDE/Lichess Elo; CI excludes calibration uncertainty.",
+    "Opening prefixes come from historical human validation, not an independent standardized engine opening book.",
+    "Logistic rating model can misfit opponent styles. Report per-anchor WDL.",
+    "Interleave checkpoint gets plain actual-move history WITHOUT SF tokens and WITHOUT effort0. This is OOD relative to its SWSB training.",
+    "Interleave eval head was not supervised during FT, though its shared trunk changed.",
+    "No teacher/engine advice. The opponent engine only returns its own moves on opponent turns.",
+    "Cutoffs/deadline are censored, never automatic draws. Incomplete samples have provisional CIs."
+  ],
+  "modes": {
+    "foundation_policy": {
+      "games": 200,
+      "completed": 200,
+      "complete_pairs": 100,
+      "per_anchor": {
+        "1320": {
+          "games": 40,
+          "wins": 35,
+          "draws": 1,
+          "losses": 4,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 40,
+          "wins": 22,
+          "draws": 11,
+          "losses": 7,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 40,
+          "wins": 11,
+          "draws": 7,
+          "losses": 22,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 40,
+          "wins": 0,
+          "draws": 12,
+          "losses": 28,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 40,
+          "wins": 0,
+          "draws": 6,
+          "losses": 34,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 1965.6085533443559,
+      "bootstrap_95ci_approximate": [
+        1885.0715753000056,
+        2045.6776310404134
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        1693.0047768494796,
+        2237.271396006954
+      ]
+    },
+    "foundation_value": {
+      "games": 200,
+      "completed": 200,
+      "complete_pairs": 100,
+      "per_anchor": {
+        "1320": {
+          "games": 40,
+          "wins": 29,
+          "draws": 8,
+          "losses": 3,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 40,
+          "wins": 21,
+          "draws": 7,
+          "losses": 12,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 40,
+          "wins": 7,
+          "draws": 15,
+          "losses": 18,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 40,
+          "wins": 4,
+          "draws": 9,
+          "losses": 27,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 40,
+          "wins": 0,
+          "draws": 4,
+          "losses": 36,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 1925.3709620422487,
+      "bootstrap_95ci_approximate": [
+        1819.6826615461862,
+        2030.7075115972407
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        1652.8647090320924,
+        2197.005036288847
+      ]
+    },
+    "interleave_policy": {
+      "games": 200,
+      "completed": 200,
+      "complete_pairs": 100,
+      "per_anchor": {
+        "1320": {
+          "games": 40,
+          "wins": 0,
+          "draws": 6,
+          "losses": 34,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 40,
+          "wins": 0,
+          "draws": 1,
+          "losses": 39,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 40,
+          "wins": 0,
+          "draws": 2,
+          "losses": 38,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 40,
+          "wins": 0,
+          "draws": 4,
+          "losses": 36,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 40,
+          "wins": 0,
+          "draws": 2,
+          "losses": 38,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 1036.5405371707377,
+      "bootstrap_95ci_approximate": [
+        936.2874530777701,
+        1117.2617516394785
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        "-infinity",
+        1436.9837502116732
+      ]
+    },
+    "interleave_value": {
+      "games": 200,
+      "completed": 200,
+      "complete_pairs": 100,
+      "per_anchor": {
+        "1320": {
+          "games": 40,
+          "wins": 0,
+          "draws": 1,
+          "losses": 39,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 40,
+          "wins": 0,
+          "draws": 0,
+          "losses": 40,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 40,
+          "wins": 0,
+          "draws": 1,
+          "losses": 39,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 40,
+          "wins": 0,
+          "draws": 0,
+          "losses": 40,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 40,
+          "wins": 0,
+          "draws": 0,
+          "losses": 40,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 662.273498337267,
+      "bootstrap_95ci_approximate": [
+        "-infinity",
+        826.8154451724438
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        "-infinity",
+        1363.5049375550593
+      ]
+    }
+  },
+  "planned_games": 800,
+  "recorded_games": 800,
+  "external_advice_calls": 0
+}

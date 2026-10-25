@@ -6,6 +6,7 @@ MPS and CPU; on CUDA it dispatches to the flash kernel anyway.
 
 import math
 from dataclasses import dataclass
+from pathlib import PosixPath
 
 import torch
 import torch.nn as nn
@@ -181,9 +182,7 @@ class HyperConnection(nn.Module):
             # At the zero init exp(0) projects to uniform, so every stream reads the
             # mean and the block-input column starts at 1/rate for a vanilla identity.
             mix = self._sinkhorn(self.alpha[:, : self.rate])
-            weights = torch.cat(
-                (self.alpha[:, self.rate, None] + 1 / self.rate, mix), dim=1
-            ).t()
+            weights = torch.cat((self.alpha[:, self.rate, None] + 1 / self.rate, mix), dim=1).t()
         else:
             weights = self.alpha.t()
         mixed = (hidden.unsqueeze(-2) * weights).sum(-1)
@@ -270,6 +269,7 @@ class GPT(nn.Module):
         eval_targets=None,
         eval_weight=1.0,
         mtp_weight=0.0,
+        supervised_only=False,
     ):
         x = self.drop(self.wte(idx))
         for block in self.blocks:
@@ -279,6 +279,10 @@ class GPT(nn.Module):
         if self.config.hyper_connections > 1:
             x = x.mean(dim=-1)
         x = self.norm_f(x)
+        if supervised_only:
+            if targets is None:
+                raise ValueError("supervised_only requires targets")
+            return self.lm_head(x[targets != -1]), None
         if targets is None:
             return self.lm_head(x[:, [-1], :]), None
         logits = self.lm_head(x)
@@ -312,11 +316,18 @@ class GPT(nn.Module):
 
     @classmethod
     def load(cls, path, device: str = "cpu") -> "GPT":
-        checkpoint = torch.load(path, map_location=device, weights_only=True)
+        # Our trusted checkpoints contain a PosixPath in training metadata.
+        # Keep the safe ``weights_only`` loader and explicitly allow that
+        # standard-library type.
+        # Python 3.13 moved this class to pathlib._local; older checkpoints
+        # still name pathlib.PosixPath. Allow that exact alias, not arbitrary pickle.
+        with torch.serialization.safe_globals([PosixPath, (PosixPath, "pathlib.PosixPath")]):
+            checkpoint = torch.load(path, map_location=device, weights_only=True)
         config = dict(checkpoint["config"])
         config.setdefault("qk_norm", False)
         model = cls(GPTConfig(**config)).to(device)
         model.load_state_dict(checkpoint["model"])
+        model.training_policy = checkpoint.get("training_policy", {})
         return model.eval()
 
     def configure_optimizers(self, weight_decay, learning_rate, betas, fused=False):

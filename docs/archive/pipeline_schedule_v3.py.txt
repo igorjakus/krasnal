@@ -1,0 +1,420 @@
+#!/usr/bin/env python3
+"""ARCHIVED v3 scheduler; use scripts/curriculum.py. Retained for run provenance."""
+
+import json
+import shlex
+import subprocess
+import time
+from pathlib import Path
+
+ROOT = Path("/home/ijakus/projects/krasnal-think")
+RUN = ROOT / "experiments/pipeline-v3"
+UWR = "/Ziob/ijakus/krasnal-think"
+IMAGE = "krasnal-think:audit-runtime"
+TEACHER = [
+    "data/sft/annotations-extra-adrian-20260913.jsonl",
+    "data/sft/teacher-2019-04-seed913041-n250k.validated.jsonl",
+    "data/sft/teacher-2019-05-seed913052-n250k.validated.jsonl",
+    "data/sft/teacher-2019-06-seed913063-n250k.validated.jsonl",
+    "data/sft/teacher-2019-07-seed913074-n250k.validated.jsonl",
+]
+NEW_TEACHER = [
+    ("2020q1", 915201),
+    ("2021q1", 915211),
+    ("2022q1", 915221),
+    ("2023q1", 915231),
+]
+
+
+def run(*args, check=True, capture=False):
+    print("+", " ".join(map(str, args)), flush=True)
+    return subprocess.run(args, check=check, text=True, capture_output=capture)
+
+
+def event(kind, **fields):
+    RUN.mkdir(parents=True, exist_ok=True)
+    record = {"time": time.time(), "kind": kind, **fields}
+    with (RUN / "schedule.jsonl").open("a") as handle:
+        handle.write(json.dumps(record, sort_keys=True) + "\n")
+
+
+def docker(*command):
+    uid = str(ROOT.stat().st_uid)
+    gid = str(ROOT.stat().st_gid)
+    run(
+        "docker",
+        "run",
+        "--rm",
+        "--gpus",
+        "all",
+        "--user",
+        f"{uid}:{gid}",
+        "-e",
+        "HOME=/tmp",
+        "-e",
+        "PYTHONUNBUFFERED=1",
+        "-e",
+        "PYTHONPATH=/app/src",
+        "-v",
+        f"{ROOT}:/app",
+        "-w",
+        "/app",
+        IMAGE,
+        *command,
+    )
+
+
+def wait_initial_sft():
+    while True:
+        result = run(
+            "docker",
+            "inspect",
+            "-f",
+            "{{.State.Running}} {{.State.ExitCode}}",
+            "kt-pipeline-v3-teacher-sft-0",
+            check=False,
+            capture=True,
+        )
+        if result.returncode != 0 or result.stdout.startswith("false"):
+            break
+        time.sleep(30)
+    model = RUN / "teacher-sft-0/model.pt"
+    if not model.exists():
+        checkpoints = sorted(
+            (RUN / "teacher-sft-0").glob("step-*.pt"),
+            key=lambda p: int(p.stem.split("-")[-1]),
+        )
+        if not checkpoints:
+            raise RuntimeError("initial teacher SFT produced no resumable checkpoint")
+        docker(
+            "python",
+            "scripts/sft.py",
+            str(checkpoints[-1].relative_to(ROOT)),
+            "--resume",
+            "--annotations",
+            *TEACHER,
+            "--out",
+            "experiments/pipeline-v3/teacher-sft-0",
+            "--epochs",
+            "1",
+            "--max-steps",
+            "5000",
+            "--batch-size",
+            "64",
+            "--lr",
+            "1e-5",
+            "--min-lr",
+            "1e-6",
+            "--warmup",
+            "200",
+            "--move-loss-weight",
+            "1.0",
+            "--eval-every",
+            "1000",
+            "--format-positions",
+            "100",
+            "--pretrain-batches",
+            "150",
+            "--pretrain-check-every",
+            "500",
+            "--min-pretrain-top1",
+            "0.40",
+            "--device",
+            "cuda",
+        )
+    checkpoint = RUN / "teacher-sft-0/step-5000.pt"
+    if not checkpoint.exists():
+        checkpoint = model
+    event("initial_sft_complete", checkpoint=str(checkpoint))
+    return checkpoint
+
+
+def sync_new_teacher():
+    accepted = []
+    against = [ROOT / "data/sft/annotations-5m.jsonl", *[ROOT / path for path in TEACHER]]
+    for name, seed in NEW_TEACHER:
+        raw_name = f"teacher-{name}-seed{seed}-n1m.jsonl"
+        raw = ROOT / "data/sft/incoming" / raw_name
+        valid = ROOT / "data/sft" / raw_name.replace(".jsonl", ".validated.jsonl")
+        manifest = ROOT / "data/sft" / raw_name.replace(".jsonl", ".manifest.json")
+        active = run(
+            "ssh", "uwr", f"squeue -h -n kt-ann-{name}", check=False, capture=True
+        ).stdout.strip()
+        if not raw.exists() and not active:
+            run("rsync", "-a", f"uwr:{UWR}/data/sft/incoming/{raw_name}", str(raw), check=False)
+        if raw.exists() and not valid.exists():
+            params = json.dumps(
+                {
+                    "months": name,
+                    "seed": seed,
+                    "positions": 1_000_000,
+                    "nodes": 100_000,
+                    "per_game": 1,
+                }
+            )
+            docker(
+                "python",
+                "scripts/pipeline.py",
+                "validate-shard",
+                "--input",
+                str(raw.relative_to(ROOT)),
+                "--out",
+                str(valid.relative_to(ROOT)),
+                "--manifest",
+                str(manifest.relative_to(ROOT)),
+                "--against",
+                *[str(p.relative_to(ROOT)) for p in against],
+                "--kind",
+                "teacher",
+                "--parameters",
+                params,
+            )
+        if valid.exists():
+            accepted.append(str(valid.relative_to(ROOT)))
+            against.append(valid)
+    return accepted
+
+
+def dagger_smoke(checkpoint):
+    folder = RUN / "dagger-smoke"
+    candidates = folder / "candidates.jsonl"
+    relabeled = folder / "dagger.jsonl"
+    metrics = folder / "metrics.json"
+    folder.mkdir(parents=True, exist_ok=True)
+    if not candidates.exists():
+        docker(
+            "python",
+            "scripts/dagger.py",
+            str(checkpoint.relative_to(ROOT)),
+            "--source",
+            "data/sft/annotations-5m.jsonl",
+            "--out",
+            "/tmp/unused.jsonl",
+            "--metrics-out",
+            "/tmp/unused.json",
+            "--positions",
+            "8",
+            "--effort",
+            "4",
+            "--device",
+            "cuda",
+            "--candidates-out",
+            str(candidates.relative_to(ROOT)),
+        )
+    if not relabeled.exists():
+        docker(
+            "python",
+            "scripts/dagger.py",
+            "--source",
+            "data/sft/annotations-5m.jsonl",
+            "--out",
+            str(relabeled.relative_to(ROOT)),
+            "--metrics-out",
+            str(metrics.relative_to(ROOT)),
+            "--positions",
+            "8",
+            "--nodes",
+            "1000",
+            "--workers",
+            "2",
+            "--device",
+            "cpu",
+            "--candidates-in",
+            str(candidates.relative_to(ROOT)),
+        )
+    if sum(1 for _ in relabeled.open()) != 8:
+        raise RuntimeError("DAgger smoke did not produce exactly 8 records")
+    event("dagger_smoke_complete")
+
+
+def collect_and_relabel(checkpoint, round_index):
+    folder = RUN / f"round-{round_index:02d}"
+    folder.mkdir(parents=True, exist_ok=True)
+    candidates = folder / "candidates.jsonl"
+    raw = folder / "dagger.raw.jsonl"
+    metrics = folder / "metrics.json"
+    validated = folder / "dagger.validated.jsonl"
+    if not candidates.exists():
+        docker(
+            "python",
+            "scripts/dagger.py",
+            str(checkpoint.relative_to(ROOT)),
+            "--source",
+            "data/sft/annotations-5m.jsonl",
+            "--out",
+            "/tmp/unused.jsonl",
+            "--metrics-out",
+            "/tmp/unused.json",
+            "--positions",
+            "10000",
+            "--source-offset",
+            str(1_000_000 + round_index * 10_000),
+            "--effort",
+            "4",
+            "--inject-best-prob",
+            "0",
+            "--device",
+            "cuda",
+            "--candidates-out",
+            str(candidates.relative_to(ROOT)),
+        )
+    remote_dir = f"{UWR}/experiments/pipeline-v3/round-{round_index:02d}"
+    run("ssh", "uwr", "mkdir", "-p", remote_dir, f"{UWR}/experiments/slurm")
+    run("rsync", "-a", str(candidates), f"uwr:{remote_dir}/candidates.jsonl")
+    if not raw.exists() or not metrics.exists():
+        wrap = (
+            f"cd {UWR} && export PYTHONPATH={UWR}/src && "
+            "export STOCKFISH_PATH=/Ziob/ijakus/bin/stockfish && "
+            f".venv/bin/python scripts/dagger.py --source data/sft/annotations-5m.jsonl "
+            f"--out experiments/pipeline-v3/round-{round_index:02d}/dagger.raw.jsonl "
+            f"--metrics-out experiments/pipeline-v3/round-{round_index:02d}/metrics.json "
+            f"--positions 10000 --nodes 30000 --workers 55 --device cpu "
+            f"--candidates-in experiments/pipeline-v3/round-{round_index:02d}/candidates.jsonl"
+        )
+        sbatch = [
+            "sbatch",
+            "--parsable",
+            "--job-name",
+            f"kt-dagger-r{round_index:02d}",
+            "--partition",
+            "student-cpu",
+            "--cpus-per-task",
+            "56",
+            "--time",
+            "06:00:00",
+            "--output",
+            f"{UWR}/experiments/slurm/%x-%j.log",
+            "--wrap",
+            wrap,
+        ]
+        submitted = run(
+            "ssh", "uwr", " ".join(shlex.quote(part) for part in sbatch), capture=True
+        ).stdout.strip()
+        event("dagger_relabel_submitted", round=round_index, job=submitted)
+        while run("ssh", "uwr", "squeue", "-h", "-j", submitted, capture=True).stdout.strip():
+            time.sleep(30)
+        run("rsync", "-a", f"uwr:{remote_dir}/dagger.raw.jsonl", str(raw))
+        run("rsync", "-a", f"uwr:{remote_dir}/metrics.json", str(metrics))
+    if not validated.exists():
+        docker(
+            "python",
+            "scripts/pipeline.py",
+            "validate-shard",
+            "--input",
+            str(raw.relative_to(ROOT)),
+            "--out",
+            str(validated.relative_to(ROOT)),
+            "--manifest",
+            str((folder / "dagger.manifest.json").relative_to(ROOT)),
+            "--kind",
+            "dagger",
+            "--parameters",
+            json.dumps(
+                {
+                    "round": round_index,
+                    "checkpoint": str(checkpoint),
+                    "effort": 4,
+                    "distinct_roots": True,
+                    "nodes": 30000,
+                    "positions": 10000,
+                }
+            ),
+        )
+    return validated, json.loads(metrics.read_text())
+
+
+def improved(old, new):
+    direct_ok = new["direct_top1"] >= old["direct_top1"] - 0.02
+    recall_ok = new["candidate_recall"] >= old["candidate_recall"] - 0.02
+    gain = (
+        new["thinking_top1"] >= old["thinking_top1"] + 0.005
+        or new["selection"] >= old["selection"] + 0.005
+    )
+    no_thinking_regression = new["thinking_top1"] >= old["thinking_top1"] - 0.005
+    return direct_ok and recall_ok and gain and no_thinking_regression
+
+
+def train_round(checkpoint, dagger, round_index, new_teacher):
+    out = RUN / f"sft-{round_index:02d}"
+    model = out / "model.pt"
+    if model.exists():
+        return model
+    sources = (
+        (
+            new_teacher[round_index % len(new_teacher) :]
+            + new_teacher[: round_index % len(new_teacher)]
+            + TEACHER
+        )
+        if new_teacher
+        else TEACHER
+    )
+    latest = sorted(out.glob("step-*.pt"), key=lambda p: int(p.stem.split("-")[-1]))
+    start = latest[-1] if latest else checkpoint
+    resume = ["--resume"] if latest else []
+    docker(
+        "python",
+        "scripts/sft.py",
+        str(start.relative_to(ROOT)),
+        *resume,
+        "--annotations",
+        *sources,
+        "--dagger-annotations",
+        str(dagger.relative_to(ROOT)),
+        "--teacher-fraction",
+        "0.75",
+        "--teacher-positions",
+        "30000",
+        "--out",
+        str(out.relative_to(ROOT)),
+        "--epochs",
+        "1",
+        "--max-steps",
+        "500",
+        "--batch-size",
+        "64",
+        "--lr",
+        "5e-6",
+        "--min-lr",
+        "5e-7",
+        "--warmup",
+        "50",
+        "--move-loss-weight",
+        "2.0",
+        "--eval-every",
+        "250",
+        "--format-positions",
+        "100",
+        "--pretrain-batches",
+        "150",
+        "--pretrain-check-every",
+        "250",
+        "--min-pretrain-top1",
+        "0.40",
+        "--device",
+        "cuda",
+    )
+    event("mixed_sft_complete", round=round_index, checkpoint=str(model))
+    return model
+
+
+def main():
+    checkpoint = wait_initial_sft()
+    dagger_smoke(checkpoint)
+    previous = None
+    for round_index in range(5):
+        new_teacher = sync_new_teacher()
+        dagger, metrics = collect_and_relabel(checkpoint, round_index)
+        event("paired_eval", round=round_index, checkpoint=str(checkpoint), metrics=metrics)
+        if previous is not None and not improved(previous, metrics):
+            event("early_stop", round=round_index, checkpoint=str(checkpoint), metrics=metrics)
+            return
+        if round_index == 4:
+            event("schedule_complete", checkpoint=str(checkpoint), metrics=metrics)
+            return
+        previous = metrics
+        new_teacher = sync_new_teacher()
+        checkpoint = train_round(checkpoint, dagger, round_index + 1, new_teacher)
+
+
+if __name__ == "__main__":
+    main()

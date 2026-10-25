@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "default": "human-pretrain-100m-20260730",
+  "foundations": {
+    "human-pretrain-100m-20260730": {
+      "path": "runs/foundations/human-pretrain-100m-20260730/model.pt",
+      "source_host": "adrian",
+      "source_path": "/home/ijakus/projects/krasnal-think/runs/pretrain-eval/model.pt",
+      "sha256": "b660b1f8eef7104123dd6551eff5c63ab3b665b72a8f1a8b2d17ec6fd71c7e81",
+      "source_games_including_validation": 100020000,
+      "training_games": 100000000,
+      "parameters": 100756992,
+      "checkpoint_step": 106439,
+      "eval_classes": 29,
+      "corpus_evidence": "MEMORY.md 2026-07-30; data/pretrain-eval/train.bin"
+    }
+  },
+  "retired": {
+    "52929453aaac2e62bb8ce1b61c084d7491e2dac462d10a1d3b64218e415b7f84": {
+      "id": "retired-human-pretrain-34m-20260727",
+      "training_games": 34000000,
+      "old_paths": ["runs/pretrain/model.pt", "experiments/sf-interleave-v1/checkpoints/pretrain-model.pt"],
+      "reason": "Older 34M-game checkpoint was mistaken for the 100M foundation. Historical experiments only; prohibited for new training."
+    }
+  }
+}

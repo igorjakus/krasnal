@@ -1,0 +1,24 @@
+{
+  "games_verified": 800,
+  "adviser_prefixes_verified": 73310,
+  "censored": 0,
+  "checks": "PGN legality,outcome,FEN,plies,opening/anchor/colour; adviser trace matches exact pre-move board;legalhint and depthcap;teacher-control actually plays hint;follow/role/node/depth counters",
+  "scope": "full_saved_data",
+  "source_sha256": "677a1d657726421b843452093c7044a46d8307d690ee873296274c4cb4023976",
+  "counts": {
+    "human_sf_d1": 100,
+    "teacher_d1": 100,
+    "human_sf_d4": 100,
+    "teacher_d4": 100,
+    "human_sf_d8": 100,
+    "teacher_d8": 100,
+    "human_sf_n30k": 100,
+    "teacher_n30k": 100
+  },
+  "files": {
+    "games.jsonl": "b0376279ad3d64c7e1c66b9f95e9eeed75b0c96151fbdf5a8f5c890dad3510c0",
+    "games.pgn": "9fd937d6f505a1d82f726dbbd4a36b0f6c56b507a99ee553a690a7c34b76cbce",
+    "advice.jsonl": "325dabfb5f679ab8c6759f109b2b0ba7cc73d95c312276bc728982df901d409d",
+    "plan.json": "20cbe796c50bb03b85396901365c2cc06e44bda0f5720b569b9b233598da3786"
+  }
+}

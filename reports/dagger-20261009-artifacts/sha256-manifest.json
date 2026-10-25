@@ -1,0 +1,51 @@
+{
+  "captured_at": "2026-10-09T08:33:00+02:00",
+  "source_host": "adrian",
+  "files": [
+    {
+      "local": "reports/dagger-20261009-artifacts/onpolicy/report.md",
+      "remote": "/home/ijakus/projects/krasnal-think/experiments/curriculum-onpolicy-v1-20261008/report.md",
+      "sha256": "b15051608d1c2dbe0da9c01f120f286c8ad9eab46bd0a0a058601f2caba6cee7"
+    },
+    {
+      "local": "reports/dagger-20261009-artifacts/onpolicy/report.csv",
+      "remote": "/home/ijakus/projects/krasnal-think/experiments/curriculum-onpolicy-v1-20261008/report.csv",
+      "sha256": "1d44f47de3926741055203ca7d025b6aa2a737971a13fd7f7c27278a2bff5cfb"
+    },
+    {
+      "local": "reports/dagger-20261009-artifacts/onpolicy/status.json",
+      "remote": "/home/ijakus/projects/krasnal-think/experiments/curriculum-onpolicy-v1-20261008/status.json",
+      "sha256": "8cd26a01d7046e991ff909ac34b218c60bd0503b773a7924f7ff1ca907c52472"
+    },
+    {
+      "local": "reports/dagger-20261009-artifacts/onpolicy/foundation.json",
+      "remote": "/home/ijakus/projects/krasnal-think/experiments/curriculum-onpolicy-v1-20261008/foundation.json",
+      "sha256": "6f823ba66f50327cede0cc76f828bbaa02d4b008bfed0b16b7d1a9164a3fd7f0"
+    },
+    {
+      "local": "reports/dagger-20261009-artifacts/onpolicy/experiment.json",
+      "remote": "/home/ijakus/projects/krasnal-think/experiments/curriculum-onpolicy-v1-20261008/experiment.json",
+      "sha256": "5629cc1a758013617d01eefc9343a5994b3e67d236e20177b4f4cf4970feca1f"
+    },
+    {
+      "local": "reports/dagger-20261009-artifacts/onpolicy/run-config.json",
+      "remote": "/home/ijakus/projects/krasnal-think/experiments/curriculum-onpolicy-v1-20261008/run-config.json",
+      "sha256": "007d2d6e24a988293c4a2544dba35b9a76a539ca865c0cc73681ebc3d4c62ace"
+    },
+    {
+      "local": "reports/dagger-20261009-artifacts/onpolicy/eval-gold.manifest.json",
+      "remote": "/home/ijakus/projects/krasnal-think/experiments/curriculum-onpolicy-v1-20261008/eval-gold.manifest.json",
+      "sha256": "041523c633d44be278a76ee0aa53b33851a6086ea3363c683aee151f5f9932d8"
+    },
+    {
+      "local": "reports/dagger-20261009-artifacts/onpolicy/manifest.json",
+      "remote": "/home/ijakus/projects/krasnal-think/experiments/curriculum-onpolicy-v1-20261008/data-000/manifest.json",
+      "sha256": "6ed28806010f5558ca72485a21bf582c1e3592b0fd7dfbdd3836858b73106aac"
+    },
+    {
+      "local": "reports/dagger-20261009-artifacts/v4/report.md",
+      "remote": "/home/ijakus/projects/krasnal-think/experiments/curriculum-v4/report.md",
+      "sha256": "7c2b0a6cd49bd24ed61d67b3c9e9abe19194b9fc5d36c3186b66014ff05aa3c6"
+    }
+  ]
+}

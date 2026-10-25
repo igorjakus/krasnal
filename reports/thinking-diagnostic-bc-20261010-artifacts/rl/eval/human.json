@@ -1,0 +1,19 @@
+{
+  "human_batches": 30,
+  "human_block_size": 1024,
+  "human_nll": 1.6567223296944105,
+  "human_seed": 1729,
+  "human_targets": 926144,
+  "human_top1": 0.5068887775551102,
+  "raw_format": {
+    "2": {
+      "budget": 0.0,
+      "closing": 0.0,
+      "error": 0.0,
+      "evaluation": 0.0,
+      "opening": 0.0,
+      "token_order": 0.0
+    }
+  },
+  "raw_format_error": 0.0
+}

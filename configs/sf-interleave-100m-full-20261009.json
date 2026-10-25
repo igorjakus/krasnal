@@ -1,0 +1,19 @@
+{
+  "root": "experiments/sf-interleave-100m-full-20261009-humanloss",
+  "data": "data/sf-interleave-distinct-20261008-full-buffered",
+  "foundation_id": "human-pretrain-100m-20260730",
+  "checkpoint": "runs/foundations/human-pretrain-100m-20260730/model.pt",
+  "epochs": 2,
+  "world_size": 2,
+  "batch_size": 2,
+  "grad_accum": 8,
+  "sampling": "shuffled-blocks",
+  "human_weight": 1.0,
+  "other_weight": 0.0,
+  "lr": 0.00001,
+  "min_lr": 0.000001,
+  "save_every": 5000,
+  "max_hours": 36,
+  "eval_limit": 10000,
+  "selection": "minimum validation human NLL; test selected checkpoint once"
+}

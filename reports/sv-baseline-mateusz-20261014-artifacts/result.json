@@ -1,0 +1,41 @@
+{
+  "steps": 100000,
+  "exposures": 25600000,
+  "completed_updates": true,
+  "train_phase_seconds": 5109.36389374733,
+  "parameters": 10702848,
+  "best_checkpoint_sha256": "5e2aef5361f497b850c8069d846addb6a7465028be189e0948a45ed74312b638",
+  "latest_checkpoint_sha256": "66f3e7d0e54ffd44e58799dd8fe77ffd98e3edff878d59a42c95c79eba1d0032",
+  "validation": {
+    "soft_target_cross_entropy": 3.2305776916503905,
+    "expected_value_mae": 0.08811311149597167,
+    "n": 10000
+  },
+  "chessbench": {
+    "soft_target_cross_entropy": 3.6911891235351564,
+    "expected_value_mae": 0.07128863830566406,
+    "n": 10000
+  },
+  "sf30k": {
+    "sf30k_top1": 0.307,
+    "n": 1000,
+    "move_ms_mean": 19.789002694480587,
+    "note": "Exact gold top1; no all-move regret or Elo claim"
+  },
+  "games": {
+    "pilot": {
+      "completed": 16,
+      "wins": 13,
+      "draws": 3,
+      "losses": 0,
+      "cutoffs": 0
+    },
+    "sf1600": {
+      "completed": 16,
+      "wins": 0,
+      "draws": 5,
+      "losses": 11,
+      "cutoffs": 0
+    }
+  }
+}

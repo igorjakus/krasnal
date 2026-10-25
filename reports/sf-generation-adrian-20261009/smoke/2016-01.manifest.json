@@ -1,0 +1,28 @@
+{
+  "code_revision": "unknown",
+  "complete": true,
+  "kind": "stockfish_interleave_raw",
+  "output": "experiments/sf-generation-adrian-20261009/smoke/2016-01.jsonl",
+  "records": 3,
+  "resume": true,
+  "schema_version": 2,
+  "seconds": 23.16196060180664,
+  "sha256": "be56d1c6fa3b02bbc29e711f66b4955308ed56902c26ecf5f1585c151c1e89b1",
+  "source": {
+    "game_limit_per_month": 3,
+    "min_duration": 180,
+    "min_elo": 1100,
+    "min_plies": 20,
+    "months": [
+      "2016-01"
+    ],
+    "repo": "thomasd1/aix-lichess-database"
+  },
+  "stockfish": {
+    "binary_sha256": "38faa5883b03652f847a87ed168b1bfee81b361db9584dae59a51cb91e69d9d6",
+    "nodes": 30000,
+    "path": "experiments/sf-generation-adrian-20261009/engine/stockfish",
+    "threads_per_engine": 1,
+    "workers": 2
+  }
+}

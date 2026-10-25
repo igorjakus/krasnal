@@ -1,0 +1,41 @@
+{
+  "root": "experiments/sf-interleave-star-full-20261009-humanloss",
+  "data": "data/sf-interleave-distinct-20261008-full-buffered",
+  "initialization": "random; no pretrained weights",
+  "conditioning": "constant_star",
+  "matched_treatment_root": "experiments/sf-interleave-scratch-full-20261009-humanloss",
+  "star_id": 4080,
+  "epochs": 2,
+  "batch_size": 2,
+  "grad_accum": 16,
+  "lr": 0.0003,
+  "min_lr": 3e-05,
+  "warmup": 1000,
+  "save_every": 5000,
+  "max_hours": 40,
+  "seed": 1234,
+  "human_weight": 1.0,
+  "other_weight": 0.0,
+  "model": {
+    "vocab_size": 4096,
+    "block_size": 1024,
+    "n_layer": 14,
+    "n_head": 12,
+    "n_embd": 768,
+    "dropout": 0.0,
+    "qk_norm": false,
+    "eval_classes": 29
+  },
+  "steps": 59631,
+  "train_games": 7035726,
+  "global_batch_size": 32,
+  "pretrained_weights_loaded": false,
+  "dataset_manifest_sha256": "e20807e0c81958d90b91c39d0d0faf615d261c57c8b73590a3673ffe645bc69f",
+  "code_sha256": {
+    "scripts/train_sf_scratch.py": "98bf7aeb45880a3a29f165b748a5efd6c4c8e13a68398037b98588b806ab96f8",
+    "scripts/train_interleave.py": "1926eaeb20bc73d6f599aa8dab765f255b19c9aaa3b18812bb20125c6952e617",
+    "src/krasnal_think/interleave.py": "f0d2d4742db5a274f1cfc40bc4d7b9a45a7b5f0026517ed3c0bc24527e55732e",
+    "src/krasnal_think/model.py": "e2d37be6dd8859b85bea58ac83c0ba2ef466703c14891ab00ef294c747319704",
+    "src/krasnal_think/tokens.py": "9410613365aeacc027293509f4f881319c05b40f2525a965b8f9f21f31ad84c6"
+  }
+}

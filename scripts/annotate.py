@@ -8,6 +8,7 @@ when the SFT stream is built.
 """
 
 import argparse
+import hashlib
 import multiprocessing as mp
 import os
 import random
@@ -43,11 +44,18 @@ def _annotate(history: list[str]):
     return Annotation(history, variations, scores).to_json()
 
 
+def _history_key(history: list[str]) -> bytes:
+    return hashlib.blake2b(" ".join(history).encode(), digest_size=8).digest()
+
+
 def sample_positions(months, min_elo, per_game, min_ply, limit, seed):
     """Yield move histories, sampled uniformly over plies past the opening."""
     rng = random.Random(seed)
     con = duckdb.connect()
-    con.execute("SET preserve_insertion_order = false")
+    # A resumable shard must replay the exact same games for the same seed.
+    # Parallel parquet scans can change row order between invocations.
+    con.execute("SET preserve_insertion_order = true")
+    con.execute("SET threads = 1")
     con.execute("INSTALL aixchess FROM community")
     con.execute("LOAD aixchess")
     yielded = 0
@@ -90,18 +98,36 @@ def main():
     parser.add_argument("--stockfish", default=os.environ.get("STOCKFISH_PATH", "stockfish"))
     parser.add_argument("--out", type=Path, default=ROOT / "data" / "sft" / "annotations.jsonl")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="regenerate the deterministic source and skip histories already written",
+    )
     args = parser.parse_args()
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
+    completed = set()
+    if args.resume and args.out.exists():
+        with args.out.open() as existing:
+            for line in existing:
+                annotation = Annotation.from_json(line)
+                completed.add(_history_key(annotation.history))
+    elif args.out.exists():
+        raise SystemExit(f"refusing to overwrite {args.out}; pass --resume or choose a new shard")
     positions = sample_positions(
         args.months, args.min_elo, args.per_game, args.min_ply, args.positions, args.seed
     )
-    start, done = time.time(), 0
+    start, done = time.time(), len(completed)
     with (
         mp.Pool(args.workers, _start_worker, (args.stockfish, args.nodes, args.threads)) as pool,
-        args.out.open("w") as out,
+        args.out.open("a") as out,
     ):
         for line in pool.imap_unordered(_annotate, positions, chunksize=8):
+            annotation = Annotation.from_json(line)
+            key = _history_key(annotation.history)
+            if key in completed:
+                continue
+            completed.add(key)
             out.write(line + "\n")
             done += 1
             if done % 5_000 == 0:
