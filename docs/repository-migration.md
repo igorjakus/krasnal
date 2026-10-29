@@ -2,19 +2,19 @@
 
 ## Destination and GitHub identity
 
-The requested destination is the original, public `KSI-ML-research/krasnal`
-transferred to `igorjakus/krasnal`. Preserve repository ID `1156224823`, its 12
-stars, branches, issues, pull requests and history. Do not make it private: GitHub
+On 2026-10-29, the original public `KSI-ML-research/krasnal` was transferred to
+`igorjakus/krasnal`. Repository ID `1156224823` and all 12 stars were verified
+unchanged after transfer. Branches, issues, pull requests and repository history
+remain attached to that original repository. Do not make it private: GitHub
 erases stars on a public-to-private visibility change.
 
-The transfer is currently blocked by the existing `igorjakus/kobold` fork in the
-same network. Its removal is authorized by the user, but the CLI token lacks
-`delete_repo`. Browser deletion requires confirmation at action time. No transfer
-has completed yet.
+The old `igorjakus/kobold` fork was deleted with the user's explicit approval,
+after GitHub reauthentication, to unblock the transfer. The old organization URL
+redirects to `igorjakus/krasnal`.
 
 The initial private repository (ID `1433640657`) has been renamed to
 `igorjakus/krasnal-monorepo-backup-20261025` to free the destination name. It is a
-backup, not the intended final GitHub identity. Local checkout:
+backup, not the canonical GitHub repository. Local checkout:
 `/Users/igorjakus/Projects/krasnal-monorepo`.
 
 ## Modular code
@@ -63,6 +63,7 @@ pre-migration implementation. Legacy class aliases resolve to canonical classes;
 checkpoint save/reload and short direct/thinking legal games pass on CPU.
 
 These are migration checks, not a new training experiment or Elo measurement.
-After successful transfer, push the combined main as a fast-forward from the
-original main and confirm repository ID and star count are preserved. Never force
-push over newer upstream work.
+The combined main is published as a fast-forward from the original main. Never
+force push over newer upstream work. The canonical remote is
+`git@github.com:igorjakus/krasnal.git`; the private migration backup remains under
+the `migration-backup` remote for recovery.
