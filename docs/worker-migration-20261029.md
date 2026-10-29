@@ -62,6 +62,12 @@ The inherited UWR environment also referenced a Python interpreter unavailable o
 compute nodes. Rebuilding from the lockfile uses the project-local Python/runtime
 cache instead of relying on that home-directory interpreter.
 
+Final checks passed on all three hosts with PyTorch 2.14.1 (CUDA 13.0 wheels on
+Linux): model imports, history forward/backward, direct/thinking legal games,
+legacy aliases and checkpoint roundtrip. Adrian's RTX 3090 and the allocated UWR
+RTX 3080 both passed the CUDA scalar check. UWR setup/smoke job 19383 and GPU smoke
+job 19384 completed; no test jobs remain running.
+
 ## New work
 
 Edit and commit on the Mac. Worker Git origins point at the canonical public
