@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 
 project = Path(__file__).resolve().parents[1]
 out = project / "reports/stockfish-seminarium-20261009"
-remote = "/Ziob/ijakus/krasnal-think"
+remote = "/Ziob/ijakus/krasnal"
 run = "experiments/sf-interleave-distinct-20261008"
 deadline = datetime(2026, 10, 9, 9, 0, tzinfo=ZoneInfo("Europe/Warsaw"))
 out.mkdir(parents=True, exist_ok=True)

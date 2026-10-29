@@ -11,6 +11,7 @@ __pycache__/
 data/
 experiments/
 runs/
+/runs
 wandb/
 *.pt
 *.npy
@@ -29,3 +30,7 @@ local_games/
 dist/
 build/
 *.egg-info/
+.local/
+.venv-codex/
+.uv-python/
+.uv-cache/

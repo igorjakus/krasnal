@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal-think}
+PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal}
 RUN_ROOT=${RUN_ROOT:-experiments/sf-interleave-v1}
 DATA_ROOT=${DATA_ROOT:-data/sf-interleave-v1}
 BASE_CHECKPOINT=${BASE_CHECKPOINT:-experiments/sf-interleave-v1/checkpoints/pretrain-model.pt}
@@ -23,7 +23,7 @@ run_eval() {
     local label=$2
     local checkpoint=$3
     local mode=$4
-    .venv-codex/bin/python scripts/evaluate_interleave.py \
+    .venv/bin/python scripts/evaluate_interleave.py \
         "$checkpoint" \
         --records "$DATA_ROOT/$split/records.jsonl" \
         --mode "$mode" \

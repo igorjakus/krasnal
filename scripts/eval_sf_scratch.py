@@ -52,7 +52,7 @@ def evaluate(checkpoint, split, label):
     for batch in (8, 2, 1):
         temporary = output.with_suffix(".json.partial")
         try:
-            subprocess.run([".venv-codex/bin/python", args.evaluator,
+            subprocess.run([".venv/bin/python", args.evaluator,
                             str(checkpoint), "--records", str(data / split / "records.jsonl"),
                             "--mode", "augmented", "--limit", "10000", "--batch-size", str(batch),
                             "--device", "cuda", "--out", str(temporary)], check=True, timeout=1800)

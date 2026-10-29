@@ -9,7 +9,7 @@
 
 set -euo pipefail
 
-PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal-think}
+PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal}
 MONTHS_FILE=${MONTHS_FILE:-scripts/slurm/sf_interleave_months.txt}
 DATA_ROOT=${DATA_ROOT:-data/sf-interleave-v2/raw/train}
 ARRAY_OFFSET=${ARRAY_OFFSET:-0}
@@ -35,7 +35,7 @@ out="$DATA_ROOT/$month.jsonl"
 manifest="$DATA_ROOT/$month.manifest.json"
 
 echo "Annotating month=$month nodes=$NODES workers=$WORKERS game_limit=$GAME_LIMIT"
-exec .venv-codex/bin/python scripts/sf_interleave.py annotate \
+exec .venv/bin/python scripts/sf_interleave.py annotate \
     --month "$month" \
     --out "$out" \
     --manifest "$manifest" \

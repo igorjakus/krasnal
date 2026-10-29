@@ -7,7 +7,7 @@
 #SBATCH --time=12:00:00
 #SBATCH --output=experiments/slurm/%x-%j.log
 set -euo pipefail
-cd /Ziob/ijakus/krasnal-think
+cd /Ziob/ijakus/krasnal
 DATA_ROOT=data/sf-interleave-distinct-20261008-quick-buffered
 RUN_ROOT=experiments/sf-interleave-distinct-20261008
 MODE=${MODE:?}
@@ -25,7 +25,7 @@ resume_args=()
 if [[ -n "${RESUME_FROM:-}" ]]; then
     resume_args=(--resume-from "$RESUME_FROM")
 fi
-.venv-codex/bin/python -m torch.distributed.run --standalone --nproc_per_node="$GPUS" \
+.venv/bin/python -m torch.distributed.run --standalone --nproc_per_node="$GPUS" \
     scripts/train_interleave.py experiments/sf-interleave-v1/checkpoints/pretrain-model.pt \
     --data-dir "$DATA_ROOT/train" --mode "$MODE" --out "$OUT" \
     --steps "${STEPS:?}" --batch-size 2 --grad-accum "$((16 / GPUS))" \
@@ -34,14 +34,14 @@ fi
     --eval-data-dir "$DATA_ROOT/val" --eval-batches 10 --device cuda "${resume_args[@]}"
 mkdir -p "$RUN_ROOT/metrics"
 for split in val test; do
-    .venv-codex/bin/python scripts/evaluate_interleave.py "$OUT/model.pt" \
+    .venv/bin/python scripts/evaluate_interleave.py "$OUT/model.pt" \
         --records "$DATA_ROOT/$split/records.jsonl" --mode "$MODE" \
         --limit 10000 --batch-size 8 --device cuda \
         --out "$RUN_ROOT/metrics/$split-$MODE.json"
 done
 if [[ "$MODE" == human ]]; then
     for split in val test; do
-        .venv-codex/bin/python scripts/evaluate_interleave.py \
+        .venv/bin/python scripts/evaluate_interleave.py \
             experiments/sf-interleave-v1/checkpoints/pretrain-model.pt \
             --records "$DATA_ROOT/$split/records.jsonl" --mode human \
             --limit 10000 --batch-size 8 --device cuda \

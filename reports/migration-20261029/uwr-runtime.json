@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "module": "/Ziob/ijakus/krasnal/src/krasnal/__init__.py",
+  "torch": "2.14.1+cu130",
+  "registry": "/Ziob/ijakus/krasnal/configs/foundations.json",
+  "checks": [
+    "history_forward_backward",
+    "reasoning_direct_legal_game",
+    "reasoning_thinking_legal_game",
+    "legacy_alias",
+    "checkpoint_roundtrip"
+  ]
+}

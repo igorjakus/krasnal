@@ -1,0 +1,5 @@
+{
+  "status": "passed",
+  "device": "NVIDIA GeForce RTX 3080",
+  "torch": "2.14.1+cu130"
+}

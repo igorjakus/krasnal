@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal-think}
+PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal}
 DATA_ROOT=${DATA_ROOT:-data/sf-interleave-v2}
 RUN_ROOT=${RUN_ROOT:-experiments/sf-interleave-v2}
 MODE=${MODE:?MODE must be human or augmented}
@@ -20,7 +20,7 @@ CHECKPOINT=${CHECKPOINT:-experiments/sf-interleave-v1/checkpoints/pretrain-model
 
 cd "$PROJECT_ROOT"
 mkdir -p "$RUN_ROOT"
-exec .venv-codex/bin/python scripts/train_interleave.py \
+exec .venv/bin/python scripts/train_interleave.py \
     "$CHECKPOINT" \
     --data-dir "$DATA_ROOT/train" \
     --mode "$MODE" \

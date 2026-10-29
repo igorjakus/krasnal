@@ -47,7 +47,7 @@ def evaluate(checkpoint, mode, label):
         temporary = output.with_suffix(".json.partial")
         success = False
         for batch in (8, 2, 1):
-            command = [".venv-codex/bin/python", "scripts/evaluate_interleave.py",
+            command = [".venv/bin/python", "scripts/evaluate_interleave.py",
                        str(checkpoint), "--records", str(data / split / "records.jsonl"),
                        "--mode", mode, "--limit", "10000", "--batch-size", str(batch),
                        "--device", "cuda", "--out", str(temporary)]

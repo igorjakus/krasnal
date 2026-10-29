@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "device": "NVIDIA GeForce RTX 3090",
+  "torch": "2.14.1+cu130",
+  "check": "CUDA tensor ones(4).sum().item() == 4.0",
+  "source": "inline Docker GPU smoke"
+}

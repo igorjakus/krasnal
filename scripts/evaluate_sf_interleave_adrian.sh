@@ -14,7 +14,7 @@ docker run --rm --gpus all \
     -e CONTROL_CHECKPOINT -e TREATMENT_CHECKPOINT \
     -v "$PWD:/app" \
     -w /app \
-    krasnal-think:audit-runtime \
+    krasnal:runtime \
     bash -lc '
 set -euo pipefail
 run_eval() {

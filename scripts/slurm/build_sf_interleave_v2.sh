@@ -9,7 +9,7 @@
 
 set -euo pipefail
 
-PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal-think}
+PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal}
 OUT_ROOT=${OUT_ROOT:-data/sf-interleave-v2}
 
 cd "$PROJECT_ROOT"
@@ -26,4 +26,4 @@ args=(build --out-dir "$OUT_ROOT" --manifest "$OUT_ROOT/dataset.manifest.json")
 args+=(--train-shards "${train_shards[@]}")
 args+=(--val-shards "${val_shards[@]}")
 args+=(--test-shards "${test_shards[@]}")
-exec .venv-codex/bin/python scripts/sf_interleave.py "${args[@]}"
+exec .venv/bin/python scripts/sf_interleave.py "${args[@]}"
