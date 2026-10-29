@@ -3,7 +3,7 @@ import bulletchess
 from krasnal.config import CLOCK_IGNORE_ID
 from krasnal.eval.metrics.context import EvalContext
 from krasnal.eval.parsers import GameTokens
-from krasnal.tokens import is_move_token_id, to_uci
+from krasnal.tokenization.history import is_move_token_id, to_uci
 
 PIECE_TYPE_TO_INT = {pt: i + 1 for i, pt in enumerate(bulletchess.PIECE_TYPES)}
 

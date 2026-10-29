@@ -1,0 +1,21 @@
+{
+  "verified_against_adrian": true,
+  "verified_date": "2026-10-23",
+  "files": {
+    "games.jsonl": "b0376279ad3d64c7e1c66b9f95e9eeed75b0c96151fbdf5a8f5c890dad3510c0",
+    "games.pgn": "9fd937d6f505a1d82f726dbbd4a36b0f6c56b507a99ee553a690a7c34b76cbce",
+    "plan.json": "20cbe796c50bb03b85396901365c2cc06e44bda0f5720b569b9b233598da3786",
+    "result.json": "9812b9d48a739b5e2f7ebbd145e53e42860e66873645f61f2eecbcbd27001932",
+    "status.json": "f7659c272961a0c921f25634a26fd2eb9f3064fd3c848b0cb19d93a2c7ca2c4d",
+    "complete.json": "3e064da9b785adc8a12412f5fc7a8ecf194f3597e4608fdd6e71c1192e661451",
+    "audit.json": "50bed0dfd47230a02dd38ceef9b0fe8b4bc82cd29a2286befc5d9db94051e3e6"
+  },
+  "worker_only": {
+    "advice.jsonl": "325dabfb5f679ab8c6759f109b2b0ba7cc73d95c312276bc728982df901d409d"
+  },
+  "audit": {
+    "games": 800,
+    "adviser_prefixes": 73310,
+    "censored": 0
+  }
+}

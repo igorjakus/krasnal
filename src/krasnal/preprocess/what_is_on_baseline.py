@@ -9,10 +9,10 @@ import bulletchess
 from loguru import logger
 from tqdm.auto import tqdm
 
-from krasnal.dataset import PretrainDataset
+from krasnal.data.history import PretrainDataset
 from krasnal.eval.parsers import GameTokens, parse_game_tokens
 from krasnal.eval.what_is_on_baseline import WhatIsOnBaselineAccumulator
-from krasnal.tokens import GAME_START_ID, PAD_ID, get_moves_only, to_uci
+from krasnal.tokenization.history import GAME_START_ID, PAD_ID, get_moves_only, to_uci
 
 
 def build_what_is_on_baseline_counts(

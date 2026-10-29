@@ -1,0 +1,20 @@
+{
+  "checkpoint": "experiments/sf-interleave-distinct-20261008/augmented/step-10000.pt",
+  "human_moves": 654407,
+  "human_nll": 1.4490145087302422,
+  "human_top1": 0.5334646481471012,
+  "human_top5": 0.8975759733621431,
+  "mode": "augmented",
+  "records": 9677,
+  "sf_moves": 654407,
+  "sf_nll": 1.4262124542399361,
+  "sf_top1": 0.5339016850369876,
+  "sf_top5": 0.8969922387749519,
+  "stockfish_move_namespace": "distinct",
+  "teacher_forced_stockfish": true,
+  "vocab_size": 4096,
+  "checkpoint_sha256": "9d53fe37c007bf6fc30405dd0035b4ea0e79ccad2be4eb67830bc6bf4f9042de",
+  "dataset_manifest_sha256": "c314d24bad6475d6f5bcff93a7081f52563ae3d866a4fe46258542608976e4e2",
+  "records_sha256": "4f530631b425ccfedbfe8996552bcd0846ea71a5e4ae0cc07bf3b56cea7453bd",
+  "evaluated_at": "2026-10-09T00:25:47.364822+02:00"
+}

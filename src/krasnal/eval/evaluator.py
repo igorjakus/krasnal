@@ -9,7 +9,7 @@ from omegaconf import OmegaConf
 from torch.nn.utils.rnn import pad_sequence
 
 from krasnal.config import CLOCK_IGNORE_ID
-from krasnal.dataset import ChessDataset
+from krasnal.data.history import ChessDataset
 from krasnal.eval.parsers import GameTokens, parse_row_to_game_tokens
 from krasnal.eval.qa_probes import (
     compute_binary_f1_metrics,
@@ -22,7 +22,7 @@ from krasnal.eval.what_is_on_baseline import (
     WhatIsOnBaselineCounts,
 )
 from krasnal.inference import StatelessBatchInferenceSession
-from krasnal.tokens import ELO_BUCKETS, PAD_ID, is_move_token_id, move_token_id_for_turn
+from krasnal.tokenization.history import ELO_BUCKETS, PAD_ID, is_move_token_id, move_token_id_for_turn
 from krasnal.utils import set_seed
 
 from .metrics.context import EvalContext

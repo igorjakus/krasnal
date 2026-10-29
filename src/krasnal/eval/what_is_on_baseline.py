@@ -9,7 +9,7 @@ from typing import Any
 
 import bulletchess
 
-from krasnal.tokens import COLORED_PIECE_TOKENS, EMPTY_ID
+from krasnal.tokenization.history import COLORED_PIECE_TOKENS, EMPTY_ID
 
 _WHAT_IS_ON_LABEL_IDS: tuple[int, ...] = (EMPTY_ID, *sorted(COLORED_PIECE_TOKENS.values()))
 _SQUARES: tuple[tuple[str, bulletchess.Square], ...] = tuple(

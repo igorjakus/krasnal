@@ -19,21 +19,10 @@ from krasnal.config import (
     GPTConfig,
     TrainConfig,
 )
-from krasnal.dataset import ChessDataset, PretrainDataset, make_collate_fn, make_packed_collate_fn
+from krasnal.data.history import ChessDataset, PretrainDataset, make_collate_fn, make_packed_collate_fn
 from krasnal.eval import chess_evaluator_from_config
-from krasnal.tokens import get_vocab_size, load_move_vocab
-from krasnal.trainer import (
-    DistributedInfo,
-    build_model,
-    build_optimizer,
-    cosine_warmup_lr,
-    run_supervised_training,
-    save_model_state,
-    setup_distributed,
-    setup_runtime,
-    teardown_distributed,
-    unwrap_model,
-)
+from krasnal.tokenization.history import get_vocab_size, load_move_vocab
+from krasnal.training.history import DistributedInfo, build_model, build_optimizer, cosine_warmup_lr, run_supervised_training, save_model_state, setup_distributed, setup_runtime, teardown_distributed, unwrap_model
 from krasnal.utils import (
     ablation_metadata_from_env,
     ablation_tags,
@@ -48,7 +37,7 @@ from krasnal.utils import (
 torch.set_float32_matmul_precision("high")
 
 
-@hydra.main(version_base=None, config_path="../../config", config_name="pretrain")
+@hydra.main(version_base=None, config_path="../../configs", config_name="pretrain")
 def main(cfg: DictConfig) -> None:
     dist_info = setup_distributed()
     try:

@@ -16,7 +16,7 @@ import torch
 from tqdm import tqdm
 
 from krasnal.inference.exceptions import NoLegalMovesError
-from krasnal.tokens import WHITE_WON_ID
+from krasnal.tokenization.history import WHITE_WON_ID
 from krasnal.uci_engine.go_params import GoParams
 from krasnal.uci_engine.provider import ModelProvider
 

@@ -35,20 +35,13 @@ import wandb
 from torch.nn.utils.rnn import pad_sequence
 
 from krasnal.config import CLOCK_IGNORE_ID, EVAL_DATASET_PATH, GPTConfig
-from krasnal.dataset import ChessDataset
+from krasnal.data.history import ChessDataset
 from krasnal.eval.parsers import parse_row_to_game_tokens
 from krasnal.eval.replayer import replay_game_tokens
 from krasnal.inference import load_model
 from krasnal.inference.utils import create_amp_context
-from krasnal.model import GPT
-from krasnal.tokens import (
-    COLORED_PIECE_TOKENS,
-    EMPTY_ID,
-    ID_TO_MOVE,
-    PAD_ID,
-    load_move_vocab,
-    whats_on_answer_token_id,
-)
+from krasnal.models.history import GPT
+from krasnal.tokenization.history import COLORED_PIECE_TOKENS, EMPTY_ID, ID_TO_MOVE, PAD_ID, load_move_vocab, whats_on_answer_token_id
 from krasnal.utils import gpt_config_from_artifact_dict, read_model_config_json
 
 LABEL_TOKEN_IDS: tuple[int, ...] = (EMPTY_ID, *sorted(COLORED_PIECE_TOKENS.values()))

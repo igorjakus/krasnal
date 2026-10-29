@@ -8,25 +8,7 @@ import wandb
 from loguru import logger
 from omegaconf import DictConfig
 
-from krasnal.tokens import (
-    BLACK_WON_ID,
-    COLORED_PIECE_TOKENS,
-    DRAW_ID,
-    ELO_TOKENS,
-    EMPTY_ID,
-    GAME_END_ID,
-    GAME_START_ID,
-    IS_CHECK_ID,
-    MAX_SIDE_MATERIAL,
-    NO_CHECK_ID,
-    OPP_MATERIAL_START_ID,
-    OPP_MATERIAL_TOKEN_IDS,
-    SPECIAL_TOKENS,
-    TC_TOKENS,
-    WHATS_ON_SQUARE_TOKEN_IDS,
-    WHITE_WON_ID,
-    YES_CHECK_ID,
-)
+from krasnal.tokenization.history import BLACK_WON_ID, COLORED_PIECE_TOKENS, DRAW_ID, ELO_TOKENS, EMPTY_ID, GAME_END_ID, GAME_START_ID, IS_CHECK_ID, MAX_SIDE_MATERIAL, NO_CHECK_ID, OPP_MATERIAL_START_ID, OPP_MATERIAL_TOKEN_IDS, SPECIAL_TOKENS, TC_TOKENS, WHATS_ON_SQUARE_TOKEN_IDS, WHITE_WON_ID, YES_CHECK_ID
 
 # Declarative counter definitions for token mix analysis.
 # Each entry is (counter_name, single_token_id | frozenset_of_ids).

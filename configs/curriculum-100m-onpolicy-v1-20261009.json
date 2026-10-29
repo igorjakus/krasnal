@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "root": "experiments/curriculum-100m-onpolicy-v1-20261009",
+  "foundation": {
+    "checkpoint": "runs/foundations/human-pretrain-100m-20260730/model.pt",
+    "foundation_id": "human-pretrain-100m-20260730",
+    "human_val": "data/pretrain-eval/val.bin",
+    "block_size": 1024
+  },
+  "sources": [
+    "data/sft/annotations-5m.jsonl",
+    "data/sft/annotations-extra-adrian-20260913.jsonl",
+    "data/sft/teacher-2019-04-seed913041-n250k.validated.jsonl",
+    "data/sft/teacher-2019-05-seed913052-n250k.validated.jsonl",
+    "data/sft/teacher-2019-06-seed913063-n250k.validated.jsonl",
+    "data/sft/teacher-2019-07-seed913074-n250k.validated.jsonl",
+    "data/sft/incoming/teacher-2020q1-seed915201-n1m.jsonl",
+    "data/sft/incoming/teacher-2021q1-seed915211-n1m.jsonl",
+    "data/sft/incoming/teacher-2022q1-seed915221-n1m.jsonl",
+    "data/sft/incoming/teacher-2023q1-seed915231-n1m.jsonl"
+  ],
+  "prepare": {
+    "rounds": 10,
+    "eval_positions": 1000,
+    "val_positions": 1000,
+    "dagger_positions": 10000,
+    "dagger_ratio": 0.1,
+    "workers": 12
+  },
+  "train": {
+    "dagger_objective": "onpolicy-selection",
+    "batch_size": 64,
+    "lr": 0.000005,
+    "min_lr": 5e-7,
+    "save_every": 1000,
+    "teacher_fraction": 0.75,
+    "pv_root_weight": 0.5,
+    "pv_decay": 0.5,
+    "structure_weight": 0.1
+  },
+  "eval": {
+    "nodes": 30000,
+    "human_batches": 30,
+    "format_positions": 100,
+    "stockfish": "/usr/games/stockfish"
+  },
+  "device": "cuda"
+}

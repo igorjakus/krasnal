@@ -1,0 +1,15 @@
+{
+  "checkpoint": "runs/pretrain/model.pt",
+  "kind": "human-pretrain",
+  "model_config": {
+    "block_size": 1024,
+    "dropout": 0.0,
+    "n_embd": 768,
+    "n_head": 12,
+    "n_layer": 14,
+    "rope_theta": 10000.0,
+    "vocab_size": 2112
+  },
+  "sha256": "52929453aaac2e62bb8ce1b61c084d7491e2dac462d10a1d3b64218e415b7f84",
+  "step": 73799
+}

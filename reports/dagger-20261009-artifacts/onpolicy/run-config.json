@@ -1,0 +1,59 @@
+{
+  "batch_size": 64,
+  "checkpoint": "runs/pretrain/model.pt",
+  "checkpoint_sha256": "52929453aaac2e62bb8ce1b61c084d7491e2dac462d10a1d3b64218e415b7f84",
+  "code_sha256": {
+    "scripts/curriculum.py": "8c4a8eb220d59d331441b2419f7b925b3f2d18ef96873b8a30719e19a12fcb7f",
+    "scripts/curriculum_eval.py": "284807d016987889bab8c033a8f1da4ab73de3848613bd49aaa27e3aa9597907",
+    "scripts/dagger.py": "8c407e8a9feccd5ae82fc172209ee1bb5b33f97b22a9300de11ec588d3e3960a",
+    "scripts/experiment.py": "e6f22f09e36ae408b808f04ea52ffc4223150157414a4221f4b216c43d13d371",
+    "scripts/sft.py": "7b9017888bf6392cfb6894aaeffc59fb12482a79cf10d1d9880d3c0180ccbab0",
+    "src/krasnal_think/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/krasnal_think/annotate.py": "adac3c16f9c2cebf6924d4f4f3398bf59ba9c354eda09ae469a391a86f8f256a",
+    "src/krasnal_think/arena.py": "e5b9fcb14c1fab2a8d5022b7f268c48b9be9ed39d0bc8525bc24c918e7b163b7",
+    "src/krasnal_think/data.py": "b3e10f41e8c8a9fbcc6b85bc13baeff7206d1483eef2385ee6c7c7cfd54023f4",
+    "src/krasnal_think/interleave.py": "6c5d0923b89863a501be20738b3a85e7a2c23cd76cb86acd1d63c0d5dee350d0",
+    "src/krasnal_think/model.py": "e2d37be6dd8859b85bea58ac83c0ba2ef466703c14891ab00ef294c747319704",
+    "src/krasnal_think/muon.py": "88cfb9172629e4530343210747b3360981645757ceff55f8d4f48e246a736cd7",
+    "src/krasnal_think/play.py": "bf85e74a2ae46ce29a631e7569d5e4fef99a47baf136542d975cfe6ab094ff12",
+    "src/krasnal_think/rl.py": "a2cd75f61e751f1a30bd039291e6231547cf2cce2568c6ebebb7f4b06a1320cc",
+    "src/krasnal_think/sft.py": "7b300fef0abbe1faa50d4c27c2f2789527ae39061a831d2e9d35f9f29c6678d3",
+    "src/krasnal_think/tokens.py": "9410613365aeacc027293509f4f881319c05b40f2525a965b8f9f21f31ad84c6",
+    "src/krasnal_think/train.py": "9cbfea51107d25f4007829e276f0b8c41e6f6ac148bd1a3f4b53ad0751795314"
+  },
+  "command": "run",
+  "dagger_objective": "onpolicy-selection",
+  "device": "cuda",
+  "format": {
+    "dagger_objective": "onpolicy-selection",
+    "delta_edges_cp": [
+      5,
+      40,
+      180
+    ],
+    "efforts": [
+      0,
+      2
+    ],
+    "max_plies": 3,
+    "max_pvs": 3,
+    "pv_decay": 0.5,
+    "pv_root_weight": 0.5,
+    "structure_weight": 0.1,
+    "version": "compact-v1"
+  },
+  "format_positions": 100,
+  "human_batches": 30,
+  "human_sha256": "e980827f2dc714901373baa582106ff4587c21c24d7ea68150323a8071c86d97",
+  "human_val": "data/pretrain-eval/val.bin",
+  "lr": 5e-06,
+  "min_lr": 5e-07,
+  "nodes": 30000,
+  "pv_decay": 0.5,
+  "pv_root_weight": 0.5,
+  "save_every": 1000,
+  "stockfish": "/usr/games/stockfish",
+  "structure_weight": 0.1,
+  "teacher_fraction": 0.75,
+  "workers": 12
+}

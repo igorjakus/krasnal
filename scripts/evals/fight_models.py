@@ -11,7 +11,7 @@ from pathlib import Path
 import bulletchess
 import torch
 
-from krasnal.tokens import BLACK_WON_ID, WHITE_WON_ID
+from krasnal.tokenization.history import BLACK_WON_ID, WHITE_WON_ID
 from krasnal.uci_engine.go_params import GoParams
 from krasnal.uci_engine.provider import ModelProvider
 

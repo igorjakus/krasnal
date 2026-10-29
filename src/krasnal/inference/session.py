@@ -7,19 +7,9 @@ import torch.nn.functional as F
 from krasnal.inference.game import Game
 from krasnal.inference.kv_cache import KVCache
 from krasnal.inference.utils import create_amp_context
-from krasnal.model import GPT
-from krasnal.time_conditioning import (
-    clock_pairs_for_window,
-    new_clock_tracks,
-    sync_prefix_clock_tracks,
-)
-from krasnal.tokens import (
-    ELO_ABOVE_2200_ID,
-    GAME_START_ID,
-    QA_TOKEN_IDS,
-    TC_UNKNOWN_ID,
-    legal_token_ids,
-)
+from krasnal.models.history import GPT
+from krasnal.models.time_conditioning import clock_pairs_for_window, new_clock_tracks, sync_prefix_clock_tracks
+from krasnal.tokenization.history import ELO_ABOVE_2200_ID, GAME_START_ID, QA_TOKEN_IDS, TC_UNKNOWN_ID, legal_token_ids
 from krasnal.uci_engine.go_params import GoParams, uci_ms_to_clock_seconds
 
 

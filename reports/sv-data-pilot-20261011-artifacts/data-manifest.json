@@ -1,0 +1,197 @@
+{
+  "chessbench_train_source": {
+    "url": "https://storage.googleapis.com/searchless_chess/data/train/state_value_data.bag",
+    "etag": "\"8002b595e6f38305ecbd4600af0474fd\"",
+    "bytes": 38602576462,
+    "records": 530310443,
+    "sampled_ranges": [
+      {
+        "first_record": 79036416,
+        "records": 65536,
+        "index_sha256": "340cfa28c05199b320772460ccd8964209cfd79df173775c15ba945e49750fba",
+        "body_sha256": "08d049856aebd6a3f050f780c782cb5f725c4eb9375ac10cc880192e22110402"
+      },
+      {
+        "first_record": 105971712,
+        "records": 65536,
+        "index_sha256": "9ef8210036e4787be4c251c0efda9b45221a21d20cc542c8e6caa844f79f0d2b",
+        "body_sha256": "cd2cec08980731f62a4ea9e1f9ab19afa01ed6b8756ebdf7815d4b9bbcda9354"
+      },
+      {
+        "first_record": 49676288,
+        "records": 65536,
+        "index_sha256": "0e3e1b440e6a9c09378a454e10abfb3027ab97725c661f80a5d5b9a270fa4e9f",
+        "body_sha256": "7704abda49172e8b72890f1b17d67b17c7d090550d1c8d2075e0a7aa245c989f"
+      },
+      {
+        "first_record": 181272576,
+        "records": 65536,
+        "index_sha256": "f7b239421511d861c06398881f503c90181b6976e147f46a220d28ec0131b701",
+        "body_sha256": "631fd040af3ccd0e1653846dea4e6aadc8e4643f1e2ccfb077058d3a36a0c48d"
+      },
+      {
+        "first_record": 321650688,
+        "records": 65536,
+        "index_sha256": "38f613c6155856f218ac8ed211d6c20c99fb4b449c26949b74ba75e7bc3cdfb2",
+        "body_sha256": "7d04b8969e7d5398c7b0fbdb7903dbbaa0f44cc4920790d9a1554134caefc7fb"
+      },
+      {
+        "first_record": 525664256,
+        "records": 65536,
+        "index_sha256": "1184655d075aa112c3369da680fa00862fe4997c75561fae014923d0f46608e6",
+        "body_sha256": "2fcebf4add3a398819d3075d5be1836840112cd67169e22f213833a6c136ed30"
+      },
+      {
+        "first_record": 49020928,
+        "records": 65536,
+        "index_sha256": "2f6a57aa3ac1697d0922476436cf8ea0f86860c57da629f5ad2b733bd5f2deca",
+        "body_sha256": "47abc929a3292e40cee728e1dd80e91753aad145cf9a4da6435087933c8b1737"
+      },
+      {
+        "first_record": 507052032,
+        "records": 65536,
+        "index_sha256": "2eca848fe8635613d35c6423ce33a052f5818fdfbd75debcb3f019a9284c3db8",
+        "body_sha256": "4231188ab4eee3b6fa17e365cc179c80571e3776bc31991dbbadd40a56abe387"
+      },
+      {
+        "first_record": 371785728,
+        "records": 65536,
+        "index_sha256": "cb60662a9e9044adbe89bd633a5c3e82f0fc707505f9def6d1d7cf6b43b3e91e",
+        "body_sha256": "0edd421516d9968fa383b208ed7317cfd9cbba3cf4e6621afcafd4dbc481ed4f"
+      },
+      {
+        "first_record": 433192960,
+        "records": 65536,
+        "index_sha256": "aaa5699a96bd7d28e4c508e85ca58be5a936b49f5d3c787fb862f75fa5a45755",
+        "body_sha256": "fa4802f8ef03028756ac4dacbc90135f2d7912ac8ed5e47080b6af54b9680112"
+      },
+      {
+        "first_record": 187236352,
+        "records": 65536,
+        "index_sha256": "8059f68a3213cef89e5621427ae81ca50de3c4daa7627860b7092681a6c7b19a",
+        "body_sha256": "bc43589e4ac45080ee8fcddc93503e7824db73965f9d03d019f7db77f695019d"
+      },
+      {
+        "first_record": 89391104,
+        "records": 65536,
+        "index_sha256": "1162a51d744bba8f4ef42f72fb8d497d65af253e42f87aeb745970925887ac3a",
+        "body_sha256": "db2cbf46b46323706188f507b3fa9dbb53ffdf9b6544066dd324501cba283667"
+      },
+      {
+        "first_record": 446169088,
+        "records": 65536,
+        "index_sha256": "a7d4f5d90d0060306273c7c86cd2c1f8268f659ded6ed839f09dff950c8674d1",
+        "body_sha256": "dc9c60ccc8327a6c12fedd44694a3cc27a5b6a4ca5f67fa32dbc051f6b4e9acd"
+      },
+      {
+        "first_record": 175308800,
+        "records": 65536,
+        "index_sha256": "15d9226d0dae5f595b26397b68a4835caeb8219f7a7ffb862ba56950dd8d68f6",
+        "body_sha256": "bb7b04cbe6a3775b00d9f494af47538cb4ea651532c08933f0d19356525b39d7"
+      },
+      {
+        "first_record": 418971648,
+        "records": 65536,
+        "index_sha256": "9b44cd67eaa9a324437fe67d3939da14e89bd3f66ae0b6d4df588b823205ea47",
+        "body_sha256": "4ace7082ed02c9d27071036b7841cb2496a0437949e1097893c2f3190e7e6f39"
+      },
+      {
+        "first_record": 492830720,
+        "records": 65536,
+        "index_sha256": "bb19d2bafeb5a0df072dff62ffbe021da9fb4f53e4ffc36d769bf0c9b4e98a8a",
+        "body_sha256": "3f9ff1bef58ded04eeefff96ee98464751a97726dbbf3e9742e094fb1d2447c8"
+      }
+    ]
+  },
+  "mateusz_revision": "d83b3256d94a086f074a66db52f3a5b5d4c28847",
+  "mateusz_sources": [
+    {
+      "path": "train-00000.parquet",
+      "sha256": "6eee0034bc5b022914c8aa85f14298ab99f2fa3875a9d28971e482c19ddb212c",
+      "sample_rows": 130000
+    },
+    {
+      "path": "train-00001.parquet",
+      "sha256": "1aafe445ee3cbd215554fcaff9e95e8740a0e7cb2a557ccc4a3e7cf1b1d19b79",
+      "sample_rows": 130000
+    },
+    {
+      "path": "train-00002.parquet",
+      "sha256": "e5b2a595a8fa3b6df896dd1b84402289aec363fc6810a13a618671a245688ef5",
+      "sample_rows": 130000
+    },
+    {
+      "path": "train-00003.parquet",
+      "sha256": "6dba7fbc3317eb5036d9316dc91383ad618cc4bf91cb7be4cf31af278f984c11",
+      "sample_rows": 130000
+    },
+    {
+      "path": "train-00004.parquet",
+      "sha256": "e88977364877fea69b1f411caf1ee89c0d54c80525e7be7d1d4ba48383f37072",
+      "sample_rows": 130000
+    },
+    {
+      "path": "train-00005.parquet",
+      "sha256": "0d5ba146efc063cf0833c7358eade6723183a18b47e2d5a8c409beec2d7dbb65",
+      "sample_rows": 130000
+    },
+    {
+      "path": "train-00006.parquet",
+      "sha256": "5466e1f282e72f27ab96d0b7b347496ba14c8080accc2830b0d2e5df33d3959e",
+      "sample_rows": 130000
+    },
+    {
+      "path": "train-00007.parquet",
+      "sha256": "fd65e59391967aa5340e6a17ea4a31d522639104daabc32d3dcdc6ad69987261",
+      "sample_rows": 130000
+    },
+    {
+      "path": "train-00008.parquet",
+      "sha256": "ecac373a0b0ccae0b9c7f53fe55a2fc5bf598e37b9b0fca9ea004dad6b4a7462",
+      "sample_rows": 130000
+    },
+    {
+      "path": "train-00009.parquet",
+      "sha256": "90bdd69c99190af5b1750732154be67d88a610501218829c5ba2290e60d89ede",
+      "sample_rows": 130000
+    }
+  ],
+  "mateusz_depth_percentiles": [
+    1.0,
+    21.0,
+    24.0,
+    28.0,
+    245.0
+  ],
+  "train_cross_source_overlap": 87,
+  "excluded_canonical_positions": 126709,
+  "train_eval_overlap": 0,
+  "gold_sha256": "b347129b66483430289dde08f3fca0020c8b7b5158168fd6aad69f64f5ded319",
+  "chessbench_test_sha256": "2b132a207868cfb49eb1033b962a7688ab3987ce6d137142d2faf1a8cf312480",
+  "splits": {
+    "train-chessbench": {
+      "records": 1000000,
+      "sha256": "115bd7bbf73af26abc0f23a1171a8315ae2d8864afbce1abc0f45468f780d1e8",
+      "target_mean": 0.5188387036323547,
+      "target_std": 0.2890130579471588
+    },
+    "train-mateusz": {
+      "records": 1000000,
+      "sha256": "58f753ae514150984525b545571d5a0525c87f69da25ec2341696daa32745330",
+      "target_mean": 0.5171980857849121,
+      "target_std": 0.2614317834377289
+    },
+    "eval-chessbench": {
+      "records": 10000,
+      "sha256": "e5aeda239f232da10528653333f29d97290118a66affff5197dd43f2a46296e4",
+      "target_mean": 0.5200358033180237,
+      "target_std": 0.27403995394706726
+    },
+    "eval-mateusz": {
+      "records": 10000,
+      "sha256": "c5f0995e295b76b261deaf8ffe01217ecc76bc0638bb6ccda449f1d6275c288e",
+      "target_mean": 0.5181248188018799,
+      "target_std": 0.2608661651611328
+    }
+  }
+}

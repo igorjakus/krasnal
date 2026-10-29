@@ -12,14 +12,7 @@ import wandb
 from krasnal.config import CLOCK_IGNORE_ID
 from krasnal.eval.what_is_on_baseline import WhatIsOnBaselineCounts
 from krasnal.inference import StatelessBatchInferenceSession
-from krasnal.tokens import (
-    COLORED_PIECE_TOKENS,
-    EMPTY_ID,
-    IS_CHECK_ID,
-    NO_CHECK_ID,
-    YES_CHECK_ID,
-    whats_on_probe_labels,
-)
+from krasnal.tokenization.history import COLORED_PIECE_TOKENS, EMPTY_ID, IS_CHECK_ID, NO_CHECK_ID, YES_CHECK_ID, whats_on_probe_labels
 
 from .metrics.context import EvalContext
 

@@ -1,0 +1,16 @@
+{
+  "checkpoint": "experiments/sf-interleave-100m-full-20261009-humanloss/model.pt",
+  "human_moves": 652712,
+  "human_nll": 1.380621290899176,
+  "human_top1": 0.5495609089460589,
+  "human_top5": 0.9080789076958904,
+  "mode": "augmented",
+  "records": 9666,
+  "sf_moves": 652712,
+  "sf_nll": 1.8684919759223695,
+  "sf_top1": 0.4337517925210506,
+  "sf_top5": 0.8429184694015125,
+  "stockfish_move_namespace": "distinct",
+  "teacher_forced_stockfish": true,
+  "vocab_size": 4096
+}

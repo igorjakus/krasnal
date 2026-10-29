@@ -1,0 +1,24 @@
+{
+  "sha256": {
+    "val-augmented.json": "83593ee2c2b397c3a7f7ced083c4d7cd6fb9589c44ea7da8c3894fa883d986df",
+    "test-pretrain-early.json": "eb47a4b94c89f5670fffcd3fb69ad1b52d8e2f1aa1e4d9a4b9f3576244d2cd8e",
+    "val-human-step10000.json": "191af1c3b8241ac87375305e72d7888cbe37191834788b04cd36a4f8c5050c8a",
+    "test-human-step5000.json": "af3b66ae19a08a77332695ec456c7fb125eb9fc38c490d7aa19e5d8a149ab5a8",
+    "val-human-step1000.json": "2fbdae74bb6aaf138a1de41bb26d185b739c8a8f81541f8cf224693fa8afcf08",
+    "val-pretrain.json": "660228ff5cef74ee6284b593594f4433a390b9cd4385a0a18c017272b1091c58",
+    "test-pretrain.json": "3257e5b7aeda3e8996e14861afdf87fc14ef3425b37ac0ae33f00c8943a4c8bc",
+    "val-human.json": "13b8f83e37d747cc9d137202fe15841c2645cee21f0e14db23e645c63e9d54e4",
+    "val-human-step5000.json": "c2d321a067b520a790ddf7ccdd13f50a148090c93fdf199c17fe5dda20c3b311",
+    "test-augmented-step10000.json": "b419963a34b6a75446773cf0882419cb5fbcd055b9059027208fea9d7ec9123d",
+    "test-augmented-step20000.json": "95d378a66cbe719039f5347105a780476b87b6735bcd2a8f4313e82b53131f2b",
+    "test-human-step1000.json": "02ab1dd36356b1990e62efa978e8c503c0022b57d73e00f52fdfda8eadde33a4",
+    "test-human.json": "c0171163054ec020a66bb87cb9469fc265d7b3a0cdfc518c36812ac3a679654f",
+    "test-augmented-step2000.json": "1b2c4ab2fb94fc83ac1fee1c6e2ab97f7216d6b07f8836b19b054be1fc739ecd",
+    "val-augmented-step10000.json": "b5061cc403d884fe9fcc7e897119bc8a96609cd2c18a7f5ba4b5de7f581dbc2a",
+    "val-augmented-step2000.json": "08dd6b9ac512e82a7b5c0d4759a25e5cda8f0d9943bc5b4215dd93bb4e00852a",
+    "test-augmented.json": "f66c8ef0fa00597b6d6a5e958222cbdb360ca43d6643bdf6324ca06ac95fe87d",
+    "val-augmented-step20000.json": "14c448a0defd7bc2953ad87ded7862186f1c8141b538e167444f170d50e1a519",
+    "test-human-step10000.json": "c40f3198c4c34c3057629f9919d668c084cd331602ec7318f4850f9f6e87ee75",
+    "val-pretrain-early.json": "921ff017ae60791ba44f914f00237226d201431146bf24709240a2504cb58251"
+  }
+}

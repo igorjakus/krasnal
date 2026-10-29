@@ -1,0 +1,481 @@
+{
+  "rating_scale": "Equivalent Stockfish 17.1 UCI_Elo under this fixed 20k-node protocol; NOT FIDE/Lichess Elo",
+  "ci": "95% percentile bootstrap of opening pairs, 10000 resamples, seed 20261015; conditional on engine/settings/opening population",
+  "limitations": [
+    "ALL human-SF systems are engine-assisted. Teacher-only controls isolate the adviser strength baseline, not neural standalone Elo.",
+    "Changing teacher depth is a quality/compute shift relative to training30k nodes; actual reached depth/nodes and time are recorded.",
+    "Depth and node limits are different budgets; do not label30k as a fixed depth or assume monotonic game strength from nominal depth alone.",
+    "UCI_Elo with20k opponent nodes is only a protocol-relative scale, not calibrated FIDE/Lichess; bootstrap/Hoeffding exclude calibration and logistic-model error.",
+    "50 opening pairs per mode is a pilot,100games; finite CIs can still be wide and extrema/extrapolation unreliable.",
+    "Historical human validation opening book is not an independent standardized engine book. No testing-based tuning or optional-stopping significance claim.",
+    "Cutoff/deadline games are censored, never counted as draws. Incomplete samples remain provisional."
+  ],
+  "modes": {
+    "human_sf_d1": {
+      "games": 100,
+      "completed": 100,
+      "complete_pairs": 50,
+      "per_anchor": {
+        "1320": {
+          "games": 20,
+          "wins": 18,
+          "draws": 1,
+          "losses": 1,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 20,
+          "wins": 14,
+          "draws": 2,
+          "losses": 4,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 20,
+          "wins": 3,
+          "draws": 7,
+          "losses": 10,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 20,
+          "wins": 2,
+          "draws": 6,
+          "losses": 12,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 20,
+          "wins": 0,
+          "draws": 2,
+          "losses": 18,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 2020.7175479316013,
+      "bootstrap_95ci_approximate": [
+        1900.185326084821,
+        2140.343738711355
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        1635.2049297050314,
+        2407.1370777081506
+      ],
+      "teacher_calls": 8138,
+      "teacher_seconds": 15.43747442215681,
+      "model_calls": 3670,
+      "model_seconds": 45.89550760644488,
+      "follow_rate": 0.5100817438692098,
+      "mean_reached_depth": 1.0,
+      "mean_teacher_nodes": 41.4138608994839
+    },
+    "teacher_d1": {
+      "games": 100,
+      "completed": 100,
+      "complete_pairs": 50,
+      "per_anchor": {
+        "1320": {
+          "games": 20,
+          "wins": 17,
+          "draws": 3,
+          "losses": 0,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 20,
+          "wins": 12,
+          "draws": 2,
+          "losses": 6,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 20,
+          "wins": 6,
+          "draws": 6,
+          "losses": 8,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 20,
+          "wins": 2,
+          "draws": 7,
+          "losses": 11,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 20,
+          "wins": 0,
+          "draws": 0,
+          "losses": 20,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 2020.7175479316013,
+      "bootstrap_95ci_approximate": [
+        1900.185326084821,
+        2130.368769091755
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        1635.2049297050314,
+        2407.1370777081506
+      ],
+      "teacher_calls": 10627,
+      "teacher_seconds": 20.637939368374646,
+      "model_calls": 0,
+      "model_seconds": 0.0,
+      "follow_rate": null,
+      "mean_reached_depth": 1.0,
+      "mean_teacher_nodes": 38.479815564129105
+    },
+    "human_sf_d4": {
+      "games": 100,
+      "completed": 100,
+      "complete_pairs": 50,
+      "per_anchor": {
+        "1320": {
+          "games": 20,
+          "wins": 18,
+          "draws": 1,
+          "losses": 1,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 20,
+          "wins": 14,
+          "draws": 4,
+          "losses": 2,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 20,
+          "wins": 4,
+          "draws": 5,
+          "losses": 11,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 20,
+          "wins": 5,
+          "draws": 4,
+          "losses": 11,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 20,
+          "wins": 0,
+          "draws": 4,
+          "losses": 16,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 2100.475941145947,
+      "bootstrap_95ci_approximate": [
+        1980.6662676725305,
+        2210.4507727387577
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        1715.4976469402814,
+        2488.3296695845224
+      ],
+      "teacher_calls": 8863,
+      "teacher_seconds": 24.671244692290202,
+      "model_calls": 4034,
+      "model_seconds": 51.22925982880406,
+      "follow_rate": 0.49008428358948936,
+      "mean_reached_depth": 4.0,
+      "mean_teacher_nodes": 285.0065440595735
+    },
+    "teacher_d4": {
+      "games": 100,
+      "completed": 100,
+      "complete_pairs": 50,
+      "per_anchor": {
+        "1320": {
+          "games": 20,
+          "wins": 17,
+          "draws": 2,
+          "losses": 1,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 20,
+          "wins": 20,
+          "draws": 0,
+          "losses": 0,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 20,
+          "wins": 10,
+          "draws": 6,
+          "losses": 4,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 20,
+          "wins": 3,
+          "draws": 4,
+          "losses": 13,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 20,
+          "wins": 0,
+          "draws": 3,
+          "losses": 17,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 2250.784626784124,
+      "bootstrap_95ci_approximate": [
+        2150.326572457219,
+        2352.202376711833
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        1865.8043470824523,
+        2643.7734423183756
+      ],
+      "teacher_calls": 10738,
+      "teacher_seconds": 30.246494324645028,
+      "model_calls": 0,
+      "model_seconds": 0.0,
+      "follow_rate": null,
+      "mean_reached_depth": 4.0,
+      "mean_teacher_nodes": 252.50316632520023
+    },
+    "human_sf_d8": {
+      "games": 100,
+      "completed": 100,
+      "complete_pairs": 50,
+      "per_anchor": {
+        "1320": {
+          "games": 20,
+          "wins": 18,
+          "draws": 0,
+          "losses": 2,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 20,
+          "wins": 13,
+          "draws": 2,
+          "losses": 5,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 20,
+          "wins": 8,
+          "draws": 4,
+          "losses": 8,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 20,
+          "wins": 3,
+          "draws": 8,
+          "losses": 9,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 20,
+          "wins": 0,
+          "draws": 5,
+          "losses": 15,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 2130.368769091755,
+      "bootstrap_95ci_approximate": [
+        2000.7107998126735,
+        2250.784626784124
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        1745.4717476281567,
+        2518.918058791546
+      ],
+      "teacher_calls": 8599,
+      "teacher_seconds": 54.86873865569942,
+      "model_calls": 3904,
+      "model_seconds": 52.99038879969157,
+      "follow_rate": 0.4959016393442623,
+      "mean_reached_depth": 8.0,
+      "mean_teacher_nodes": 1252.3035236655426
+    },
+    "teacher_d8": {
+      "games": 100,
+      "completed": 100,
+      "complete_pairs": 50,
+      "per_anchor": {
+        "1320": {
+          "games": 20,
+          "wins": 20,
+          "draws": 0,
+          "losses": 0,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 20,
+          "wins": 19,
+          "draws": 1,
+          "losses": 0,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 20,
+          "wins": 19,
+          "draws": 1,
+          "losses": 0,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 20,
+          "wins": 17,
+          "draws": 2,
+          "losses": 1,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 20,
+          "wins": 3,
+          "draws": 12,
+          "losses": 5,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 2851.802847881915,
+      "bootstrap_95ci_approximate": [
+        2759.3440092809196,
+        2940.0211635263886
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        2439.327980472833,
+        "+infinity"
+      ],
+      "teacher_calls": 10366,
+      "teacher_seconds": 64.21880344161764,
+      "model_calls": 0,
+      "model_seconds": 0.0,
+      "follow_rate": null,
+      "mean_reached_depth": 8.0,
+      "mean_teacher_nodes": 1175.712232297897
+    },
+    "human_sf_n30k": {
+      "games": 100,
+      "completed": 100,
+      "complete_pairs": 50,
+      "per_anchor": {
+        "1320": {
+          "games": 20,
+          "wins": 19,
+          "draws": 0,
+          "losses": 1,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 20,
+          "wins": 16,
+          "draws": 2,
+          "losses": 2,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 20,
+          "wins": 10,
+          "draws": 7,
+          "losses": 3,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 20,
+          "wins": 7,
+          "draws": 4,
+          "losses": 9,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 20,
+          "wins": 0,
+          "draws": 3,
+          "losses": 17,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 2301.435036115952,
+      "bootstrap_95ci_approximate": [
+        2170.3210027429845,
+        2433.373876096542
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        1916.175749875587,
+        2697.5950175765834
+      ],
+      "teacher_calls": 8753,
+      "teacher_seconds": 561.0726269553415,
+      "model_calls": 3984,
+      "model_seconds": 39.0384408517275,
+      "follow_rate": 0.5243473895582329,
+      "mean_reached_depth": 23.878670170227352,
+      "mean_teacher_nodes": 29323.994401919343
+    },
+    "teacher_n30k": {
+      "games": 100,
+      "completed": 100,
+      "complete_pairs": 50,
+      "per_anchor": {
+        "1320": {
+          "games": 20,
+          "wins": 20,
+          "draws": 0,
+          "losses": 0,
+          "unfinished": 0
+        },
+        "1700": {
+          "games": 20,
+          "wins": 20,
+          "draws": 0,
+          "losses": 0,
+          "unfinished": 0
+        },
+        "2100": {
+          "games": 20,
+          "wins": 20,
+          "draws": 0,
+          "losses": 0,
+          "unfinished": 0
+        },
+        "2500": {
+          "games": 20,
+          "wins": 19,
+          "draws": 1,
+          "losses": 0,
+          "unfinished": 0
+        },
+        "2900": {
+          "games": 20,
+          "wins": 19,
+          "draws": 1,
+          "losses": 0,
+          "unfinished": 0
+        }
+      },
+      "complete_pair_point_rating": 3431.4873178312646,
+      "bootstrap_95ci_approximate": [
+        3260.9952761752197,
+        "+infinity"
+      ],
+      "conservative_95ci_hoeffding_pairs": [
+        2710.42216147929,
+        "+infinity"
+      ],
+      "teacher_calls": 7226,
+      "teacher_seconds": 459.2572148083709,
+      "model_calls": 0,
+      "model_seconds": 0.0,
+      "follow_rate": null,
+      "mean_reached_depth": 26.299612510379188,
+      "mean_teacher_nodes": 29108.601716025463
+    }
+  },
+  "planned_games": 800,
+  "recorded_games": 800
+}

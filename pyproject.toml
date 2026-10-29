@@ -4,8 +4,8 @@ build-backend = "uv_build"
 
 [project]
 name = "krasnal"
-version = "0.1.0"
-description = "Transformer-based chess engine"
+version = "0.2.0"
+description = "Chess transformers: human play, value prediction and explicit reasoning"
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
 dependencies = [
@@ -17,15 +17,11 @@ dependencies = [
     "huggingface-hub>=1.9.1",
     "hydra-core>=1.3.2",
     "loguru>=0.7.3",
-    "nbqa>=1.9.1",
-    "notebook>=7.5.3",
     "numpy>=2.4.2",
     "pillow>=12.1.1",
     "polars>=1.38.1",
     "pyarrow>=23.0.0",
-    "pytest>=7.0.0",
     "plotly>=6.3.0",
-    "ruff>=0.15.1",
     "tiktoken>=0.12.0",
     "torch>=2.10.0",
     "tqdm>=4.67.3",
@@ -33,39 +29,33 @@ dependencies = [
     "wandb[media]>=0.25.0",
 ]
 
-[tool.pytest.ini_options]
-pythonpath = ["src"]
-# Suppress chess library deprecation warning for Python 3.16 compatibility
-filterwarnings = [
-    "ignore:'asyncio.DefaultEventLoopPolicy' is deprecated:DeprecationWarning",
+[dependency-groups]
+dev = [
+    "nbqa>=1.9.1",
+    "notebook>=7.5.3",
+    "pre-commit>=4.5.1",
+    "pytest>=8.3",
+    "pytest-asyncio>=1.3.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.15.1",
+    "ty>=0.0.31",
 ]
-testpaths = ["tests"]
-norecursedirs = ["lichess-bot", ".venv", ".git"]
+
+[tool.uv.build-backend]
+module-name = ["krasnal", "krasnal_think"]
+module-root = "src"
 
 [tool.ruff]
 line-length = 100
-cache-dir = ".ruff_cache"
-extend-include = ["*.ipynb"]
-exclude = ["lichess-bot"]
 src = ["src", "scripts"]
+exclude = ["lichess-bot"]
 
 [tool.ruff.lint]
-# E, F: default errors/flakes
-# B: bugbear (common bugs)
-# W: warnings
-# I: isort (imports)
-# UP: pyupgrade (modern syntax)
-# ARG: unused arguments
-# SIM: simplify (cleaner logic)
-# PT: pytest-style
-# RUF: ruff-specific rules
-select = ["E", "F", "B", "W", "I", "UP", "ARG", "SIM", "PT", "RUF"]
-fixable = ["ALL"]
+select = ["E", "F", "B", "W", "I", "UP", "SIM", "RUF"]
 
-[dependency-groups]
-dev = [
-    "pre-commit>=4.5.1",
-    "pytest-asyncio>=1.3.0",
-    "pytest-cov>=4.1.0",
-    "ty>=0.0.31",
-]
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+norecursedirs = ["lichess-bot", ".venv", ".git"]
+addopts = "--import-mode=importlib"
+filterwarnings = ["ignore:'asyncio.DefaultEventLoopPolicy' is deprecated:DeprecationWarning"]

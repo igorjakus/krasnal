@@ -30,13 +30,13 @@ import wandb
 from torch.nn.utils.rnn import pad_sequence
 
 from krasnal.config import CLOCK_IGNORE_ID, EVAL_DATASET_PATH, GPTConfig
-from krasnal.dataset import ChessDataset
+from krasnal.data.history import ChessDataset
 from krasnal.eval.parsers import parse_row_to_game_tokens
 from krasnal.eval.replayer import replay_game_tokens
 from krasnal.inference import load_model
 from krasnal.inference.utils import create_amp_context
-from krasnal.model import GPT
-from krasnal.tokens import PAD_ID, load_move_vocab
+from krasnal.models.history import GPT
+from krasnal.tokenization.history import PAD_ID, load_move_vocab
 from krasnal.utils import gpt_config_from_artifact_dict, read_model_config_json
 
 

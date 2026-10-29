@@ -1,0 +1,36 @@
+name: Project smoke
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install uv==0.12.10
+      - run: uv lock --check
+      - run: uv build --wheel
+      - name: Validate source syntax and configurations
+        run: |
+          python - <<'PY'
+          import ast
+          import json
+          from pathlib import Path
+
+          for base in (Path("src"), Path("scripts")):
+              for path in base.rglob("*.py"):
+                  ast.parse(path.read_text(), filename=str(path))
+          for path in Path("configs").rglob("*.json"):
+              json.loads(path.read_text())
+          PY
+      - name: Validate shell entry points
+        run: find scripts -type f -name '*.sh' -exec bash -n {} \;

@@ -1,0 +1,15 @@
+{
+  "sampling": [
+    0.5,
+    0.4,
+    0.1
+  ],
+  "onpolicy": "first4096 unique per round1-4, sampled with replacement",
+  "teacher": "first8192 next disjoint shard, sampled with replacement",
+  "human": "random full-prefix final move from pretrain-eval/train.bin, never val.bin",
+  "human_data_sha256": "d4667b47312815d553d7e0959b59270398efd2902b1abb1964cd6b9dc817dc78",
+  "updates": 1000,
+  "checkpoint_sha256": "086781ca9846cb4216e2b1d48781f9a7bba890fa4f13bcc5f70f2d578d684025",
+  "deadline": 1791680370.442062,
+  "source_sha256": "981ecab028c0d44639a3eb9359de918eb9e7dd537d761e7cb5bdd8f5463dc652"
+}

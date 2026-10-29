@@ -1,0 +1,39 @@
+{
+  "candidate_count": 2.969,
+  "candidate_recall": 0.731,
+  "direct_cp_gap": 185.969,
+  "direct_top1": 0.505,
+  "distinct_roots": 2.969,
+  "final_outside_candidates": 0.011,
+  "global_best_rank": 1.2393980848153214,
+  "positions": 1000,
+  "pv_diversity_1": 1.0,
+  "pv_diversity_2": 0.6586183769282346,
+  "pv_diversity_3": 0.8527524484971258,
+  "seconds": 75.559166431427,
+  "selection": 0.56,
+  "selection_when_best_present": 0.6374829001367989,
+  "thinking_cp_gap": 152.942,
+  "thinking_mrr": 0.7483333333333341,
+  "thinking_rank": 1.5925176946410515,
+  "thinking_top1": 0.473,
+  "thinking_vs_direct_cp": 32.522,
+  "human_batches": 30,
+  "human_block_size": 1024,
+  "human_nll": 1.6567223296944105,
+  "human_seed": 1729,
+  "human_targets": 926144,
+  "human_top1": 0.5068887775551102,
+  "raw_format": {
+    "2": {
+      "budget": 0.0,
+      "closing": 0.0,
+      "error": 0.0,
+      "evaluation": 0.0,
+      "opening": 0.0,
+      "token_order": 0.0
+    }
+  },
+  "raw_format_error": 0.0,
+  "checkpoint_sha256": "fd1c4ee32a6dd6bffd317b8471123277f345e39a358dc9f17f86a674b16d923e"
+}

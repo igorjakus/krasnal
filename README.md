@@ -1,73 +1,43 @@
-# Krasnal ♟️
+# Krasnal
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/KSI-ML-research/krasnal)
-[![GitHub Stars](https://img.shields.io/github/stars/KSI-ML-research/krasnal)](https://github.com/KSI-ML-research/krasnal/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/KSI-ML-research/krasnal)](https://github.com/KSI-ML-research/krasnal/network)
+Chess transformers for human play, Stockfish value prediction and explicit
+reasoning. One Python project, one environment and one dependency lockfile.
 
-Transformer-based chess engine.
-
-## Project goal
-
-Krasnal aims to be the most human-like chess engine: strong enough to play useful games, but
-trained to choose moves that feel closer to human play than classical engine search.
-
-## Architecture
-
-```mermaid
-flowchart LR
-    Lichess[Lichess games] --> Download[Download and filter]
-    Download --> Preprocess[Tokenize and pack]
-    Preprocess --> Train[Train Transformer]
-    Train --> Artifact[Model artifact]
-    Artifact --> UCI[UCI engine]
-    UCI --> Bot[lichess-bot]
+```text
+src/krasnal/
+  models/          # History transformer, reasoning transformer, clock conditioning
+  tokenization/    # Distinct vocabularies for the two model architectures
+  data/            # Human games, SF annotations, interleave and foundation registry
+  training/        # Pretraining, SFT, RL, loss masking and optimizers
+  inference/       # Cached generation, legal move selection and reasoning
+  eval/            # Metrics, replay, probes and game arena
+  preprocess/      # Downloaded-game preprocessing and packed datasets
+  uci_engine/      # UCI protocol and model provider
+configs/           # Training configurations and hash-pinned foundations
+scripts/           # Training, data, evaluation and experiment entry points
+reports/           # Audited results and SHA-256 manifests
+docs/              # Methodology, compute workflow and migration provenance
 ```
-
-## Setup
-
-This project uses `uv` for dependency management.
 
 ```bash
-uv sync
+uv sync --locked
+uv run python scripts/training/pretrain.py --help  # history model
+uv run python scripts/pretrain.py --help           # reasoning model
+uv run python scripts/experiment.py --help         # configured SFT/DAgger pipeline
 ```
 
-Optional local credentials can be configured by copying `.env.example` to `.env`.
+The architectures retain their own tokenization and checkpoint formats. Shared
+organization does not imply interchangeable weights. Legacy import names are
+thin compatibility aliases; new code uses the functional modules above.
 
-## Common commands
+- [History engine and UCI workflow](docs/history-engine.md)
+- [Reasoning workflows](docs/reasoning-workflows.md)
+- [Thinking format](THINKING_FORMAT.md)
+- [Evaluation methodology](EVALS.md)
+- [Human–SF depth comparison](reports/human-sf-depths-20261023/REPORT.md)
+- [Unaided 2×2 comparison](reports/unaided-2x2-20261018/REPORT.md)
+- [Repository migration](docs/repository-migration.md)
 
-Commands are defined in the local `justfile`.
-
-```bash
-just --list
-just test
-just lint
-just format
-```
-
-The main pipeline commands are:
-
-```bash
-just download-games
-just preprocess
-just pretrain
-```
-
-## Training and artifacts
-
-Training configuration lives in `config/`. Model sizes are defined under `config/model/`, while
-runtime and training settings are split across `config/train/`, `config/preprocess.yaml`,
-`config/download.yaml`, and `config/pretrain.yaml`.
-
-Generated datasets, checkpoints, W&B runs, model artifacts, caches, and local bot files are not
-committed to the repository.
-
-## Lichess bot
-
-The UCI engine can be run locally through `lichess-bot`.
-
-```bash
-just bot-setup
-just bot-run artifacts/path/to/model
-```
-
-See `docs/lichess_bot_local_setup.md` for details.
+Large datasets and checkpoints stay on workers, outside Git. Read [AGENTS.md](AGENTS.md)
+before dispatching compute; all new foundation-based training must use the verified
+100M-game foundation from [configs/foundations.json](configs/foundations.json).

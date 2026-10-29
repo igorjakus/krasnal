@@ -13,23 +13,7 @@ import torch
 
 from krasnal.config import ARTIFACTS_DIR, CLOCK_IGNORE_ID, MOVE_VOCAB_PATH
 from krasnal.inference import Game, StatelessBatchInferenceSession, load_model
-from krasnal.tokens import (
-    BLACK_WON_ID,
-    DRAW_ID,
-    ELO_1500_1599_ID,
-    ELO_1800_1899_ID,
-    ELO_2000_2099_ID,
-    ELO_ABOVE_2200_ID,
-    ID_TO_MOVE,
-    TC_BLITZ_NO_INC_ID,
-    TC_CLASSICAL_ID,
-    TC_RAPID_INC_ID,
-    TC_RAPID_NO_INC_ID,
-    WHITE_WON_ID,
-    legal_token_ids,
-    load_move_vocab,
-    to_uci,
-)
+from krasnal.tokenization.history import BLACK_WON_ID, DRAW_ID, ELO_1500_1599_ID, ELO_1800_1899_ID, ELO_2000_2099_ID, ELO_ABOVE_2200_ID, ID_TO_MOVE, TC_BLITZ_NO_INC_ID, TC_CLASSICAL_ID, TC_RAPID_INC_ID, TC_RAPID_NO_INC_ID, WHITE_WON_ID, legal_token_ids, load_move_vocab, to_uci
 from krasnal.utils import (
     gpt_config_from_artifact_dict,
     read_model_config_json,

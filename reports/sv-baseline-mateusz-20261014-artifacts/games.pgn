@@ -1,0 +1,320 @@
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "pilot"]
+[Result "1/2-1/2"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. O-O Bxf2+ 5. Rxf2 d5 6. exd5 Bh3 7. dxc6 Qd3 8. cxd3 Nf6 9. gxh3 bxc6 10. Bxf7+ Kxf7 11. Nxe5+ Kg8 12. Rxf6 gxf6 13. Qg4+ Kf8 14. Nd7+ Ke7 15. Nc3 a5 16. Nxf6 Kxf6 17. b4 Ke7 18. bxa5 Rxa5 19. a4 Rd8 20. Qg7+ Ke8 21. d4 Rxd4 22. Qxd4 Kf7 23. h4 h5 24. Ne4 Rc5 25. Qd7+ Kg6 26. Ng3 Rxc1+ 27. Rxc1 Kf6 28. Kf2 Ke5 29. Rh1 c5 30. Kf1 Kf6 31. Kg1 Ke5 32. Kf1 Kf6 33. Kg1 Ke5 1/2-1/2
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "pilot"]
+[Black "baseline"]
+[Result "0-1"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. d4 Bxd4 5. Qxd4 exd4 6. Bxf7+ Kxf7 7. Bh6 Nxh6 8. Ne5+ Nxe5 9. Nc3 dxc3 10. O-O-O Qg5+ 11. f4 Qxg2 12. Rxd7+ Bxd7 13. Rd1 Nf5 14. Rd6 Qf1+ 15. Rd1 Nd3+ 16. Kb1 Qxd1# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "pilot"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Bxc6 dxc6 5. Nxe5 Ne7 6. d3 Qxd3 7. Qxd3 Bh3 8. Qxh3 h6 9. Qd7# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "pilot"]
+[Black "baseline"]
+[Result "0-1"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Nxe5 axb5 5. Nxc6 dxc6 6. d4 Qxd4 7. Qxd4 Bc5 8. Qxc5 Ne7 9. Qxe7+ Kxe7 10. Rf1 Rxa2 11. Rxa2 Re8 12. Nc3 b4 13. Be3 bxc3 14. bxc3 Be6 15. Ra1 Bc4 16. Rb1 Bxf1 17. Kxf1 b6 18. Bc1 Kd7 19. Kg1 Rxe4 20. Rxb6 Re1# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "pilot"]
+[Result "1/2-1/2"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Qxd4 Nf6 5. Nc3 Nxe4 6. Qxe4 Bh3 7. gxh3 Nc6 8. Bb5 Qa5 9. Bd2 Qxc3 10. Bxc3 O-O-O 11. Bxc6 bxc6 12. Qxc6+ Kb8 13. Ba5 Rg8 14. Bxd8 h5 15. Ng5 h4 16. Nxf7 a5 17. c4 d5 18. Bb6 Rh8 19. b3 Rh6 20. Be3 Rxc6 21. cxd5 Rc1+ 22. Rxc1 Ka8 23. d6 exd6 24. Rc8+ Kb7 25. Rxf8 Kc6 26. a4 Kd5 27. Kd2 Ke4 28. Re1 Kf3 29. Rb1 Ke4 30. Re1 Kf3 31. Rb1 Ke4 1/2-1/2
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "pilot"]
+[Black "baseline"]
+[Result "0-1"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Qxd4 Nf6 5. Qxf6 gxf6 6. Ba6 Nxa6 7. Nc3 Nb4 8. Nd5 Nxd5 9. exd5 Bh6 10. Bxh6 Rg8 11. Ne5 fxe5 12. Bf8 Kxf8 13. O-O-O Qa5 14. Rd4 exd4 15. Rd1 Rxg2 16. a4 Bg4 17. h4 f5 18. f4 d3 19. b4 Qxb4 20. a5 Rxc2# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "pilot"]
+[Result "1-0"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. e5 c5 5. exf6 cxd4 6. Qxd4 Ba3 7. bxa3 O-O 8. fxg7 Nc6 9. gxf8=R+ Qxf8 10. Qf6 Qxa3 11. Bxa3 Nd4 12. Qd8+ Kg7 13. Bd3 Nb3 14. f4 Bd7 15. Qe7 Kh8 16. Ba6 bxa6 17. axb3 Bb5 18. Qf6+ Kg8 19. h4 Bd3 20. cxd3 Rf8 21. h5 e5 22. Nd1 e4 23. Qe7 Kg7 24. Bc5 d4 25. Rh2 Ra8 26. Bb6 a5 27. h6+ Kg6 28. Qg5# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "pilot"]
+[Black "baseline"]
+[Result "1/2-1/2"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. exd5 exd5 5. Nxd5 Qxd5 6. Nf3 Nc6 7. Bd3 Qxd4 8. Nxd4 Nxd4 9. O-O Ne2+ 10. Bxe2 Bd6 11. Bf4 Bxf4 12. Qd7+ Bxd7 13. Rad1 O-O-O 14. Rxd7 Kxd7 15. Ba6 bxa6 16. c3 Bxh2+ 17. Kxh2 Ng4+ 18. Kg1 h5 19. Re1 h4 20. Re7+ Kxe7 21. Kf1 Rd1+ 22. Ke2 Rb1 23. Kd2 h3 24. gxh3 Rxh3 25. Ke2 c5 26. Kd2 f5 27. Kc2 Ra1 28. a4 Nxf2 29. a5 Rhh1 30. Kb3 f4 31. Kc4 Rh3 32. b4 g6 33. b5 Ke8 34. bxa6 Re3 35. Kb5 c4 36. Kc6 Re7 37. Kd6 Ne4+ 38. Kc6 Nf6 39. Kd6 Ree1 40. Kc7 Re7+ 41. Kb8 Kf7 42. Ka8 Ke6 43. Kb8 g5 44. Ka8 Kf5 45. Kb8 Ke6 46. Ka8 Kf5 47. Kb8 1/2-1/2
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "pilot"]
+[Result "1-0"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. cxd5 exd5 5. Bf4 c5 6. dxc5 Bxc5 7. e3 O-O 8. Nf3 Bxe3 9. Bxe3 Bh3 10. gxh3 Nc6 11. Bg2 Ng4 12. hxg4 Nd4 13. Qxd4 Qe7 14. Nxd5 Qxe3+ 15. fxe3 Rac8 16. Ne7+ Kh8 17. Ng5 Rc1+ 18. Rxc1 h5 19. Rc8 b6 20. Rxf8# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "pilot"]
+[Black "baseline"]
+[Result "0-1"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. cxd5 exd5 5. Nxd5 Qxd5 6. Nf3 Bb4+ 7. Bd2 Bxd2+ 8. Qxd2 Nc6 9. e4 Qxe4+ 10. Be2 Be6 11. O-O Qxe2 12. Qxe2 Nxd4 13. Nxd4 O-O 14. Qa6 bxa6 15. Nxe6 fxe6 16. Rae1 Rad8 17. Rxe6 a5 18. Rxf6 gxf6 19. Re1 Rb8 20. Re8 Rfxe8 21. Kf1 Rxb2 22. Kg1 Re1# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "pilot"]
+[Result "1-0"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. Nf3 d5 5. cxd5 Nxd5 6. e4 Nxc3 7. bxc3 Qxd4 8. cxd4 O-O 9. Rb1 Bh3 10. gxh3 Nd7 11. Rxb7 Ne5 12. Nxe5 Bxe5 13. dxe5 Rac8 14. Bh6 Rfe8 15. Qd5 Rb8 16. Rxb8 Rxb8 17. h4 Rb1+ 18. Ke2 Rd1 19. Kxd1 c6 20. Qd8# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "pilot"]
+[Black "baseline"]
+[Result "0-1"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 Nxe4 5. Nxe4 d5 6. cxd5 f5 7. Nc3 Qxd5 8. Nxd5 c6 9. Rb1 cxd5 10. Bd3 Nc6 11. Bxf5 Bxf5 12. Nf3 Bxb1 13. Bf4 Nxd4 14. Qxb1 Nc2+ 15. Kf1 Ne3+ 16. Bxe3 O-O 17. h3 Rxf3 18. Qxg6 hxg6 19. gxf3 Bxb2 20. Bxa7 Rxa7 21. Kg2 Rxa2 22. Rc1 Bxc1 23. Kg3 Bh6 24. Kg2 e5 25. Kg3 b6 26. Kg2 d4 27. Kg3 e4 28. fxe4 d3 29. e5 Kg7 30. e6 Re2 31. e7 Rxe7 32. Kf3 d2 33. Kg2 d1=Q 34. f4 Qd6 35. f5 g5 36. f6+ Kxf6 37. Kf3 Rc7 38. Kg4 Ke7 39. Kh5 Rc6 40. h4 Qd1# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "pilot"]
+[Result "1-0"]
+
+1. c4 e5 2. Nc3 Nf6 3. g3 d5 4. cxd5 Qxd5 5. Nxd5 Nxd5 6. Nf3 Ne3 7. dxe3 Bh3 8. Bxh3 Nc6 9. Qd7# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "pilot"]
+[Black "baseline"]
+[Result "0-1"]
+
+1. c4 e5 2. Nc3 Nf6 3. g3 d5 4. Nxd5 Nxd5 5. cxd5 Qxd5 6. Bg2 Qxg2 7. Nf3 Qxh1+ 8. Ng1 Qxg1# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "pilot"]
+[Result "1-0"]
+
+1. Nf3 d5 2. d4 Nf6 3. c4 e6 4. cxd5 exd5 5. Nc3 c5 6. dxc5 Bxc5 7. Bg5 O-O 8. e3 Bxe3 9. Bxe3 Bh3 10. gxh3 Nc6 11. Bg2 Ng4 12. hxg4 Nd4 13. Qxd4 Qe7 14. Nxd5 Qxe3+ 15. fxe3 Rac8 16. Ne7+ Kh8 17. Ng5 Rc1+ 18. Rxc1 h5 19. Rc8 b6 20. Rxf8# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "pilot"]
+[Black "baseline"]
+[Result "0-1"]
+
+1. Nf3 d5 2. d4 Nf6 3. c4 e6 4. cxd5 exd5 5. e4 dxe4 6. Nc3 exf3 7. Ba6 Nxa6 8. Qxf3 Nb4 9. Qxf6 Qxf6 10. Bh6 gxh6 11. Nd5 Nxd5 12. O-O-O Qxf2 13. h4 Bf5 14. a4 Qc2# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "sf1600"]
+[Result "0-1"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. O-O a6 5. b4 Bxb4 6. c3 Bc5 7. Nxe5 Nxe5 8. Bxf7+ Nxf7 9. d4 Bf8 10. f4 Be7 11. Nd2 d5 12. e5 Nfh6 13. a4 Bf5 14. g4 Qd7 15. gxf5 Qxf5 16. Nf3 Qg6+ 17. Kh1 O-O-O 18. f5 Qg4 19. Bxh6 Re8 20. Bxg7 Qxg7 21. f6 Bxf6 22. exf6 Nxf6 23. Ne5 Rhg8 24. Rxf6 Qg2# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "sf1600"]
+[Black "baseline"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. O-O Nxe4 6. d4 exd4 7. b4 d5 8. bxc5 dxc4 9. Nxd4 Qxd4 10. cxd4 Nxf2 11. Rxf2 O-O 12. Bg5 h6 13. Nc3 hxg5 14. Rb1 Bg4 15. Qf1 Nxd4 16. Ne4 Ne2+ 17. Kh1 Ng3+ 18. hxg3 Bh3 19. gxh3 Rae8 20. Re2 Rxe4 21. Rxe4 Re8 22. Rxe8+ Kh7 23. Qxf7 g4 24. h4 b6 25. Qh5# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "sf1600"]
+[Result "0-1"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Bxc6 dxc6 5. Nxe5 Qg5 6. d4 Qxg2 7. Nc3 f6 8. Bf4 Qxh1+ 9. Kd2 Qxd1+ 10. Rxd1 Bd6 11. Nc4 Bxf4+ 12. Ne3 a5 13. Kd3 h5 14. h4 a4 15. Nxa4 Ne7 16. Nc3 Rb8 17. a4 Bh3 18. Rh1 Bc8 19. b3 g5 20. hxg5 fxg5 21. Rxh5 Rxh5 22. Ne2 Rh8 23. Nxf4 Rh2 24. Ne2 Rh3 25. f3 b6 26. Nc3 Rxf3 27. Ne2 c5 28. dxc5 Ba6+ 29. Kd2 Rd8+ 30. Nd4 Rxd4+ 31. Kc1 Rf7 32. Kb2 Rxe4 33. cxb6 cxb6 34. Nd5 Nxd5 35. Kc1 Rf1+ 36. Kd2 Re2# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "sf1600"]
+[Black "baseline"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Bxc6 dxc6 5. d3 Bd6 6. d4 exd4 7. Qxd4 Qe7 8. Qxg7 Nf6 9. O-O Rg8 10. Qh6 Rxg2+ 11. Kxg2 Qxe4 12. Re1 Qxe1 13. Nxe1 Bh3+ 14. Kh1 O-O-O 15. Qxf6 Rg8 16. Be3 Rg1+ 17. Kxg1 Bxh2+ 18. Kxh2 Be6 19. Qh8+ Kd7 20. Nc3 h5 21. Rd1+ Ke7 22. Bc5# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "sf1600"]
+[Result "0-1"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Qxd4 Nf6 5. Nc3 Bd7 6. e5 dxe5 7. Nxe5 Qa5 8. Nxd7 Nbxd7 9. Bd2 e6 10. Nb5 Qd8 11. Nc7+ Qxc7 12. Bb5 Bd6 13. Qxd6 Qxd6 14. Bxd7+ Nxd7 15. Bb4 Qxb4+ 16. c3 Qe4+ 17. Kf1 h6 18. Kg1 e5 19. Re1 Qxe1# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "sf1600"]
+[Black "baseline"]
+[Result "1/2-1/2"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. f3 e5 6. Nb3 Be7 7. Nc3 O-O 8. Be3 Be6 9. Bd3 Nbd7 10. Qd2 d5 11. exd5 Nxd5 12. Nxd5 Bxd5 13. Bxh7+ Kxh7 14. Qd3+ Kg8 15. Qxd5 Nb6 16. Qe4 f5 17. Qxe5 f4 18. Qe6+ Kh8 19. Bd4 Qxd4 20. Nxd4 Bf6 21. O-O-O Bxd4 22. Rd3 Rfe8 23. Qb3 Re1+ 24. Rxe1 Nc4 25. Qxc4 Rc8 26. Rxd4 Rxc4 27. Rxc4 Kh7 28. Kd1 a6 29. Rd4 b6 30. c3 b5 31. h3 a5 32. Rd2 b4 33. h4 bxc3 34. Rc2 cxb2 35. Rxb2 Kg6 36. Kd2 Kf7 37. Kd1 a4 38. Rd2 a3 39. Rh1 Ke6 40. Rf1 Kf7 41. Rg1 Ke6 42. Rc2 Kf7 43. Rd2 Ke6 44. Ke1 Kf7 1/2-1/2
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "sf1600"]
+[Result "1/2-1/2"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. e5 Ng8 5. Nf3 a6 6. Ne2 h6 7. c3 Nd7 8. a4 Nb8 9. Nf4 Bd7 10. Bd3 g6 11. Nxg6 Rh7 12. Nxf8 Nf6 13. Nxh7 Nh5 14. Nf6+ Ke7 15. Nxh5 Qg8 16. Nf6 Qg6 17. Nxd7 Qxg2 18. Bxh6 Nxd7 19. Rg1 Qh3 20. Rg7 Nxe5 21. dxe5 d4 22. Rxf7+ Kxf7 23. cxd4 Qg2 24. Kd2 c5 25. Ng5+ Kg8 26. Qe1 Rf8 27. Bxf8 b6 28. Bd6 Qxg5+ 29. Qe3 Qg4 30. Rg1 Qxg1 31. Qg5+ Qxg5+ 32. Kc2 Qg2 33. dxc5 Qxf2+ 34. Kb3 Qf3 35. cxb6 Qxd3+ 36. Ka2 Qe4 37. b7 Qxb7 38. Kb1 Qh7+ 39. Ka2 Qh4 40. Bb4 Qxh2 41. Kb1 Qh1+ 42. Ka2 Qh5 43. Kb1 Qe2 44. Bc5 Qd1+ 45. Ka2 Qd5+ 46. Kb1 Qd1+ 47. Ka2 Kf7 48. Bb4 a5 49. Bxa5 Qd5+ 50. Kb1 Qxa5 51. b4 Qxb4+ 52. Kc1 Qf4+ 53. Kb1 Qxe5 54. a5 Qf5+ 55. Kb2 Qb5+ 56. Ka2 Qd5+ 57. Kb2 Qxa5 58. Kb3 Qd8 59. Kc2 Kg6 60. Kb1 e5 61. Ka1 Kf5 62. Ka2 Kg6 63. Ka1 Kf5 64. Ka2 Kf6 65. Ka1 1/2-1/2
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "sf1600"]
+[Black "baseline"]
+[Result "1-0"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. e5 Nfd7 5. f4 c5 6. Nce2 cxd4 7. Nf3 Nc6 8. Nexd4 Qb6 9. c3 Bc5 10. h4 Ndxe5 11. Nxe5 Nxe5 12. fxe5 Bxd4 13. Qa4+ Bd7 14. Qxd4 Qxb2 15. Bxb2 O-O 16. Rg1 Bc6 17. Ba3 Rae8 18. Bd3 f5 19. Rb1 Rf7 20. Bb4 a5 21. Ba3 Kh8 22. Qf4 Ref8 23. Qc1 d4 24. Bxf8 Rxf8 25. cxd4 Bd5 26. Qd1 b5 27. Qc1 Rc8 28. Qxc8# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "sf1600"]
+[Result "1/2-1/2"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. cxd5 exd5 5. Bf4 c5 6. dxc5 Nc6 7. Nf3 d4 8. Nxd4 Qxd4 9. e3 Qxc5 10. Rc1 Qb6 11. Nd5 Bb4+ 12. Nxb4 Qxb4+ 13. Qd2 Nd5 14. Qxb4 Ndxb4 15. Rxc6 bxc6 16. a3 Na2 17. Bd6 Kd7 18. Bf4 Re8 19. Ba6 Bxa6 20. Kd2 f6 21. Rd1 c5 22. Kc2+ Kc6 23. Kb1 Rad8 24. Rxd8 Rxd8 25. Kxa2 g5 26. Bc7 Rd1 27. Bd6 Kxd6 28. Kb3 Bd3 29. Kc3 f5 30. f3 Kc6 31. h4 gxh4 32. b3 Kb6 33. a4 Be2 34. Kc2 Rd6 35. Kc3 Rd3+ 36. Kc4 Rd1+ 37. Kc3 a5 38. Kc2 h5 39. f4 Rd3 40. g3 Rd8 41. gxh4 Bf1 42. Kc3 Kc7 43. Kc2 c4 44. bxc4 Bxc4 45. Kc3 Be2 46. Kc2 Kc6 47. Kc1 Ba6 48. Kb1 Bf1 49. Ka1 Ba6 50. Ka2 Bf1 51. Ka1 Rd2 52. Kb1 Ba6 53. Kc1 Rd3 54. Kc2 Rxe3 55. Kd2 Rf3 56. Ke1 Rxf4 57. Kd1 Kd5 58. Ke1 Kc6 59. Kd1 Kd5 60. Ke1 1/2-1/2
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "sf1600"]
+[Black "baseline"]
+[Result "1-0"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. e3 Bb4 5. Bd3 dxc4 6. Bxc4 Qxd4 7. Qxd4 Bxc3+ 8. Qxc3 Ne4 9. Qxg7 Nd6 10. Qc3 Nxc4 11. Qxh8+ Ke7 12. e4 Nc6 13. Qxh7 Nd6 14. f3 Bd7 15. Bg5+ Ke8 16. Qh8# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "sf1600"]
+[Result "1/2-1/2"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. Nf3 d6 5. h3 Bf5 6. e4 Bxe4 7. Nxe4 Nxe4 8. Bd3 Nf6 9. O-O a5 10. Bh6 Bxh6 11. Re1 O-O 12. Rxe7 a4 13. Rxf7 Nc6 14. Rxf6 Qxf6 15. Rc1 Nxd4 16. Nxd4 Qxf2+ 17. Kh1 Rae8 18. Ne6 Rxe6 19. Qg1 Bxc1 20. Qxf2 Rxf2 21. Kg1 Rf7 22. b4 g5 23. Kh2 Re1 24. Bf5 Bf4+ 25. g3 Bxg3+ 26. Kxg3 Re8 27. Be6 Rxe6 28. Kg2 Re2+ 29. Kg3 Re3+ 30. Kg2 Re2+ 31. Kg3 a3 32. c5 b6 33. h4 g4 34. cxb6 cxb6 35. b5 Rxa2 36. Kxg4 Rc2 37. Kg3 Re2 38. Kg4 a2 39. h5 Re8 40. h6 a1=Q 41. Kg5 Kf8 42. Kg4 Rf1 43. Kg5 Rf7 44. Kg4 Re3 45. Kg5 1/2-1/2
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "sf1600"]
+[Black "baseline"]
+[Result "1-0"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. g3 O-O 5. Nf3 d5 6. Bg2 dxc4 7. Ne5 c5 8. dxc5 Bh3 9. Bxh3 Qxd1+ 10. Nxd1 Ne4 11. f4 Nf2 12. Kxf2 Bxe5 13. fxe5 Nc6 14. Bf4 g5 15. Bxg5 f6 16. exf6 exf6 17. Bf4 Kg7 18. Nc3 a5 19. Rhf1 h5 20. Rab1 Ra7 21. Bf5 Raa8 22. Be3 Rae8 23. Rg1 Rxe3 24. Kxe3 Ne7 25. g4 Nxf5+ 26. Kf2 hxg4 27. Ra1 Kg6 28. e4 Nd4 29. Rad1 Nf3 30. Rxg4+ Ng5 31. h4 Kf7 32. Rd5 Nxe4+ 33. Nxe4 f5 34. Nd6+ Ke6 35. Rxf5 Rxf5+ 36. Kg2 Rxc5 37. Nxc4 Rxc4 38. Rxc4 Kd5 39. Rc1 Ke5 40. a3 Kd5 41. Kg3 Kd6 42. Kf4 Kd5 43. h5 b6 44. h6 b5 45. Kf5 Kd4 46. Ke6 Kd3 47. Rc6 b4 48. a4 Ke3 49. b3 Kd3 50. Rc8 Ke2 51. Rf8 Kd2 52. Rc8 Kd3 53. Rc6 Ke4 54. h7 Kd3 55. h8=Q Kd2 56. Rc5 Ke3 57. Qg7 Kf3 58. Qd4 Kg3 59. Qe4 Kh3 60. Qf3+ Kh4 61. Rh5# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "sf1600"]
+[Result "0-1"]
+
+1. c4 e5 2. Nc3 Nf6 3. g3 d5 4. cxd5 Nxd5 5. Bg2 Nf6 6. Nf3 Bc5 7. Nxe5 Bxf2+ 8. Kxf2 Qd4+ 9. Kf1 a5 10. Nf3 Qd6 11. d4 O-O 12. Qd3 Rd8 13. Qxh7+ Nxh7 14. Ng5 Nxg5 15. Bxg5 f6 16. Bd5+ Be6 17. Bxe6+ Kh8 18. Bxf6 gxf6 19. Bf5 Qf8 20. Be6 Ra6 21. Bf7 Rad6 22. Ne4 Rc6 23. Nxf6 Qxf7 24. d5 Rxf6+ 25. Kg1 Qxd5 26. Rd1 Qxd1+ 27. Kg2 Qxe2+ 28. Kg1 Rf1# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "sf1600"]
+[Black "baseline"]
+[Result "1-0"]
+
+1. c4 e5 2. Nc3 Nf6 3. g3 d5 4. e3 d4 5. Qa4+ Bd7 6. Nb5 a6 7. Bg2 axb5 8. Qxa8 bxc4 9. Qxb7 Na6 10. Bc6 Bxc6 11. Qxc6+ Qd7 12. Qxd7+ Kxd7 13. Kf1 Nb4 14. Kg2 d3 15. a3 Nc2 16. Nf3 Nxa1 17. Nxe5+ Ke6 18. b3 Nxb3 19. Nxc4 Nxc1 20. Rxc1 Be7 21. Kf1 Rb8 22. e4 Nxe4 23. Re1 Bf6 24. f3 Kd5 25. Rxe4 Rb1+ 26. Kf2 Bd4+ 27. Ne3+ Kc5 28. Rh4 g5 29. Rxh7 f5 30. Rf7 f4 31. gxf4 gxf4 32. Rxf4 Rg1 33. Kxg1 Bxe3+ 34. dxe3 d2 35. Rd4 d1=Q+ 36. Rxd1 Kc6 37. Rd2 Kc5 38. Rd8 Kc6 39. h4 Kb7 40. Rd1 Kc6 41. h5 Kb7 42. h6 Kc6 43. h7 Kb7 44. a4 Ka7 45. Rb1 c5 46. h8=Q c4 47. Qb8+ Ka6 48. Qa8# 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "baseline"]
+[Black "sf1600"]
+[Result "0-1"]
+
+1. Nf3 d5 2. d4 Nf6 3. c4 e6 4. cxd5 Nxd5 5. e4 Bb4+ 6. Nc3 Nxc3 7. bxc3 Bxc3+ 8. Bd2 Bxd4 9. Nxd4 Qxd4 10. Rc1 O-O 11. Rxc7 Rd8 12. Bc3 Qxd1# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "sf1600"]
+[Black "baseline"]
+[Result "1/2-1/2"]
+
+1. Nf3 d5 2. d4 Nf6 3. c4 e6 4. Bg5 h6 5. Bxf6 Qxf6 6. a3 Qxd4 7. Qxd4 Nd7 8. e3 Bb4+ 9. axb4 O-O 10. Nc3 c6 11. c5 Re8 12. h4 a6 13. Na2 e5 14. Qd2 Nf6 15. b3 Ne4 16. Qb2 Nxf2 17. Qxf2 e4 18. Nd4 Bg4 19. Qg3 Re6 20. Be2 Bxe2 21. Qf2 Rae8 22. Qxe2 Rf6 23. O-O-O Rf1 24. Rhxf1 Kh8 25. Qb2 Kg8 26. Qe2 Kh8 27. Kb1 Kg8 1/2-1/2
+

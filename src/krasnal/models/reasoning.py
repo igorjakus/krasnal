@@ -1,0 +1,339 @@
+"""Decoder-only transformer: RoPE, RMSNorm, SwiGLU, SDPA, incremental KV cache.
+
+Derived from nanoGPT. SDPA rather than flash-attn so the same code runs on CUDA,
+MPS and CPU; on CUDA it dispatches to the flash kernel anyway.
+"""
+
+import math
+from dataclasses import dataclass
+from pathlib import PosixPath
+
+import torch
+import torch.nn as nn
+from torch.nn import functional as F
+
+
+@dataclass
+class GPTConfig:
+    vocab_size: int = 2112
+    block_size: int = 1024
+    n_layer: int = 12
+    n_head: int = 12
+    n_embd: int = 768
+    dropout: float = 0.0
+    rope_theta: float = 10000.0
+    eval_classes: int = 0
+    mtp_depth: int = 0
+    rope_values: bool = False
+    qk_norm: bool = True
+    hyper_connections: int = 1
+    sinkhorn_iters: int = 0
+
+
+class MTPModule(nn.Module):
+    """DeepSeek-V3 style depth-1 MTP: predict t+2 given h(t) and the realized t+1.
+
+    One transformer block fuses the trunk state with the embedding of the token
+    actually played at t+1 (teacher-forced from the same crop), then the shared
+    lm_head predicts the t+2 target. Training-only: dropped at inference.
+    """
+
+    def __init__(self, config: GPTConfig):
+        super().__init__()
+        self.norm_state = nn.RMSNorm(config.n_embd)
+        self.norm_token = nn.RMSNorm(config.n_embd)
+        self.proj = nn.Linear(2 * config.n_embd, config.n_embd, bias=False)
+        self.block = Block(config, 0)
+        self.block.drop = nn.Dropout(config.dropout)
+
+    def forward(self, state: torch.Tensor, token_emb: torch.Tensor) -> torch.Tensor:
+        fused = self.proj(torch.cat([self.norm_state(state), self.norm_token(token_emb)], dim=-1))
+        return self.block(fused)
+
+
+class KVCache:
+    """Preallocated per-layer key/value store for single-sequence decoding."""
+
+    def __init__(self, config: GPTConfig, batch: int, device, dtype):
+        head_dim = config.n_embd // config.n_head
+        shape = (config.n_layer, batch, config.n_head, config.block_size, head_dim)
+        self.k = torch.zeros(shape, device=device, dtype=dtype)
+        self.v = torch.zeros(shape, device=device, dtype=dtype)
+        self.length = 0
+
+    def update(self, layer: int, k: torch.Tensor, v: torch.Tensor):
+        end = self.length + k.size(2)
+        if end > self.k.size(3):
+            raise IndexError(f"cache overflow: {end} > block_size {self.k.size(3)}")
+        self.k[layer, :, :, self.length : end] = k
+        self.v[layer, :, :, self.length : end] = v
+        return self.k[layer, :, :, :end], self.v[layer, :, :, :end]
+
+    def advance(self, n: int):
+        self.length += n
+
+    def truncate(self, length: int):
+        self.length = min(self.length, length)
+
+
+class Attention(nn.Module):
+    def __init__(self, config: GPTConfig, layer: int):
+        super().__init__()
+        assert config.n_embd % config.n_head == 0
+        self.n_head, self.n_embd, self.layer = config.n_head, config.n_embd, layer
+        self.dropout = config.dropout
+        self.rope_values = config.rope_values
+        self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd, bias=False)
+        self.c_proj = nn.Linear(config.n_embd, config.n_embd, bias=False)
+        self.q_norm = nn.RMSNorm(config.n_embd // config.n_head) if config.qk_norm else None
+        self.k_norm = nn.RMSNorm(config.n_embd // config.n_head) if config.qk_norm else None
+        head_dim = config.n_embd // config.n_head
+        freqs = config.rope_theta ** -((torch.arange(head_dim) // 2).float() / (head_dim // 2))
+        phases = torch.arange(config.block_size).float()[:, None] * freqs[None, :]
+        self.rope_cos = nn.Buffer(torch.cos(phases), persistent=False)
+        self.rope_sin = nn.Buffer(torch.sin(phases), persistent=False)
+
+    def _rope(self, x: torch.Tensor, offset: int) -> torch.Tensor:
+        t = x.size(2)
+        cos = self.rope_cos[offset : offset + t].to(x)
+        sin = self.rope_sin[offset : offset + t].to(x)
+        rotated = torch.stack((-x[..., 1::2], x[..., ::2]), dim=-1).view_as(x)
+        return x * cos + rotated * sin
+
+    def forward(self, x: torch.Tensor, cache: KVCache | None = None) -> torch.Tensor:
+        B, T, C = x.shape
+        q, k, v = self.c_attn(x).split(self.n_embd, dim=2)
+        q, k, v = (t.view(B, T, self.n_head, -1).transpose(1, 2) for t in (q, k, v))
+        if self.q_norm is not None:
+            # Per-head QK-norm: bound attention logits before RoPE so the softmax
+            # temperature is position- and head-independent.
+            q, k = self.q_norm(q), self.k_norm(k)
+        offset = cache.length if cache is not None else 0
+        q, k = self._rope(q, offset), self._rope(k, offset)
+        if self.rope_values:
+            # RoVE: rotate values with the keys so the aggregated content is
+            # position-aware, not just the attention scores. Applied at cache-write
+            # time, so cache size and decode latency are unchanged.
+            v = self._rope(v, offset)
+        if cache is not None:
+            k, v = cache.update(self.layer, k, v)
+        # SDPA's is_causal aligns top-left, which is only correct when the query
+        # block starts at position 0; otherwise mask explicitly against the cache.
+        mask = None
+        if offset > 0 and T > 1:
+            positions = torch.arange(T, device=x.device) + offset
+            mask = positions[:, None] >= torch.arange(k.size(2), device=x.device)[None, :]
+        y = F.scaled_dot_product_attention(
+            q,
+            k,
+            v,
+            attn_mask=mask,
+            dropout_p=self.dropout if self.training else 0.0,
+            is_causal=mask is None and T > 1,
+        )
+        return self.c_proj(y.transpose(1, 2).contiguous().view(B, T, C))
+
+
+class MLP(nn.Module):
+    def __init__(self, config: GPTConfig):
+        super().__init__()
+        hidden = (8 * config.n_embd + 2) // 3
+        self.c_fc = nn.Linear(config.n_embd, 2 * hidden, bias=False)
+        self.c_proj = nn.Linear(hidden, config.n_embd, bias=False)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        value, gate = self.c_fc(x).chunk(2, dim=-1)
+        return self.c_proj(value * F.silu(gate))
+
+
+class HyperConnection(nn.Module):
+    """Static n-stream hyper-connection from Zhu et al. (2024).
+
+    With `manifold=True` the residual-stream mix is projected onto the Birkhoff
+    polytope via Sinkhorn-Knopp (DeepSeek mHC, arXiv 2512.24880), and the write-in
+    betas are kept positive via 2*sigmoid.
+    """
+
+    def __init__(self, rate: int, layer: int, sinkhorn_iters: int = 0):
+        super().__init__()
+        self.rate = rate
+        self.sinkhorn_iters = sinkhorn_iters
+        if sinkhorn_iters:
+            # mHC (arXiv 2512.24880): the (rate, rate) residual-mix block is projected
+            # onto the Birkhoff polytope via Sinkhorn-Knopp, so identity init is a
+            # doubly stochastic passthrough. The block-input mix starts at zero and
+            # the write-in beta at 2*sigmoid(0)=1, restoring the vanilla residual.
+            self.alpha = nn.Parameter(torch.zeros(rate, rate + 1))
+        else:
+            alpha = torch.cat((torch.eye(rate), torch.zeros(rate, 1)), dim=1)
+            alpha[layer % rate, rate] = 1
+            self.alpha = nn.Parameter(alpha)
+        self.beta = nn.Parameter(torch.zeros(rate) if sinkhorn_iters else torch.ones(rate))
+
+    def width(self, hidden: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        # mixed[..., j] = sum_n hidden[..., n] * alpha[n, j], as broadcast-mul + sum:
+        # any GEMM/einsum contracting into the tiny (rate, rate+1) alpha hits a
+        # pathological bf16 cuBLAS backward (~500 ms/step on RTX 3090).
+        if hidden.dim() == 3:
+            hidden = hidden.unsqueeze(-1).expand(-1, -1, -1, self.rate)
+        if self.sinkhorn_iters:
+            # Sinkhorn-Knopp projects the (rate, rate) residual-mix block onto the
+            # Birkhoff polytope; the extra block-input column is unconstrained.
+            # At the zero init exp(0) projects to uniform, so every stream reads the
+            # mean and the block-input column starts at 1/rate for a vanilla identity.
+            mix = self._sinkhorn(self.alpha[:, : self.rate])
+            weights = torch.cat((self.alpha[:, self.rate, None] + 1 / self.rate, mix), dim=1).t()
+        else:
+            weights = self.alpha.t()
+        mixed = (hidden.unsqueeze(-2) * weights).sum(-1)
+        return mixed[..., self.rate], mixed[..., : self.rate]
+
+    def depth(self, streams: torch.Tensor, output: torch.Tensor) -> torch.Tensor:
+        beta = 2 * torch.sigmoid(self.beta) if self.sinkhorn_iters else self.beta
+        return streams + output.unsqueeze(-1) * beta
+
+    def _sinkhorn(self, matrix: torch.Tensor) -> torch.Tensor:
+        projected = torch.exp(matrix)
+        for _ in range(self.sinkhorn_iters):
+            projected = projected / projected.sum(1, keepdim=True)
+            projected = projected / projected.sum(0, keepdim=True)
+        return projected
+
+
+class Block(nn.Module):
+    def __init__(self, config: GPTConfig, layer: int):
+        super().__init__()
+        self.norm_1 = nn.RMSNorm(config.n_embd)
+        self.attn = Attention(config, layer)
+        self.norm_2 = nn.RMSNorm(config.n_embd)
+        self.mlp = MLP(config)
+        self.drop = nn.Dropout(config.dropout)
+        if config.hyper_connections > 1:
+            sinkhorn = config.sinkhorn_iters
+            self.attn_hc = HyperConnection(config.hyper_connections, layer * 2, sinkhorn)
+            self.mlp_hc = HyperConnection(config.hyper_connections, layer * 2 + 1, sinkhorn)
+        else:
+            self.attn_hc = self.mlp_hc = None
+
+    def forward(self, x: torch.Tensor, cache: KVCache | None = None) -> torch.Tensor:
+        if self.attn_hc is None:
+            x = x + self.drop(self.attn(self.norm_1(x), cache))
+            return x + self.drop(self.mlp(self.norm_2(x)))
+        block_input, streams = self.attn_hc.width(x)
+        attn = self.drop(self.attn(self.norm_1(block_input), cache))
+        streams = self.attn_hc.depth(streams, attn)
+        block_input, streams = self.mlp_hc.width(streams)
+        mlp = self.drop(self.mlp(self.norm_2(block_input)))
+        return self.mlp_hc.depth(streams, mlp)
+
+
+class GPT(nn.Module):
+    def __init__(self, config: GPTConfig):
+        super().__init__()
+        self.config = config
+        self.wte = nn.Embedding(config.vocab_size, config.n_embd)
+        self.drop = nn.Dropout(config.dropout)
+        self.blocks = nn.ModuleList(Block(config, i) for i in range(config.n_layer))
+        self.norm_f = nn.RMSNorm(config.n_embd)
+        self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
+        self.eval_head = (
+            nn.Linear(config.n_embd, config.eval_classes, bias=False)
+            if config.eval_classes
+            else None
+        )
+        self.wte.weight = self.lm_head.weight
+        self.mtp = MTPModule(config) if config.mtp_depth else None
+
+        self.apply(self._init_weights)
+        for name, param in self.named_parameters():
+            if name.endswith("c_proj.weight"):
+                nn.init.normal_(param, std=0.02 / math.sqrt(2 * config.n_layer))
+        if self.mtp is not None:
+            # Reinforced init would zero the MTP path at start; the module must learn
+            # to fold the realized next token into the state, so init like a fresh block.
+            self.mtp.apply(self._init_weights)
+
+    @staticmethod
+    def _init_weights(module: nn.Module):
+        if isinstance(module, nn.Linear | nn.Embedding):
+            nn.init.normal_(module.weight, std=0.02)
+
+    def num_params(self) -> int:
+        return sum(p.numel() for p in self.parameters())
+
+    def forward(
+        self,
+        idx,
+        targets=None,
+        cache: KVCache | None = None,
+        eval_targets=None,
+        eval_weight=1.0,
+        mtp_weight=0.0,
+        supervised_only=False,
+    ):
+        x = self.drop(self.wte(idx))
+        for block in self.blocks:
+            x = block(x, cache)
+        if cache is not None:
+            cache.advance(idx.size(1))
+        if self.config.hyper_connections > 1:
+            x = x.mean(dim=-1)
+        x = self.norm_f(x)
+        if supervised_only:
+            if targets is None:
+                raise ValueError("supervised_only requires targets")
+            return self.lm_head(x[targets != -1]), None
+        if targets is None:
+            return self.lm_head(x[:, [-1], :]), None
+        logits = self.lm_head(x)
+        loss = F.cross_entropy(logits.flatten(0, 1), targets.flatten(), ignore_index=-1)
+        if eval_targets is not None:
+            if self.eval_head is None:
+                raise ValueError("eval_targets require eval_classes in GPTConfig")
+            if (eval_targets != -1).any():
+                eval_logits = self.eval_head(x)
+                eval_loss = F.cross_entropy(
+                    eval_logits.flatten(0, 1), eval_targets.flatten(), ignore_index=-1
+                )
+                loss = loss + eval_weight * eval_loss
+        if self.mtp is not None and mtp_weight > 0:
+            mtp_hidden = self.mtp(x, self.wte(idx))
+            mtp_logits = self.lm_head(mtp_hidden)
+            mtp_loss = F.cross_entropy(mtp_logits.flatten(0, 1), targets.flatten(), ignore_index=-1)
+            loss = loss + mtp_weight * mtp_loss
+        return logits, loss
+
+    def mtp_loss_only(self, idx, targets):
+        """MTP loss alone, for monitoring the auxiliary head's descent."""
+        x = self.drop(self.wte(idx))
+        for block in self.blocks:
+            x = block(x)
+        if self.config.hyper_connections > 1:
+            x = x.mean(dim=-1)
+        x = self.norm_f(x)
+        mtp_logits = self.lm_head(self.mtp(x, self.wte(idx)))
+        return F.cross_entropy(mtp_logits.flatten(0, 1), targets.flatten(), ignore_index=-1)
+
+    @classmethod
+    def load(cls, path, device: str = "cpu") -> "GPT":
+        # Our trusted checkpoints contain a PosixPath in training metadata.
+        # Keep the safe ``weights_only`` loader and explicitly allow that
+        # standard-library type.
+        # Python 3.13 moved this class to pathlib._local; older checkpoints
+        # still name pathlib.PosixPath. Allow that exact alias, not arbitrary pickle.
+        with torch.serialization.safe_globals([PosixPath, (PosixPath, "pathlib.PosixPath")]):
+            checkpoint = torch.load(path, map_location=device, weights_only=True)
+        config = dict(checkpoint["config"])
+        config.setdefault("qk_norm", False)
+        model = cls(GPTConfig(**config)).to(device)
+        model.load_state_dict(checkpoint["model"])
+        model.training_policy = checkpoint.get("training_policy", {})
+        return model.eval()
+
+    def configure_optimizers(self, weight_decay, learning_rate, betas, fused=False):
+        params = [p for p in self.parameters() if p.requires_grad]
+        groups = [
+            {"params": [p for p in params if p.dim() >= 2], "weight_decay": weight_decay},
+            {"params": [p for p in params if p.dim() < 2], "weight_decay": 0.0},
+        ]
+        return torch.optim.AdamW(groups, lr=learning_rate, betas=betas, fused=fused)

@@ -1,9 +1,23 @@
-from krasnal.inference.batch import StatelessBatchInferenceSession
-from krasnal.inference.exceptions import NoLegalMovesError
-from krasnal.inference.game import Game
-from krasnal.inference.sampling import sample_token
-from krasnal.inference.session import InferenceSession
-from krasnal.inference.utils import load_model
+"""Inference interfaces; load architecture-specific dependencies on demand."""
+
+from importlib import import_module
+
+_EXPORTS = {
+    "StatelessBatchInferenceSession": "batch",
+    "NoLegalMovesError": "exceptions",
+    "Game": "game",
+    "sample_token": "sampling",
+    "InferenceSession": "session",
+    "load_model": "utils",
+}
+
+
+def __getattr__(name):
+    if name not in _EXPORTS:
+        raise AttributeError(name)
+    value = getattr(import_module(f"{__name__}.{_EXPORTS[name]}"), name)
+    globals()[name] = value
+    return value
 
 __all__ = [
     "Game",

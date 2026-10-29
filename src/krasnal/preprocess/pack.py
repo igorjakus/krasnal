@@ -11,7 +11,7 @@ import numpy as np
 import polars as pl
 
 from krasnal.config import CLOCK_IGNORE_ID
-from krasnal.tokens import PAD_ID
+from krasnal.tokenization.history import PAD_ID
 
 _GameRow = tuple[list[int], list[int], list[int]]
 

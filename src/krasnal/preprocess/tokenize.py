@@ -12,26 +12,8 @@ import pyarrow.parquet as pq
 from loguru import logger
 
 from krasnal.preprocess.pack import PackedWindowBuilder
-from krasnal.time_conditioning import uniform_clock_pair
-from krasnal.tokens import (
-    BLACK_PREFIX,
-    GAME_END_ID,
-    GAME_START_ID,
-    IS_CHECK_ID,
-    MAX_SIDE_MATERIAL,
-    MOVE_TO_ID,
-    NO_CHECK_ID,
-    OPP_MATERIAL_START_ID,
-    WHITE_PREFIX,
-    YES_CHECK_ID,
-    get_elo_bucket,
-    get_time_control_bucket,
-    load_move_vocab,
-    move_key_for_ply,
-    normalize_piece_type,
-    result_to_token_id,
-    whats_on_probe_labels,
-)
+from krasnal.models.time_conditioning import uniform_clock_pair
+from krasnal.tokenization.history import BLACK_PREFIX, GAME_END_ID, GAME_START_ID, IS_CHECK_ID, MAX_SIDE_MATERIAL, MOVE_TO_ID, NO_CHECK_ID, OPP_MATERIAL_START_ID, WHITE_PREFIX, YES_CHECK_ID, get_elo_bucket, get_time_control_bucket, load_move_vocab, move_key_for_ply, normalize_piece_type, result_to_token_id, whats_on_probe_labels
 
 from .config import PreprocessConfig
 

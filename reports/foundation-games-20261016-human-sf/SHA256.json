@@ -1,0 +1,13 @@
+{
+  "verified_against_adrian": true,
+  "verified_date": "2026-10-17",
+  "pgn_validation": "800 complete legal games; final FEN, outcome, ply count match; no censored games; first600 JSON rows identical to parent",
+  "files": {
+    "games.jsonl": "a22dec32a8a52a502aca89e367215412256ac021bebce69a8b620d162621f1e6",
+    "games.pgn": "c0a5aa4354032708133e2a7d4b16c427c64377e5d1b016a0885648543679853f",
+    "plan.json": "a363e4814a1f86b072cf7c0db60c0090098976b2a8657078e96a697b46632c97",
+    "result.json": "d23771864dd651e3e94571527669eb857a35fbd60f4931abfd19fbc7568f3a4a",
+    "status.json": "1357fc3cd9fdb5d1f3d19bb62d3f4fcae9bf274ec33eb417e2cff386ddf0281e",
+    "complete.json": "a14e25a720ef427cfb3c77315e89376114b1a3938b93b777ce30af7c4978eea9"
+  }
+}

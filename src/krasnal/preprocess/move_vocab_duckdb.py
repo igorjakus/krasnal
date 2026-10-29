@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from krasnal.tokens import save_move_vocab
+from krasnal.tokenization.history import save_move_vocab
 
 if TYPE_CHECKING:
     import duckdb

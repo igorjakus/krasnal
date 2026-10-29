@@ -35,7 +35,7 @@ from krasnal.preprocess import (
 )
 from krasnal.preprocess.eval_sampling import EVAL_MONTH
 from krasnal.preprocess.pack import write_packed_dataset_manifest
-from krasnal.tokens import ELO_TOKENS, TC_TOKENS, load_move_vocab
+from krasnal.tokenization.history import ELO_TOKENS, TC_TOKENS, load_move_vocab
 
 
 def _cap_train_files(
@@ -361,7 +361,7 @@ def main(cfg: DictConfig) -> None:
         if eval_rows > 0:
             eval_df = pl.read_parquet(EVAL_DATASET_PATH)
             logger.info("Eval Dataset Elo Bin Distribution ({} games):", eval_rows)
-            from krasnal.tokens import ELO_TOKENS as ELO_MAP
+            from krasnal.tokenization.history import ELO_TOKENS as ELO_MAP
 
             elo_id_to_name = {v: k for k, v in ELO_MAP.items()}
             elo_counts = {name: 0 for name in ELO_MAP}

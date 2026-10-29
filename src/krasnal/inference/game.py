@@ -4,17 +4,7 @@ from dataclasses import dataclass, field
 
 import bulletchess
 
-from krasnal.tokens import (
-    DRAW_ID,
-    ELO_ABOVE_2200_ID,
-    GAME_START_ID,
-    TC_UNKNOWN_ID,
-    is_move_token_id,
-    normalize_piece_type,
-    opponent_material_token_id,
-    token_to_uci,
-    uci_to_token_id,
-)
+from krasnal.tokenization.history import DRAW_ID, ELO_ABOVE_2200_ID, GAME_START_ID, TC_UNKNOWN_ID, is_move_token_id, normalize_piece_type, opponent_material_token_id, token_to_uci, uci_to_token_id
 
 
 @dataclass

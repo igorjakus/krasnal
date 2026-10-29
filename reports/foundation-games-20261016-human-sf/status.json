@@ -1,0 +1,17 @@
+{
+  "games": 800,
+  "planned": 800,
+  "last": {
+    "opening_id": 99,
+    "mode": "interleave_sf_assisted",
+    "anchor": 2900,
+    "model_white": false,
+    "score": 0.5,
+    "plies": 98,
+    "termination": "THREEFOLD_REPETITION",
+    "seconds": 10.439140558242798,
+    "time": 1792137250.467717,
+    "final_fen": "3R4/pp3p1k/5Bp1/6Pp/7P/8/r6K/8 w - - 15 50"
+  },
+  "deadline": 1792138140.0
+}

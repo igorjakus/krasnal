@@ -5,8 +5,8 @@ from contextlib import AbstractContextManager, nullcontext
 import torch
 
 from krasnal.config import GPTConfig
-from krasnal.model import GPT
-from krasnal.tokens import get_vocab_size
+from krasnal.models.history import GPT
+from krasnal.tokenization.history import get_vocab_size
 
 
 def create_amp_context(device: torch.device) -> AbstractContextManager:

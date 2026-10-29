@@ -8,7 +8,7 @@ import polars as pl
 from loguru import logger
 
 from krasnal.config import CLOCK_IGNORE_ID, EVAL_DATASET_PATH
-from krasnal.tokens import SPECIAL_TOKENS
+from krasnal.tokenization.history import SPECIAL_TOKENS
 
 _THRESHOLD = 30
 

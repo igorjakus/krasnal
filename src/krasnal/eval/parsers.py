@@ -3,15 +3,7 @@ from dataclasses import dataclass
 import torch
 
 from krasnal.config import CLOCK_IGNORE_ID
-from krasnal.tokens import (
-    DRAW_ID,
-    ELO_TOKENS,
-    GAME_END_ID,
-    GAME_START_ID,
-    OUTCOME_TOKENS,
-    TC_TOKENS,
-    get_moves_only,
-)
+from krasnal.tokenization.history import DRAW_ID, ELO_TOKENS, GAME_END_ID, GAME_START_ID, OUTCOME_TOKENS, TC_TOKENS, get_moves_only
 
 
 @dataclass

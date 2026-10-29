@@ -27,21 +27,8 @@ import torch.nn.functional as F
 
 from krasnal.config import CLOCK_IGNORE_ID, EVAL_DATASET_PATH, MOVE_VOCAB_PATH, GPTConfig
 from krasnal.inference import Game, InferenceSession, load_model
-from krasnal.model import GPT
-from krasnal.tokens import (
-    ELO_ABOVE_2200_ID,
-    GAME_START_ID,
-    SPECIAL_TOKENS,
-    TC_TOKENS,
-    TC_UNKNOWN_ID,
-    WHITE_WON_ID,
-    get_move_clock_pairs,
-    get_moves_only,
-    get_vocab_size,
-    legal_token_ids,
-    load_move_vocab,
-    to_uci,
-)
+from krasnal.models.history import GPT
+from krasnal.tokenization.history import ELO_ABOVE_2200_ID, GAME_START_ID, SPECIAL_TOKENS, TC_TOKENS, TC_UNKNOWN_ID, WHITE_WON_ID, get_move_clock_pairs, get_moves_only, get_vocab_size, legal_token_ids, load_move_vocab, to_uci
 from krasnal.uci_engine.go_params import GoParams
 from krasnal.utils import (
     gpt_config_from_artifact_dict,

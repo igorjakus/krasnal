@@ -1,0 +1,10 @@
+{
+  "verification": "Local SHA256 matches Adrian copies, 2026-10-16",
+  "files": {
+    "games.jsonl": "856543979e893a09bbe05d314ebc4bcaa5ffc3e10dc9b6ace674e2fcea4b0ccf",
+    "games.pgn": "838c61401409f604dd64bb5d576bf77c540bcefd423c90294570a5d08f4778b8",
+    "plan.json": "32f7ece4df2e88303e0f190f8c01f1478040329f22f909f78d7006418e6fd397",
+    "result.json": "cfa4c5c7f972d5aadf66a8fc97cac7d10ec967d70b67ac337a8b4c0d63c763ef",
+    "status.json": "2a8720379a30a02db2ef9edc235af0320fb33d6106b1cd74aa69c93350c53a00"
+  }
+}

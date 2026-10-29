@@ -12,12 +12,7 @@ from loguru import logger
 from krasnal.inference import Game, InferenceSession, load_model
 from krasnal.inference.exceptions import NoLegalMovesError
 from krasnal.inference.sampling import sample_token
-from krasnal.tokens import (
-    legal_token_ids,
-    load_move_vocab,
-    normalize_history_uci_moves,
-    to_uci,
-)
+from krasnal.tokenization.history import legal_token_ids, load_move_vocab, normalize_history_uci_moves, to_uci
 from krasnal.utils import (
     gpt_config_from_artifact_dict,
     read_model_config_json,
