@@ -20,7 +20,7 @@ CHECKPOINT=${CHECKPOINT:-experiments/sf-interleave-v1/checkpoints/pretrain-model
 
 cd "$PROJECT_ROOT"
 mkdir -p "$RUN_ROOT"
-exec .venv-codex/bin/python scripts/train_interleave.py \
+exec .venv/bin/python scripts/train_interleave.py \
     "$CHECKPOINT" \
     --data-dir "$DATA_ROOT/train" \
     --mode "$MODE" \

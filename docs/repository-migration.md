@@ -15,7 +15,7 @@ redirects to `igorjakus/krasnal`.
 The initial private repository (ID `1433640657`) has been renamed to
 `igorjakus/krasnal-monorepo-backup-20261025` to free the destination name. It is a
 backup, not the canonical GitHub repository. Local checkout:
-`/Users/igorjakus/Projects/krasnal-monorepo`.
+`/Users/igorjakus/Projects/krasnal` (consolidated on 2026-10-29).
 
 ## Modular code
 
@@ -40,18 +40,23 @@ Historical tracked tests are relocated, not rewritten; no new unit tests are add
 
 ## Local and worker state
 
-The old local checkouts remain available. Uncommitted tests, collector logs and
-the continuously refreshed collector timestamp remain in the original
-`/Users/igorjakus/Projects/krasnal-think`; they are not silently committed.
-Ignored data, environments and checkpoints are not copied into this checkout.
-Before retiring an old checkout, reconfigure collectors and migrate local work.
+Old local source trees, Git object stores and uncommitted work are preserved in
+the ignored `.local/migration-20261029/` snapshot. Missing logs and local experiment
+artifacts were moved into the canonical checkout; differing historical reports
+and uncommitted tests remain preserved in the snapshot rather than silently
+overwriting published artifacts. The default `.venv` is reconciled to the unified
+lockfile. Five obsolete, repeatedly restarted collector services were removed.
 
-Worker paths, artifacts, active jobs and pinned snapshots remain unchanged.
-Current launcher source paths are updated for the new modules, but historical
-protocols still describe their original snapshots. New dispatch must pin the
-complete source dependency closure, verify its hashes and smoke imports inside
-the worker runtime. Do not overwrite active snapshots or resume a historical run
-with refactored code without an explicit code/protocol audit.
+Worker roots are consolidated to `/home/ijakus/projects/krasnal` (Adrian) and
+`/Ziob/ijakus/krasnal` (UWR). The former `krasnal-think` paths are compatibility
+symlinks, preserving historical paths and container mounts. Artifacts and pinned
+experiment snapshots are relocated without changing their contents. Original
+worker source trees and Git metadata are archived separately; they are not
+overwritten. See the worker migration report for runtime verification.
+
+New dispatch must pin the complete source dependency closure, verify its hashes
+and smoke imports inside the worker runtime. Do not resume a historical run with
+refactored code without an explicit code/protocol audit.
 
 ## Verification
 

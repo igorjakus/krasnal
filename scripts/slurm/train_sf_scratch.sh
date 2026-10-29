@@ -11,4 +11,4 @@ set -euo pipefail
 cd /Ziob/ijakus/krasnal
 export OMP_NUM_THREADS=4
 export PYTHONUNBUFFERED=1
-exec .venv-codex/bin/python scripts/train_sf_scratch.py
+exec .venv/bin/python scripts/train_sf_scratch.py

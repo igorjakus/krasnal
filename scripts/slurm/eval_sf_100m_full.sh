@@ -11,4 +11,4 @@ set -euo pipefail
 cd /Ziob/ijakus/krasnal
 export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS=2
-exec .venv-codex/bin/python scripts/eval_sf_full.py
+exec .venv/bin/python scripts/eval_sf_full.py

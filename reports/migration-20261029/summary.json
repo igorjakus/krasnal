@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-29",
+  "repository": "igorjakus/krasnal",
+  "canonical_local_root": "/Users/igorjakus/Projects/krasnal",
+  "workers": {
+    "adrian": {
+      "root": "/home/ijakus/projects/krasnal",
+      "artifact_relocations": 4,
+      "relocated_files": 28801,
+      "relocated_logical_bytes": 279117467550,
+      "collision_count": 0,
+      "full_manifest_sha256": "49ce87307fb23e418201c1b40f054f5a6709dc836610eb104b55a1a6bf1f6492",
+      "bootstrap_commit": "1336d037559305f8cef9472ed2b177bdb8cf5ca6",
+      "source_bundle_sha256": "fcd746bffdc4164a4ae4e88ef8b261505effc495a36b909d0e539f7f3b81fc50",
+      "foundation_sha256": "b660b1f8eef7104123dd6551eff5c63ab3b665b72a8f1a8b2d17ec6fd71c7e81"
+    },
+    "uwr": {
+      "root": "/Ziob/ijakus/krasnal",
+      "artifact_relocations": 19,
+      "relocated_files": 73371,
+      "relocated_logical_bytes": 1240420533057,
+      "collision_count": 0,
+      "full_manifest_sha256": "5a6abd57825e16d4353b94a32b3fb512cdcb3ccb3b1b9ae7672498ba07ae3284",
+      "bootstrap_commit": "1336d037559305f8cef9472ed2b177bdb8cf5ca6",
+      "source_bundle_sha256": "fcd746bffdc4164a4ae4e88ef8b261505effc495a36b909d0e539f7f3b81fc50",
+      "foundation_sha256": "b660b1f8eef7104123dd6551eff5c63ab3b665b72a8f1a8b2d17ec6fd71c7e81"
+    }
+  },
+  "local_preserved_files": 502,
+  "legacy_collectors_removed": 5,
+  "uwr_runtime_status": "in_progress",
+  "training_started": false
+}

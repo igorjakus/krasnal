@@ -10,4 +10,4 @@
 set -euo pipefail
 cd /Ziob/ijakus/krasnal
 export OMP_NUM_THREADS=2 PYTHONUNBUFFERED=1
-exec .venv-codex/bin/python scripts/eval_sf_star_curve.py --config configs/sf-interleave-star-full-20261009.json --evaluator scripts/evaluate_star_interleave.py
+exec .venv/bin/python scripts/eval_sf_star_curve.py --config configs/sf-interleave-star-full-20261009.json --evaluator scripts/evaluate_star_interleave.py

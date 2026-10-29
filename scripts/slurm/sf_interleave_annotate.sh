@@ -35,7 +35,7 @@ out="$DATA_ROOT/$month.jsonl"
 manifest="$DATA_ROOT/$month.manifest.json"
 
 echo "Annotating month=$month nodes=$NODES workers=$WORKERS game_limit=$GAME_LIMIT"
-exec .venv-codex/bin/python scripts/sf_interleave.py annotate \
+exec .venv/bin/python scripts/sf_interleave.py annotate \
     --month "$month" \
     --out "$out" \
     --manifest "$manifest" \

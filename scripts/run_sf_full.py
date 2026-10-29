@@ -38,7 +38,7 @@ print(json.dumps(plan), flush=True)
 os.environ["OMP_NUM_THREADS"] = "4"
 os.environ["NCCL_P2P_DISABLE"] = "1"
 os.environ["NCCL_IB_DISABLE"] = "1"
-command = [".venv-codex/bin/python", "-m", "torch.distributed.run", "--standalone",
+command = [".venv/bin/python", "-m", "torch.distributed.run", "--standalone",
            "--nproc_per_node=" + str(config["world_size"]), "scripts/train_interleave.py",
            config["checkpoint"], "--foundation-id", config["foundation_id"],
            "--data-dir", str(data / "train"), "--mode", "augmented", "--out", str(out),

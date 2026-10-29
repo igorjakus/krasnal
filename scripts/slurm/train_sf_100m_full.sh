@@ -10,4 +10,4 @@
 set -euo pipefail
 cd /Ziob/ijakus/krasnal
 export PYTHONUNBUFFERED=1
-exec .venv-codex/bin/python scripts/run_sf_full.py
+exec .venv/bin/python scripts/run_sf_full.py

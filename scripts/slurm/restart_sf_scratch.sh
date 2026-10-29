@@ -10,4 +10,4 @@
 set -euo pipefail
 cd /Ziob/ijakus/krasnal
 export OMP_NUM_THREADS=4 PYTHONUNBUFFERED=1
-exec .venv-codex/bin/python scripts/restart_sf_scratch.py --mode "${MODE:?sf or star}"
+exec .venv/bin/python scripts/restart_sf_scratch.py --mode "${MODE:?sf or star}"

@@ -54,9 +54,9 @@ just pretrain
 
 ## Training and artifacts
 
-Training configuration lives in `config/`. Model sizes are defined under `config/model/`, while
-runtime and training settings are split across `config/train/`, `config/preprocess.yaml`,
-`config/download.yaml`, and `config/pretrain.yaml`.
+Training configuration lives in `configs/`. Model sizes are defined under `configs/model/`, while
+runtime and training settings are split across `configs/train/`, `configs/preprocess.yaml`,
+`configs/download.yaml`, and `configs/pretrain.yaml`.
 
 Generated datasets, checkpoints, W&B runs, model artifacts, caches, and local bot files are not
 committed to the repository.

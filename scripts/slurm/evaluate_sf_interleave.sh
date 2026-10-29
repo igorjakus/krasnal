@@ -23,7 +23,7 @@ run_eval() {
     local label=$2
     local checkpoint=$3
     local mode=$4
-    .venv-codex/bin/python scripts/evaluate_interleave.py \
+    .venv/bin/python scripts/evaluate_interleave.py \
         "$checkpoint" \
         --records "$DATA_ROOT/$split/records.jsonl" \
         --mode "$mode" \
