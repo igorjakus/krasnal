@@ -8,6 +8,6 @@
 #SBATCH --time=2-00:00:00
 #SBATCH --output=experiments/slurm/%x-%j.log
 set -euo pipefail
-cd /Ziob/ijakus/krasnal-think
+cd /Ziob/ijakus/krasnal
 export PYTHONUNBUFFERED=1
 exec .venv-codex/bin/python scripts/run_sf_full.py

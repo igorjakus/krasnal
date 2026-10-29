@@ -7,5 +7,5 @@
 #SBATCH --time=06:00:00
 #SBATCH --output=experiments/slurm/%x-%j.log
 set -euo pipefail
-cd /Ziob/ijakus/krasnal-think
+cd /Ziob/ijakus/krasnal
 exec .venv-codex/bin/python scripts/build_sf_overnight.py "${BUILD_SCOPE:-quick}"

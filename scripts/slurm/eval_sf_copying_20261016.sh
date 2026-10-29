@@ -9,7 +9,7 @@
 #SBATCH --output=experiments/sf-copying-diagnostic-20261016/logs/slurm-%j.out
 set -euo pipefail
 
-cd /Ziob/ijakus/krasnal-think
+cd /Ziob/ijakus/krasnal
 export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"

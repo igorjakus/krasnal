@@ -7,7 +7,7 @@
 #SBATCH --time=12:00:00
 #SBATCH --output=experiments/slurm/%x-%j.log
 set -euo pipefail
-cd /Ziob/ijakus/krasnal-think
+cd /Ziob/ijakus/krasnal
 DATA_ROOT=data/sf-interleave-distinct-20261008-quick-buffered
 RUN_ROOT=experiments/sf-interleave-distinct-20261008
 MODE=${MODE:?}

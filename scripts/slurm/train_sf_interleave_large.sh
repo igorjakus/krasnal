@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal-think}
+PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal}
 DATA_ROOT=${DATA_ROOT:-data/sf-interleave-v2}
 RUN_ROOT=${RUN_ROOT:-experiments/sf-interleave-v2}
 MODE=${MODE:?MODE must be human or augmented}

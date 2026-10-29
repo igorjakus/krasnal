@@ -9,7 +9,7 @@
 
 set -euo pipefail
 
-PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal-think}
+PROJECT_ROOT=${PROJECT_ROOT:-/Ziob/ijakus/krasnal}
 OUT_ROOT=${OUT_ROOT:-data/sf-interleave-v2}
 
 cd "$PROJECT_ROOT"

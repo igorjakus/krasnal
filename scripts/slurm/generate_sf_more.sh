@@ -7,9 +7,9 @@
 #SBATCH --time=2-00:00:00
 #SBATCH --output=experiments/slurm/%x-%A_%a.log
 set -euo pipefail
-cd /Ziob/ijakus/krasnal-think
-export HF_HOME=/Ziob/ijakus/krasnal-think/data/source-cache/sf-more-20261009/huggingface
-export TMPDIR=/Ziob/ijakus/krasnal-think/data/source-cache/sf-more-20261009/tmp
+cd /Ziob/ijakus/krasnal
+export HF_HOME=/Ziob/ijakus/krasnal/data/source-cache/sf-more-20261009/huggingface
+export TMPDIR=/Ziob/ijakus/krasnal/data/source-cache/sf-more-20261009/tmp
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
 export PYTHONUNBUFFERED=1 SF_GENERATOR_MODULE=sf_generate_20261009_base
 mkdir -p "$HF_HOME" "$TMPDIR"

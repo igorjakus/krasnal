@@ -7,7 +7,7 @@ from pathlib import Path
 
 project = Path(__file__).resolve().parents[1]
 out = project / "reports/sf-baseline-audit-20261010"
-remote = "/home/ijakus/projects/krasnal-think/experiments/sf-baseline-audit-20261010/audit-full.json"
+remote = "/home/ijakus/projects/krasnal/experiments/sf-baseline-audit-20261010/audit-full.json"
 out.mkdir(parents=True, exist_ok=True)
 while True:
     try:

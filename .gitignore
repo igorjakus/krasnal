@@ -29,3 +29,7 @@ local_games/
 dist/
 build/
 *.egg-info/
+.local/
+.venv-codex/
+.uv-python/
+.uv-cache/

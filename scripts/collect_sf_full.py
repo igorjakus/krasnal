@@ -12,7 +12,7 @@ parser.add_argument("--config", default="configs/sf-interleave-100m-full-2026100
 parser.add_argument("--local-out", default="reports/sf-interleave-100m-full-20261009")
 args = parser.parse_args()
 config = json.loads((project / args.config).read_text())
-remote = "/Ziob/ijakus/krasnal-think/"
+remote = "/Ziob/ijakus/krasnal/"
 out = project / args.local_out
 (out / "metrics").mkdir(parents=True, exist_ok=True)
 

@@ -16,9 +16,11 @@
 
 - Before shared compute work, read
   `/Users/igorjakus/.codex/skills/compute-hosts/SKILL.md`.
+- Canonical local checkout: `/Users/igorjakus/Projects/krasnal`.
 - Adrian is the primary GPU/artifact worker:
-  `/home/ijakus/projects/krasnal-think`. UWR Slurm worker:
-  `/Ziob/ijakus/krasnal-think` (case-sensitive). Worker paths remain unchanged.
+  `/home/ijakus/projects/krasnal`. UWR Slurm worker:
+  `/Ziob/ijakus/krasnal` (case-sensitive). Old `krasnal-think` worker paths are
+  compatibility symlinks only, for historical protocols and container mounts.
 - Bridge Adrian/UWR transfers through this Mac. Keep large datasets, experiments,
   checkpoints and environments outside Git; transfer exact needed artifacts with
   SHA-256 manifests and atomic/resumable copies. Never use `--delete` for data.
@@ -33,8 +35,8 @@
   `student-nvidia` with `--gres=gpu:1` for GPU work, explicit CPU/RAM/time requests
   and `experiments/slurm/` logs. Do not pin nodes without a documented requirement.
 - Lab hosts/runtime/shared mounts remain unverified; do not guess them.
-- Preserve original local checkouts and their uncommitted work. Reconfigure
-  collectors/automations explicitly before retiring any old checkout.
+- Original local code and uncommitted work are preserved under the ignored
+  `.local/migration-20261029/` snapshot. Do not publish it or discard it.
 
 ## Mandatory foundation
 
