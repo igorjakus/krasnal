@@ -1,0 +1,24 @@
+{
+  "name": "advisor-trust-v1-none",
+  "seed": 20261101,
+  "train_mixture": {
+    "none": 1.0
+  },
+  "heldout_eval_advisors": [],
+  "note": "Control: same games and recipe, empty note at every ply (100M + star). Answers how much advice helps at all.",
+  "root": "experiments/advisor-trust-v1/none",
+  "data": "data/advisor-trust-v1/dataset-none",
+  "foundation_id": "human-pretrain-100m-20260730",
+  "checkpoint": "runs/foundations/human-pretrain-100m-20260730/model.pt",
+  "epochs": 2,
+  "world_size": 2,
+  "batch_size": 2,
+  "grad_accum": 8,
+  "sampling": "shuffled-blocks",
+  "human_weight": 1.0,
+  "other_weight": 0.0,
+  "lr": 1e-05,
+  "min_lr": 1e-06,
+  "save_every": 5000,
+  "max_hours": 44
+}

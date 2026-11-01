@@ -1,0 +1,32 @@
+{
+  "name": "advisor-trust-v1",
+  "seed": 20261101,
+  "train_mixture": {
+    "none": 0.15,
+    "sf30k": 0.20,
+    "sfd8": 0.08,
+    "sfd4": 0.08,
+    "sfd1": 0.09,
+    "random": 0.10,
+    "oracle20": 0.10,
+    "oracle40": 0.10,
+    "oracle80": 0.10
+  },
+  "heldout_eval_advisors": ["sfd2", "oracle60", "oracle100"],
+  "note": "One advisor per game, hidden from the model. oracle100 (label leakage) is evaluation-only.",
+  "root": "experiments/advisor-trust-v1/mixture",
+  "data": "data/advisor-trust-v1/dataset",
+  "foundation_id": "human-pretrain-100m-20260730",
+  "checkpoint": "runs/foundations/human-pretrain-100m-20260730/model.pt",
+  "epochs": 2,
+  "world_size": 2,
+  "batch_size": 2,
+  "grad_accum": 8,
+  "sampling": "shuffled-blocks",
+  "human_weight": 1.0,
+  "other_weight": 0.0,
+  "lr": 0.00001,
+  "min_lr": 0.000001,
+  "save_every": 5000,
+  "max_hours": 44
+}

@@ -175,7 +175,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("checkpoint", type=Path)
     parser.add_argument("--data-dir", type=Path, required=True)
-    parser.add_argument("--mode", choices=("augmented", "human"), default="augmented")
+    parser.add_argument("--mode", choices=("augmented", "human", "advisor"), default="augmented")
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--steps", type=int, default=10_000)
     parser.add_argument("--batch-size", type=int, default=16)
