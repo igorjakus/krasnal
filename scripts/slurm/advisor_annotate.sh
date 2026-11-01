@@ -18,7 +18,7 @@ MODE=${MODE:?MODE=all|assigned}
 INPUTS_FILE=${INPUTS_FILE:?}
 OUT_ROOT=${OUT_ROOT:?}
 CONFIG=${CONFIG:-configs/advisor-trust-v1.json}
-ADVISORS=${ADVISORS:-"sfd1 sfd2 sfd4 sfd8"}
+ADVISORS=${ADVISORS:-"sfd1 sfd4"}
 STOCKFISH=${STOCKFISH:-/Ziob/ijakus/bin/stockfish}
 WORKERS=${WORKERS:-$(( ${SLURM_CPUS_PER_TASK:-8} - 1 ))}
 input=$(sed -n "$(( ${SLURM_ARRAY_TASK_ID:-0} + 1 ))p" "$INPUTS_FILE")

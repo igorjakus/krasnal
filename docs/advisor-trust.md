@@ -9,7 +9,7 @@ Pytania badawcze:
    Model widzi każdą podpowiedź oraz ruch, który człowiek potem zagrał, więc może
    policzyć, jak często doradca miał rację. Czy `p_hint` rośnie lub maleje z
    numerem ruchu (`by_ply`) zgodnie z jakością doradcy?
-3. **Generalizacja.** Doradcy spoza treningu (`sfd2`, `oracle60`): czy zaufanie
+3. **Generalizacja.** Doradcy spoza treningu (`oracle50`, `oracle90`, `sfd4`): czy zaufanie
    wypada „pomiędzy” znanymi doradcami?
 
 Oduczanie się samodzielnej gry (warunek `none`) to baseline z literatury
@@ -24,14 +24,18 @@ i pozycje RoPE nie zależą od doradcy. Loss liczony jest tylko na ruchach ludzk
 
 | nazwa | co podpowiada | trening v1 | ewaluacja |
 |---|---|---:|:---:|
-| `none` | kropka | 15% | ✓ |
-| `sf30k` | SF 17.1, 30k nodes (istniejące pole `s`) | 20% | ✓ |
-| `sfd8`, `sfd4`, `sfd1` | SF na stałej głębokości | 8/8/9% | ✓ |
-| `sfd2` | SF depth 2 | — | ✓ held-out |
+| `none` | kropka (chroni przed oduczeniem się samodzielnej gry) | 15% | ✓ |
 | `random` | losowy legalny ruch | 10% | ✓ |
-| `oracle20/40/80` | prawdziwy ruch z p=0.2/0.4/0.8, inaczej ruch SF ≠ człowiek, a gdy SF = człowiek, losowy legalny ≠ człowiek | 10/10/10% | ✓ |
-| `oracle60` | jw., p=0.6 | — | ✓ held-out |
-| `oracle100` | wyciek etykiety | **nigdy** | ✓ sonda |
+| `sfd1` | słaby, szybki SF (depth 1) | 15% | ✓ |
+| `sf30k` | SF 30k nodes (już policzony, pole `s`, za darmo) | 15% | ✓ |
+| `oracle30`, `oracle70` | prawdziwy ruch z p=0.3/0.7, inaczej ruch SF ≠ człowiek, a gdy SF = człowiek, losowy legalny ≠ człowiek | 15/15% | ✓ |
+| `oracle100` | zawsze prawdziwy ruch | 15% | ✓ |
+| `oracle50`, `oracle90`, `sfd4` | — | held-out | ✓ |
+
+`oracle100` jest w treningu celowo. Doradca jest losowany per partia, więc model
+może go bezpiecznie kopiować dopiero wtedy, gdy z historii partii widzi, że ten
+doradca zawsze ma rację. Na pierwszych ruchach partii musi ufać ostrożnie. Koszt:
+w tych partiach loss szybko spada do zera, więc część obliczeń daje mało sygnału.
 
 Losowanie (doradca, ruchy `random`/`oracle`) jest deterministyczne:
 `sha256(seed, doradca, id partii)`. Implementacja jest w `src/krasnal/data/advisors.py`.
@@ -48,7 +52,7 @@ z SF, a ile z dotrenowania na nowszych partiach. Dlatego istnieje config
 Dane testowe: `data/sf-interleave-v1/raw/test/2024-06.jsonl` (9 666 partii).
 
 ```sh
-# 1. Dodatkowe podpowiedzi SF dla testu (UWR, CPU)
+# 1. Dodatkowe podpowiedzi SF depth 1 i 4 dla testu (UWR, CPU)
 ls data/sf-interleave-v1/raw/test/2024-06.jsonl > experiments/slurm/advisor-test-inputs.txt
 sbatch --array=0 --export=ALL,MODE=all,INPUTS_FILE=experiments/slurm/advisor-test-inputs.txt,OUT_ROOT=data/advisor-trust-v1/test \
   scripts/slurm/advisor_annotate.sh
@@ -69,7 +73,7 @@ per ruch w `*.rows.npz` (do wykresów i bootstrapu). Na co patrzeć:
 ## Krok 1: trening mieszanki
 
 ```sh
-# 1. Przypisanie doradcy per partia + SF tylko tam, gdzie potrzebny (~25% partii)
+# 1. Przypisanie doradcy per partia + SF depth 1 tylko dla ~15% partii
 ls data/sf-interleave-v1/raw/train/*.jsonl > experiments/slurm/advisor-train-inputs.txt
 ls data/sf-interleave-v1/raw/val/*.jsonl   > experiments/slurm/advisor-val-inputs.txt
 sbatch --array=0-72%6 --export=ALL,MODE=assigned,INPUTS_FILE=experiments/slurm/advisor-train-inputs.txt,OUT_ROOT=data/advisor-trust-v1/raw/train \

@@ -71,8 +71,6 @@ def _load_config(path: Path | None) -> dict:
     config = json.loads(path.read_text())
     for name in config["train_mixture"]:
         validate_advisor(name)
-    if "oracle100" in config["train_mixture"]:
-        raise ValueError("oracle100 is pure label leakage; evaluation only")
     return config
 
 

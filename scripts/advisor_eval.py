@@ -40,8 +40,8 @@ from krasnal.models.reasoning import GPT
 from krasnal.tokenization import reasoning as tokens
 from krasnal.training.runtime import pick_device
 
-DEFAULT_CONDITIONS = ["none", "sf30k", "sfd8", "sfd4", "sfd2", "sfd1", "random",
-                      "oracle20", "oracle40", "oracle60", "oracle80", "oracle100"]
+DEFAULT_CONDITIONS = ["none", "random", "sfd1", "sfd4", "sf30k",
+                      "oracle30", "oracle50", "oracle70", "oracle90", "oracle100"]
 ELO_EDGES = [1200, 1400, 1600, 1800, 2000, 2200, 2400]
 PLY_EDGES = [2, 5, 10, 20, 40, 80]
 FIELDS = ("nll", "top1", "top5", "agree", "copy", "p_hint")

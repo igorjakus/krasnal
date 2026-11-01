@@ -18,8 +18,9 @@ Advisor names:
 ``random``          uniformly random legal move
 ``oracle<P>``       true human move with probability P/100, otherwise a wrong
                     move (the SF 30k move when it differs from the human move,
-                    else a random legal non-human move). ``oracle100`` is pure
-                    label leakage and must only be used for evaluation.
+                    else a random legal non-human move). ``oracle100`` always
+                    gives the human move; with per-game advisors the model can
+                    only exploit it after seeing in context that it is reliable.
 """
 
 from __future__ import annotations
