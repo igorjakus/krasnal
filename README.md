@@ -38,6 +38,6 @@ thin compatibility aliases; new code uses the functional modules above.
 - [Unaided 2×2 comparison](reports/unaided-2x2-20261018/REPORT.md)
 - [Repository migration](docs/repository-migration.md)
 
-Large datasets and checkpoints stay on workers, outside Git. Read [AGENTS.md](AGENTS.md)
-before dispatching compute; all new foundation-based training must use the verified
-100M-game foundation from [configs/foundations.json](configs/foundations.json).
+Large datasets and checkpoints stay on workers, outside Git. All new foundation-based
+training must use the verified 100M-game foundation from
+[configs/foundations.json](configs/foundations.json).
